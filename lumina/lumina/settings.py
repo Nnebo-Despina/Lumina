@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "catalogue",
     "library",
     "inquiries",
+    "loans",
+
 ]
 
 MIDDLEWARE = [
@@ -126,7 +128,6 @@ LOGIN_REDIRECT_URL = "library:account"
 LOGOUT_REDIRECT_URL = "catalogue:home"
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"

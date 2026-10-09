@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from accounts.models import User
-from catalogue.models import Book, Video
+from catalogue.models import Book, Video, BookCopy
+
 
 # Create your models here.
 
@@ -20,7 +21,7 @@ class ReadingProgress(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.book} (Chapter {self.last_chapter})"
+        return f"{self.user} - {self.book} (Page {self.last_page})"
 
     class Meta:
         constraints = [
@@ -40,31 +41,4 @@ class VideoView(models.Model):
             models.UniqueConstraint(fields=['user', 'video'], name='unique_user_video_view')
         ]
 
-class BookIssue(models.Model):
-    class Status(models.TextChoices):
-        ISSUED = "issued", "Issued"
-        RETURNED = "returned", "Returned"
 
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name="book_issues",
-    )
-    book = models.ForeignKey(
-        "catalogue.Book",
-        on_delete=models.PROTECT,
-        related_name="issues",
-    )
-
-    issued_at = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateField()
-    returned_at = models.DateTimeField(null=True, blank=True)
-
-    status = models.CharField(
-        max_length=10,
-        choices=Status.choices,
-        default=Status.ISSUED,
-    )
-
-    def __str__(self):
-        return f"{self.book} — {self.user} ({self.status})"

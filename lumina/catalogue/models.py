@@ -86,10 +86,11 @@ mmss_validator = RegexValidator(
 class Video(models.Model):
     title = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name="videos")
-    level = models.CharField(max_length=10, choices=Levels.choices)
+    level = models.CharField(max_length=20, choices=Levels.choices)
     duration = models.CharField(max_length=8, blank=True, null=True, validators=[mmss_validator], help_text="Format: MM:SS")
     video_url = models.URLField(blank=True, null=True)
-    video_file = models.URLField(blank=True, null=True, upload_to="videos/")
+    video_file = models.FileField(blank=True, null=True, upload_to="videos/",
+    validators=[FileExtensionValidator(allowed_extensions=["mp4", "webm", "mov"])],)
     thumbnail = models.ImageField(upload_to="thumbnails/", blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=Statuses.choices, default=Statuses.LIVE)
@@ -102,3 +103,37 @@ class Video(models.Model):
 
 
 
+class BookCopy(models.Model):
+    class Status(models.TextChoices):
+        AVAILABLE = "available", "Available"
+        ON_LOAN = "on_loan", "On loan"
+        MAINTENANCE = "maintenance", "Under maintenance"
+        LOST = "lost", "Lost"
+        RETIRED = "retired", "Retired"
+
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.PROTECT,
+        related_name="copies",
+    )
+
+    inventory_code = models.CharField(
+        max_length=50,
+        unique=True,
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.AVAILABLE,
+    )
+
+    acquired_at = models.DateField(
+        null=True,
+        blank=True,
+    )
+
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.book.title} — {self.inventory_code}"
