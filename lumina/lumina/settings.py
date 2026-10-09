@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "accounts",
+    "catalogue",
+    "library",
+    "inquiries",
 ]
 
 MIDDLEWARE = [
@@ -113,8 +117,19 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
+TEMPLATES[0]["DIRS"] = [BASE_DIR / "templates"]
 
-STATIC_URL = 'static/'
+AUTH_USER_MODEL = "accounts.User"
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "library:account"
+LOGOUT_REDIRECT_URL = "catalogue:home"
+
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 # Email
