@@ -1,27 +1,24 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import User
 
 class Inquiry(models.Model):
 
-    SUBJECT_CHOICES = [
-        ("general", "General"),
-        ("nemberssip", "Membership"),
-        ("request_book", "Request a book"),
-        ("report_problem", "Report a problem"),
+    class Subject(models.TextChoices):
+        GENERAL = "general", "General"
+        MEMBERSHIP = "membership", "Membership"
+        BOOK_REQUEST = "book_request", "Request a book"
+        PROBLEM = "problem", "Report a problem"
 
-    ]
-
-    STATUS_CHOICES = [
-        ("pending", "Pending"),
-        ("answered", "Answered"),
-    ]
+    class Status(models.TextChoices):
+        PENDING = "pending", "Pending"
+        ANSWERED = "answered", "Answered"
 
     name = models.CharField(max_length=100)
 
     email = models.EmailField()
 
     subject = models.CharField(max_length=50,
-    choices=SUBJECT_CHOICES
+    choices = Subject.choices
     )
 
     message = models.TextField()
@@ -30,13 +27,14 @@ class Inquiry(models.Model):
         User,
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        related_name="inquiries"
     )
 
     status = models.CharField(
         max_length=20,
-        choices=STATUS_CHOICES,
-        default="pending"
+        choices=Subject.choices,
+        default=Status.PENDING
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,5 +45,5 @@ class Inquiry(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} - {self.subject}"
+        return f"{self.subject}: {self.email}"
 
