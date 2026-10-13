@@ -1,0 +1,28 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}
+  =====================================================================
+  FILE     : templates/manage/base_auth.html     (OWNER: Pro 1 / lead)
+  PURPOSE  : Centred card layout (no sidebar) for the ADMIN sign-in pages:
+             admin_login.html and admin_forgot_password.html.
+  BLOCKS   : title -> text before " | Lumina Admin" ;  box -> the card content
+  =====================================================================
+{% endcomment %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin{% endblock %} | Lumina Admin</title>
+  <link rel="stylesheet" href="{% static 'manage/style.css' %}">
+</head>
+<body>
+<div class="admin-auth">
+  <div class="auth-box">
+    <div class="brand"><div class="brand-mark">L</div><div class="brand-name">Lumina Admin</div></div>
+    <!-- Django messages (for example "You have been logged out.") -->
+    {% for message in messages %}<div class="alert {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}
+    {% block box %}{% endblock %}
+  </div>
+</div>
+<script src="{% static 'manage/admin.js' %}"></script>
+</body>
+</html>

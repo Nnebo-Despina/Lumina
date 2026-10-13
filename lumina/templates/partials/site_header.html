@@ -1,0 +1,47 @@
+{% comment %}
+  =====================================================================
+  PUBLIC SITE HEADER  (included by base.html)
+  Three variants, chosen automatically:
+    - guest   : Home, Browse Books, About, Contact, Login, Register
+    - member  : Home, Browse Books, Videos, My Loans, My Account, Logout
+    - staff   : the member links + "Admin" (link to the administration area)
+  The link of the current page gets class="active". We compare the URL NAME
+  of the page being shown (request.resolver_match.url_name).
+  Logout is a tiny POST form because Django only allows logging out with POST.
+  =====================================================================
+{% endcomment %}
+{% with url_name=request.resolver_match.url_name %}
+<header class="site-header">
+  <div class="container nav-row">
+    <!-- Logo / site name: always links back to the home page -->
+    <a class="brand" href="{% url 'catalogue:home' %}" aria-label="Lumina E-Library home"><span class="mark">L</span> Lumina</a>
+
+    <!-- CSS-only mobile menu switch (visible on phones/tablets only) -->
+    <input type="checkbox" id="nav-toggle" aria-label="Toggle menu">
+    <label for="nav-toggle" class="nav-burger" aria-hidden="true">&#9776;</label>
+
+    <!-- Main links -->
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="{% url 'catalogue:home' %}"{% if url_name == 'home' %} class="active"{% endif %}>Home</a>
+      <a href="{% url 'catalogue:books' %}"{% if url_name == 'books' or url_name == 'book_detail' %} class="active"{% endif %}>Browse Books</a>
+      {% if request.user.is_authenticated %}
+        <!-- MEMBER NAVIGATION (shown after login) -->
+        <a href="{% url 'catalogue:videos' %}"{% if url_name == 'videos' %} class="active"{% endif %}>Videos</a>
+        <a href="{% url 'loans:my_loans' %}"{% if url_name == 'my_loans' %} class="active"{% endif %}>My Loans</a>
+        <a href="{% url 'library:account' %}"{% if url_name == 'account' or url_name == 'profile' or url_name == 'change_password' %} class="active"{% endif %}>My Account</a>
+        {% if request.user.is_staff %}<a href="{% url 'catalogue:manage_dashboard' %}">Admin</a>{% endif %}
+        <form method="post" action="{% url 'accounts:logout' %}" class="nav-form">
+          {% csrf_token %}
+          <button type="submit" class="nav-cta">Logout</button>
+        </form>
+      {% else %}
+        <!-- GUEST NAVIGATION (shown before login) -->
+        <a href="{% url 'catalogue:about' %}"{% if url_name == 'about' %} class="active"{% endif %}>About</a>
+        <a href="{% url 'inquiries:contact' %}"{% if url_name == 'contact' %} class="active"{% endif %}>Contact</a>
+        <a href="{% url 'accounts:login' %}"{% if url_name == 'login' %} class="active"{% endif %}>Login</a>
+        <a class="nav-cta" href="{% url 'accounts:register' %}">Register</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+{% endwith %}

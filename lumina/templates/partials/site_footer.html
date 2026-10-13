@@ -1,0 +1,45 @@
+{% comment %}
+  =====================================================================
+  PUBLIC SITE FOOTER (included by base.html)
+  Four columns: about, explore, account links, opening hours.
+  =====================================================================
+{% endcomment %}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Column 1: short description -->
+      <div>
+        <h4>Lumina E-Library</h4>
+        <p>A free online library where members can read, search, watch and download learning material - any time, from anywhere.</p>
+      </div>
+      <!-- Column 2: explore links -->
+      <div>
+        <h4>Explore</h4>
+        <a href="{% url 'catalogue:books' %}">Browse Books</a>
+        <a href="{% url 'catalogue:videos' %}">Video Tutorials</a>
+        <a href="{% url 'catalogue:about' %}">About the Library</a>
+        <a href="{% url 'inquiries:contact' %}">Contact Us</a>
+      </div>
+      <!-- Column 3: account links -->
+      <div>
+        <h4>Account</h4>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'library:account' %}">My Account</a>
+          <a href="{% url 'accounts:profile' %}">My Profile</a>
+          <a href="{% url 'accounts:change_password' %}">Change Password</a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">Member Login</a>
+          <a href="{% url 'accounts:register' %}">Register</a>
+          <a href="{% url 'accounts:forgot_password' %}">Forgot Password</a>
+        {% endif %}
+        <a href="{% url 'accounts:admin_login' %}">Admin Login</a>
+      </div>
+      <!-- Column 4: opening hours -->
+      <div>
+        <h4>Opening Hours</h4>
+        <p>Mon - Fri: 8:00 am - 8:00 pm<br>Saturday: 9:00 am - 4:00 pm<br>Online catalogue: 24 / 7</p>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Lumina E-Library. Student eProject.</div>
+  </div>
+</footer>

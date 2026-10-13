@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : index.html
+  PROJECT  : Lumina E-Library (Aptech eProject - Online Library Management System)
+  PURPOSE  : Welcome page: introduces the library, shows categories and featured titles.
+  WHO SEES : Everyone (guest users)
+  NOTES    :
+     - Guests can view book titles, categories and library information here.
+     - The big search box sends the visitor to books.html (method=get, so the backend can read ?q=).
+     - Featured titles below are sample data - replace with database rows later.
+  STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/catalogue/index.html   (extends base.html)
+     - Owner      : Newbie A
+     - View       : catalogue.home   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : featured_books, categories
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<main>
+  <!-- ===================== HERO =====================
+       First thing visitors see: headline, call-to-action buttons and quick stats. -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow" style="color:var(--gold-300)">Online Library &middot; Free for members</p>
+        <h1>Your library, open anywhere.</h1>
+        <p class="lede">Search thousands of titles, read online, watch tutorials and download books - all from one calm, easy place.</p>
+
+        <!-- Quick search: plain HTML GET form, works with no JavaScript -->
+        <form action="{% url 'catalogue:books' %}" method="get" class="hero-actions" role="search">
+          <label for="hero-q" style="position:absolute;left:-9999px">Search books</label>
+          <input id="hero-q" type="search" name="q" placeholder="Search title, author or publisher..." style="max-width:360px;border-radius:999px">
+          <button class="btn btn-gold" type="submit">Search</button>
+          <a class="btn btn-outline" style="color:var(--cream-100);border-color:var(--cream-300)" href="{% url 'accounts:register' %}">Join free</a>
+        </form>
+
+        <!-- Quick statistics (sample numbers) -->
+        <div class="hero-stats">
+          <div><strong>2,400+</strong><span>Books &amp; videos</span></div>
+          <div><strong>6</strong><span>Categories</span></div>
+          <div><strong>1,100+</strong><span>Registered readers</span></div>
+        </div>
+      </div>
+
+      <!-- Decorative image (re-used from the Bibliotherapy Africa app) -->
+      <div class="hero-art"><img src="{% static 'images/hero-novel.jpg' %}" alt="A Nigerian novel cover floating on a warm background"></div>
+    </div>
+  </section>
+
+  <!-- ===================== CATEGORIES =====================
+       Each tile links to the books page pre-filtered by category (?category=slug). -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div><p class="eyebrow">Browse by shelf</p><h2>Categories</h2></div>
+        <a class="text-link" href="{% url 'catalogue:books' %}">See all titles &rarr;</a>
+      </div>
+      <div class="grid grid-3">
+        <!-- Category tile: Literature & Fiction -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=literature">
+          <div class="cat-icon" aria-hidden="true">&#9998;</div>
+          <h3>Literature & Fiction</h3>
+          <p>Novels, short stories and poetry from Africa and beyond.</p>
+        </a>
+        <!-- Category tile: Technology & Programming -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=technology">
+          <div class="cat-icon" aria-hidden="true">&#9881;</div>
+          <h3>Technology & Programming</h3>
+          <p>Coding, databases, web design and IT fundamentals.</p>
+        </a>
+        <!-- Category tile: Science & Nature -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=science">
+          <div class="cat-icon" aria-hidden="true">&#9884;</div>
+          <h3>Science & Nature</h3>
+          <p>Physics, biology, environment and everyday discovery.</p>
+        </a>
+        <!-- Category tile: History & Politics -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=history">
+          <div class="cat-icon" aria-hidden="true">&#9876;</div>
+          <h3>History & Politics</h3>
+          <p>Africa's past, world affairs and civic thinking.</p>
+        </a>
+        <!-- Category tile: Self-Development -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=self">
+          <div class="cat-icon" aria-hidden="true">&#10047;</div>
+          <h3>Self-Development</h3>
+          <p>Study skills, wellbeing, careers and personal growth.</p>
+        </a>
+        <!-- Category tile: Children & Young Adults -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=children">
+          <div class="cat-icon" aria-hidden="true">&#9733;</div>
+          <h3>Children & Young Adults</h3>
+          <p>Gentle, imaginative reads for younger readers.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED TITLES ===================== -->
+  <section class="section tint">
+    <section class="container">
+      <div class="section-head">
+        <div><p class="eyebrow">Fresh on the shelf</p><h2>Featured titles</h2></div>
+        <a class="text-link" href="{% url 'catalogue:books' %}">Browse everything &rarr;</a>
+      </div>
+      <div class="reader-grid">
+        <section class="popular-panel">
+          <div class="section-heading-row">
+            <div>
+              <p class="eyebrow">Featured shelf</p>
+              <h2>Popular now</h2>
+            </div>
+            <a href="{% url 'catalogue:books' %}" class="text-link">See the library →</a>
+          </div>
+          <div class="grid grid-3">
+            <!-- Card: Things Fall Apart -->
+              <article class="book-card" data-title="Things Fall Apart" data-author="Chinua Achebe" data-publisher="Heinemann" data-category="literature" data-type="Book">
+                <div class="cover" style="--c1:#5C3487;--c2:#241536" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Things Fall Apart</span><span class="cover-author">Chinua Achebe</span></div>
+                <h3>Things Fall Apart</h3>
+                <p class="meta">Chinua Achebe &middot; Heinemann</p>
+                <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 1 %}">View</a></div>
+              </article>
+              <!-- Card: Half of a Yellow Sun -->
+              <article class="book-card" data-title="Half of a Yellow Sun" data-author="Chimamanda Ngozi Adichie" data-publisher="Fourth Estate" data-category="literature" data-type="Book">
+                <div class="cover" style="--c1:#A9792F;--c2:#2E1A47" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Half of a Yellow Sun</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div>
+                <h3>Half of a Yellow Sun</h3>
+                <p class="meta">Chimamanda Ngozi Adichie &middot; Fourth Estate</p>
+                <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 2 %}">View</a></div>
+              </article>
+              <!-- Card: Purple Hibiscus -->
+              <article class="book-card" data-title="Purple Hibiscus" data-author="Chimamanda Ngozi Adichie" data-publisher="Algonquin Books" data-category="literature" data-type="Book">
+                <div class="cover" style="--c1:#9575B8;--c2:#3B2159" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Purple Hibiscus</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div>
+                <h3>Purple Hibiscus</h3>
+                <p class="meta">Chimamanda Ngozi Adichie &middot; Algonquin Books</p>
+                <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 3 %}">View</a></div>
+              </article>
+          </div>
+        </section>
+
+        <aside class="hero-novel-card">
+          <div class="novel-card-label">Nigerian classic</div>
+          <img src="{% static 'images/hero-nigerian-novel.jpg' %}" alt="Things Fall Apart by Chinua Achebe" class="floating-nigerian-cover">
+          <div class="novel-card-copy">
+            <span>Chinua Achebe</span>
+            <strong>Things Fall Apart</strong>
+            <a href="{% url 'catalogue:books' %}?search=Things%20Fall%20Apart">Explore this title →</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </section>
+
+  <!-- ===================== HOW IT WORKS =====================
+       Explains the guest -> registered member journey from the spec. -->
+  <section class="section">
+    <div class="container grid grid-3">
+      <div class="card"><span class="step-num">STEP 01</span><h3>Register once</h3><p>Create a free account. One-time registration unlocks every feature.</p></div>
+      <div class="card"><span class="step-num">STEP 02</span><h3>Search &amp; read</h3><p>Find books by title, category, author or publisher and read them online.</p></div>
+      <div class="card"><span class="step-num">STEP 03</span><h3>Watch &amp; download</h3><p>Follow video tutorials and download books whenever the library allows it.</p></div>
+    </div>
+  </section>
+</main>
+{% endblock %}

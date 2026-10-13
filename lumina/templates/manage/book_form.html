@@ -1,0 +1,61 @@
+{% extends "manage/base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : admin/book-form.html
+  PROJECT  : Lumina E-Library - ADMIN AREA (front-end only)
+  PURPOSE  : Form for adding a new book or editing an existing one.
+  WHO SEES : Administrator (super user) only
+  NOTES    :
+     - Same page serves both add and edit; the backend would pre-fill fields when ?id= is present.
+     - File inputs (cover + book file) need enctype='multipart/form-data'.
+     - Download permission here is the per-book override described in downloads.html.
+  STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/manage/book_form.html   (extends manage/base.html)
+     - Owner      : Pro 2
+     - View       : catalogue.manage_book_add / manage_book_edit   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : form (catalogue.forms.BookForm); needs enctype multipart for uploads
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Add / Edit Book{% endblock %}
+
+{% block content %}
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Add / Edit book</h1><p>Fill in the details below. Fields marked * are required.</p></div><div class="actions"><a class="btn" href="{% url 'catalogue:manage_books' %}"><span class="ico" aria-hidden="true">&#8592;</span> Back to books</a></div></div>
+    <form class="panel" action="#" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+      <div class="form-grid">
+        <!-- Basic details -->
+        <div class="form-group full"><label for="title">Title *</label><input class="field" id="title" name="title" required placeholder="Book title"></div>
+        <div class="form-group"><label for="author">Author *</label><input class="field" id="author" name="author" required></div>
+        <div class="form-group"><label for="publisher">Publisher</label><input class="field" id="publisher" name="publisher"></div>
+        <div class="form-group"><label for="category">Category *</label><select class="select" id="category" name="category" required><option>Literature & Fiction</option><option>Technology & Programming</option><option>Science & Nature</option><option>History & Politics</option><option>Self-Development</option><option>Children & Young Adults</option></select></div>
+        <div class="form-group"><label for="type">Type *</label><select class="select" id="type" name="type" required><option>Book</option><option>Video</option></select></div>
+        <div class="form-group"><label for="year">Year published</label><input class="field" id="year" name="year" type="number" min="1000" max="2100" placeholder="2024"></div>
+        <div class="form-group"><label for="pages">Pages</label><input class="field" id="pages" name="pages" type="number" min="1"></div>
+        <div class="form-group"><label for="isbn">ISBN</label><input class="field" id="isbn" name="isbn" placeholder="978-..."></div>
+        <!-- Physical stock for lending: backend creates one BookCopy row (unique inventory code) per copy -->
+        <div class="form-group"><label for="copies">Physical copies in stock</label><input class="field" id="copies" name="copies" type="number" min="0" value="0"><span class="form-hint">0 = digital title only. Each copy gets its own inventory code (INV-0001...).</span></div>
+        <div class="form-group"><label for="status">Status</label><select class="select" id="status" name="status"><option>Live</option><option>Draft</option></select></div>
+        <div class="form-group full"><label for="desc">Description</label><textarea class="field" id="desc" name="description" placeholder="A short summary shown on the book page"></textarea></div>
+
+        <!-- Uploads -->
+        <div class="form-group"><label for="cover">Cover image</label><input class="field" id="cover" name="cover" type="file" accept="image/*"><span class="form-hint">JPG or PNG, portrait works best.</span></div>
+        <div class="form-group"><label for="file">Book file (PDF)</label><input class="field" id="file" name="file" type="file" accept=".pdf"><span class="form-hint">Used for online reading and downloads.</span></div>
+
+        <!-- Download permission (per-book override) -->
+        <div class="form-group full"><label>Download permission</label>
+          <div style="display:flex;gap:18px;flex-wrap:wrap">
+            <label><input type="radio" name="download" value="inherit" checked> Follow category setting</label>
+            <label><input type="radio" name="download" value="allow"> Always allow</label>
+            <label><input type="radio" name="download" value="deny"> Never allow</label>
+          </div></div>
+      </div>
+      <div class="modal-actions"><a class="btn" href="{% url 'catalogue:manage_books' %}">Cancel</a><button class="btn primary" type="submit"><span class="ico" aria-hidden="true">&#10003;</span> Save book</button></div>
+    </form>
+{% endblock %}

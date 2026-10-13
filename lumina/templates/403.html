@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% comment %}
+  403 Forbidden: shown when a logged-in user opens a page they are not allowed
+  to use (for example a member typing an /manage/ address).
+{% endcomment %}
+{% block title %}Access denied{% endblock %}
+{% block content %}
+<main>
+  <section class="page-banner"><div class="container">
+    <p class="crumbs">Error 403</p>
+    <h1>Access denied</h1><p>Your account does not have permission to open this page.</p>
+  </div></section>
+  <section class="section"><div class="container">
+    <p>If you think this is a mistake, please contact the library.</p>
+    <a class="btn btn-primary" href="{% url 'catalogue:home' %}">Back to the home page</a>
+  </div></section>
+</main>
+{% endblock %}

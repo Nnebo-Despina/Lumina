@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : my-loans.html
+  PROJECT  : Lumina E-Library (Aptech eProject - Online Library Management System)
+  PURPOSE  : Member loan history: borrowed physical books, due dates and returns.
+  WHO SEES : Registered members only
+  NOTES    :
+     - Members only see THEIR OWN loans (the backend must filter by request.user).
+     - Members cannot issue books to themselves or change a loan's status - a librarian does that in admin/issues.html.
+     - The search box + status dropdown are filtered by a tiny script in js/main.js; without JS the whole table still shows.
+     - Status values: issued (Borrowed) / overdue / returned.
+  STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/loans/my_loans.html   (extends base.html)
+     - Owner      : Intermediate
+     - View       : loans.my_loans   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : loans = request.user.book_issues.all()  (a member sees ONLY their own loans)
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}My Loans{% endblock %}
+
+{% block content %}
+<main>
+  <!-- Page banner -->
+  <section class="page-banner"><div class="container">
+    <p class="crumbs"><a href="{% url 'catalogue:home' %}">Home</a> / <a href="{% url 'library:account' %}">My Account</a> / My Loans</p>
+    <h1>My loans</h1><p>Keep track of the physical books you have borrowed from the library.</p>
+  </div></section>
+
+  <section class="section">
+    <div class="container">
+      <!-- ===================== LOAN SUMMARY (3 stat boxes) ===================== -->
+      <div class="grid grid-3" style="margin-bottom:28px">
+        <div class="stat"><strong>2</strong><span>Currently borrowed</span></div>
+        <div class="stat"><strong style="color:var(--bad)">1</strong><span>Overdue books</span></div>
+        <div class="stat"><strong>6</strong><span>Books returned</span></div>
+      </div>
+
+      <!-- ===================== LOAN HISTORY TABLE ===================== -->
+      <div class="card">
+        <div class="section-head" style="margin-bottom:18px"><h3 style="margin:0">Loan history</h3><a class="btn btn-outline btn-sm" href="{% url 'catalogue:books' %}">Browse books</a></div>
+
+        <!-- Search + status filter (ids are used by js/main.js) -->
+        <div class="filter-bar">
+          <input id="loan-search" type="search" placeholder="Search by book title or copy code..." aria-label="Search loan history">
+          <select id="loan-status" aria-label="Filter loans by status">
+            <option value="all">All loans</option><option value="issued">Currently borrowed</option><option value="overdue">Overdue</option><option value="returned">Returned</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table" id="loan-table">
+            <thead><tr><th>Book</th><th>Copy ID</th><th>Borrowed on</th><th>Due date</th><th>Returned on</th><th>Status</th></tr></thead>
+            <tbody>
+          <!-- Loan row: Things Fall Apart (INV-0001) -->
+          <tr data-status="issued"><td><strong>Things Fall Apart</strong><div class="sub">Chinua Achebe</div></td><td>INV-0001</td><td>02 Oct 2026</td><td>16 Oct 2026</td><td>&mdash;</td><td><span class="badge blue">Borrowed</span></td></tr>
+          <!-- Loan row: Purple Hibiscus (INV-0017) -->
+          <tr data-status="overdue"><td><strong>Purple Hibiscus</strong><div class="sub">Chimamanda Ngozi Adichie</div></td><td>INV-0017</td><td>10 Sep 2026</td><td>24 Sep 2026</td><td>&mdash;</td><td><span class="badge late">Overdue</span></td></tr>
+          <!-- Loan row: The Concubine (INV-0008) -->
+          <tr data-status="returned"><td><strong>The Concubine</strong><div class="sub">Elechi Amadi</div></td><td>INV-0008</td><td>12 Sep 2026</td><td>26 Sep 2026</td><td>25 Sep 2026</td><td><span class="badge ok">Returned</span></td></tr>
+            </tbody>
+          </table>
+          <!-- Shown by the script when the filters match nothing -->
+          <div class="table-empty" id="loan-empty" hidden>No loan records match your search.</div>
+        </div>
+        <p class="hint" style="margin-top:16px">Please return borrowed books on or before the due date. Loans are recorded by a librarian at the front desk.</p>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

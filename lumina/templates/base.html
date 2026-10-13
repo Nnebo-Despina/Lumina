@@ -1,0 +1,47 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}
+  =====================================================================
+  FILE     : templates/base.html            (OWNER: Pro 1 / lead)
+  PURPOSE  : The shared layout of the PUBLIC site and the MEMBER area.
+             Every public / member page does:  {% extends "base.html" %}
+  BLOCKS   : title            -> text before " | Lumina E-Library" in <title>
+             meta_description -> <meta name="description"> text
+             extra_head       -> extra <link>/<style> for ONE page
+             content          -> the page itself (start it with <main>)
+             extra_js         -> extra <script> for ONE page
+  INCLUDES : partials/site_header.html  (guest / member / admin-link navigation)
+             partials/messages.html     (Django messages as fading alerts)
+             partials/site_footer.html
+  NOTES    : - The header changes by itself when the user is logged in.
+             - The nav link of the current page is highlighted automatically
+               (see request.resolver_match.url_name in site_header.html).
+             - Pages that need NO header/footer (login, register ...) extend
+               base_auth.html instead.
+  =====================================================================
+{% endcomment %}
+<html lang="en">
+<head>
+  <!-- Character set + mobile scaling: required for a responsive page -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Welcome{% endblock %} | Lumina E-Library</title>
+  <meta name="description" content="{% block meta_description %}Lumina E-Library: read, search, watch and download learning material online.{% endblock %}">
+  <!-- Tiny inline icon so browsers do not request favicon.ico -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23241536'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23E4C877'%3EL%3C/text%3E%3C/svg%3E">
+  <!-- The single shared stylesheet for the public site -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% include "partials/messages.html" %}
+{% include "partials/site_header.html" %}
+
+{% block content %}{% endblock %}
+
+{% include "partials/site_footer.html" %}
+
+<!-- Tiny optional script: password toggle, live filter, etc. Pages still work without it. -->
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends "manage/base.html" %}
+{% comment %}
+  =====================================================================
+  FILE     : templates/manage/profile.html       (OWNER: Pro 1 / lead)
+  VIEW     : accounts.views.admin_profile  ->  url name  accounts:admin_profile
+  PURPOSE  : The administrator updates their profile and changes their password.
+  CONTEXT  : profile_form  = AdminProfileForm
+             password_form = AdminPasswordChangeForm
+  NOTES    : Two forms on one page. The name of the submit button
+             (save_profile / change_password) tells the view which one was sent.
+             The #password anchor lets the top-bar menu jump to the password form.
+  =====================================================================
+{% endcomment %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    <!-- Page heading -->
+    <div class="page-head"><div><h1>My profile</h1><p>Keep your details and password up to date.</p></div><div class="actions"></div></div>
+    <div class="grid-eq">
+
+      <!-- ===================== PROFILE DETAILS FORM ===================== -->
+      <form class="panel" action="{% url 'accounts:admin_profile' %}" method="post" novalidate>
+        {% csrf_token %}
+        <div class="panel-head"><div class="panel-title">Profile details</div></div>
+        <div class="form-grid">
+          <div class="form-group"><label for="{{ profile_form.first_name.id_for_label }}">First name</label>{{ profile_form.first_name }}
+            {% include "partials/field_errors.html" with field=profile_form.first_name %}</div>
+          <div class="form-group"><label for="{{ profile_form.last_name.id_for_label }}">Last name</label>{{ profile_form.last_name }}
+            {% include "partials/field_errors.html" with field=profile_form.last_name %}</div>
+          <div class="form-group full"><label for="{{ profile_form.email.id_for_label }}">Email</label>{{ profile_form.email }}
+            {% include "partials/field_errors.html" with field=profile_form.email %}</div>
+          <div class="form-group full"><label for="{{ profile_form.phone.id_for_label }}">Phone</label>{{ profile_form.phone }}
+            {% include "partials/field_errors.html" with field=profile_form.phone %}</div>
+        </div>
+        <div class="modal-actions"><button class="btn primary" type="submit" name="save_profile" value="1">Save profile</button></div>
+      </form>
+
+      <!-- ===================== PASSWORD FORM (anchor target for the top-bar menu) ===================== -->
+      <form class="panel" id="password" action="{% url 'accounts:admin_profile' %}" method="post" novalidate>
+        {% csrf_token %}
+        <div class="panel-head"><div class="panel-title">Change password</div></div>
+        <div class="form-group" style="margin-bottom:12px"><label for="{{ password_form.old_password.id_for_label }}">Current password</label>{{ password_form.old_password }}
+          {% include "partials/field_errors.html" with field=password_form.old_password %}</div>
+        <div class="form-group" style="margin-bottom:12px"><label for="{{ password_form.new_password1.id_for_label }}">New password</label>{{ password_form.new_password1 }}
+          {% include "partials/field_errors.html" with field=password_form.new_password1 %}</div>
+        <div class="form-group"><label for="{{ password_form.new_password2.id_for_label }}">Confirm new password</label>{{ password_form.new_password2 }}
+          {% include "partials/field_errors.html" with field=password_form.new_password2 %}</div>
+        <div class="modal-actions"><button class="btn primary" type="submit" name="change_password" value="1">Update password</button></div>
+      </form>
+    </div>
+{% endblock %}

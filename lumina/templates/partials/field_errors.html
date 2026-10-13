@@ -1,0 +1,5 @@
+{% comment %}
+  Shows the validation errors of ONE form field under the input.
+  Use:  {% include "partials/field_errors.html" with field=form.email %}
+{% endcomment %}
+{% for error in field.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
