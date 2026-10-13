@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : book-detail.html
+  PROJECT  : Lumina E-Library (Aptech eProject - Online Library Management System)
+  PURPOSE  : Single book page: cover, details, and read/download actions.
+  WHO SEES : Guests
+  NOTES    :
+     - Sample content for one book. The backend will load the book by id (e.g. ?id=3).
+     - The member version shows Read / Download; the guest version asks to log in.
+     - Counterpart file: member-book-detail.html (member)
+  STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/catalogue/book_detail.html   (extends base.html)
+     - Owner      : Intermediate
+     - View       : catalogue.book_detail (guest version)   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : book
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Purple Hibiscus{% endblock %}
+
+{% block content %}
+<main>
+  <section class="page-banner"><div class="container">
+    <p class="crumbs"><a href="{% url 'catalogue:home' %}">Home</a> / <a href="{% url 'catalogue:books' %}">Browse Books</a> / Purple Hibiscus</p>
+    <h1>Purple Hibiscus</h1><p>by Chimamanda Ngozi Adichie</p>
+  </div></section>
+
+  <section class="section">
+    <div class="container detail-grid">
+      <!-- Left column: large cover -->
+      <div><div class="cover big" style="--c1:#9575B8;--c2:#3B2159" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Purple Hibiscus</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div></div>
+
+      <!-- Right column: details table + actions -->
+      <div>
+        <span class="badge purple">Literature & Fiction</span>
+        <h2 style="margin-top:12px">About this book</h2>
+        <p>A coming-of-age story set in post-colonial Enugu. Fifteen-year-old Kambili lives under the strict rule of her devout father until a stay with her aunt opens a window onto laughter, freedom and a different way of living.</p>
+        <table class="spec">
+          <tr><th>Author</th><td>Chimamanda Ngozi Adichie</td></tr>
+          <tr><th>Publisher</th><td>Algonquin Books</td></tr>
+          <tr><th>Category</th><td>Literature & Fiction</td></tr>
+          <tr><th>Type</th><td>Book</td></tr>
+          <tr><th>Year</th><td>2003</td></tr>
+          <tr><th>Pages</th><td>307</td></tr>
+        </table>
+        <!-- PHYSICAL AVAILABILITY: how many printed copies are on the shelf right now.
+             Members cannot issue books to themselves - a librarian does it from the admin area. -->
+        <div class="avail"><span class="avail-dot" aria-hidden="true"></span>
+          <div><strong>Physical copies: 2 of 3 available</strong><br><span class="hint">Want to borrow the physical copy? Register or log in, then ask for it at the front desk.</span></div></div>
+        
+        <!-- GUEST ACTIONS: guests can see the details but must log in to read.
+             Both buttons lead to the authentication pages. -->
+        <div class="action-box">
+          <p style="color:var(--ink)"><strong>Want to read this book?</strong> Reading online and downloading are for registered members.</p>
+          <a class="btn btn-primary" href="{% url 'accounts:login' %}">Log in to read</a>
+          <a class="btn btn-outline" href="{% url 'accounts:register' %}">Create free account</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

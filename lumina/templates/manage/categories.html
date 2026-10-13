@@ -1,0 +1,203 @@
+{% extends "manage/base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : admin/categories.html
+  PROJECT  : Lumina E-Library - ADMIN AREA (front-end only)
+  PURPOSE  : Add, edit and delete book categories.
+  WHO SEES : Administrator (super user) only
+  NOTES    :
+     - Spec: 'Categories: the admin can add, and delete the categories'.
+     - Edit modals use CSS :target - no JavaScript.
+     - Delete buttons use data-confirm (admin.js) to ask before sending.
+  STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/manage/categories.html   (extends manage/base.html)
+     - Owner      : Newbie A
+     - View       : catalogue.manage_categories   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : categories, form (catalogue.forms.CategoryForm)
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Categories</h1><p>Organise the library into shelves members can browse.</p></div><div class="actions"></div></div>
+
+    <!-- ===================== ADD CATEGORY (inline form) ===================== -->
+    <div class="panel" style="margin-bottom:16px">
+      <div class="panel-head"><div class="panel-title">Add a new category</div></div>
+      <form class="inline-form" action="#" method="post">
+  {% csrf_token %}
+        <div class="form-group"><label for="cname">Category name</label><input class="field" id="cname" name="name" required placeholder="e.g. Health &amp; Medicine"></div>
+        <div class="form-group"><label for="cdesc">Short description</label><input class="field" id="cdesc" name="description" placeholder="One line shown on the public site"></div>
+        <button class="btn primary" type="submit"><span class="ico" aria-hidden="true">+</span> Add category</button>
+      </form>
+    </div>
+
+    <!-- ===================== CATEGORY LIST ===================== -->
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">All categories (6)</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Category</th><th>Slug</th><th>Titles</th><th>Actions</th></tr></thead>
+        <tbody>
+          <!-- Row: Literature & Fiction -->
+          <tr>
+            <td><strong>Literature & Fiction</strong><br><span class="panel-sub">Novels, short stories and poetry from Africa and beyond.</span></td>
+            <td><code>literature</code></td><td>5</td>
+            <td><div class="row-actions">
+              <!-- Edit opens the CSS-only modal with id edit-literature -->
+              <a class="btn sm" href="#edit-literature"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a>
+              <!-- Delete is a tiny form so the backend can receive POST; data-confirm asks first -->
+              <form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="literature"><button class="btn sm danger" data-confirm="Delete the category 'Literature & Fiction'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form>
+            </div></td>
+          </tr>
+          <!-- Row: Technology & Programming -->
+          <tr>
+            <td><strong>Technology & Programming</strong><br><span class="panel-sub">Coding, databases, web design and IT fundamentals.</span></td>
+            <td><code>technology</code></td><td>5</td>
+            <td><div class="row-actions">
+              <!-- Edit opens the CSS-only modal with id edit-technology -->
+              <a class="btn sm" href="#edit-technology"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a>
+              <!-- Delete is a tiny form so the backend can receive POST; data-confirm asks first -->
+              <form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="technology"><button class="btn sm danger" data-confirm="Delete the category 'Technology & Programming'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form>
+            </div></td>
+          </tr>
+          <!-- Row: Science & Nature -->
+          <tr>
+            <td><strong>Science & Nature</strong><br><span class="panel-sub">Physics, biology, environment and everyday discovery.</span></td>
+            <td><code>science</code></td><td>1</td>
+            <td><div class="row-actions">
+              <!-- Edit opens the CSS-only modal with id edit-science -->
+              <a class="btn sm" href="#edit-science"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a>
+              <!-- Delete is a tiny form so the backend can receive POST; data-confirm asks first -->
+              <form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="science"><button class="btn sm danger" data-confirm="Delete the category 'Science & Nature'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form>
+            </div></td>
+          </tr>
+          <!-- Row: History & Politics -->
+          <tr>
+            <td><strong>History & Politics</strong><br><span class="panel-sub">Africa's past, world affairs and civic thinking.</span></td>
+            <td><code>history</code></td><td>1</td>
+            <td><div class="row-actions">
+              <!-- Edit opens the CSS-only modal with id edit-history -->
+              <a class="btn sm" href="#edit-history"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a>
+              <!-- Delete is a tiny form so the backend can receive POST; data-confirm asks first -->
+              <form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="history"><button class="btn sm danger" data-confirm="Delete the category 'History & Politics'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form>
+            </div></td>
+          </tr>
+          <!-- Row: Self-Development -->
+          <tr>
+            <td><strong>Self-Development</strong><br><span class="panel-sub">Study skills, wellbeing, careers and personal growth.</span></td>
+            <td><code>self</code></td><td>2</td>
+            <td><div class="row-actions">
+              <!-- Edit opens the CSS-only modal with id edit-self -->
+              <a class="btn sm" href="#edit-self"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a>
+              <!-- Delete is a tiny form so the backend can receive POST; data-confirm asks first -->
+              <form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="self"><button class="btn sm danger" data-confirm="Delete the category 'Self-Development'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form>
+            </div></td>
+          </tr>
+          <!-- Row: Children & Young Adults -->
+          <tr>
+            <td><strong>Children & Young Adults</strong><br><span class="panel-sub">Gentle, imaginative reads for younger readers.</span></td>
+            <td><code>children</code></td><td>1</td>
+            <td><div class="row-actions">
+              <!-- Edit opens the CSS-only modal with id edit-children -->
+              <a class="btn sm" href="#edit-children"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a>
+              <!-- Delete is a tiny form so the backend can receive POST; data-confirm asks first -->
+              <form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="children"><button class="btn sm danger" data-confirm="Delete the category 'Children & Young Adults'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form>
+            </div></td>
+          </tr>
+        </tbody></table></div>
+    </div>
+{% endblock %}
+
+{% block modals %}
+<!-- Modal: edit category "Literature & Fiction" (opens when URL ends with #edit-literature) -->
+<div class="modal-backdrop" id="edit-literature"><div class="modal">
+  <h2>Edit category</h2>
+  <form action="#" method="post">
+  {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input class="field" name="name" value="Literature & Fiction" required></div>
+      <div class="form-group"><label>Slug</label><input class="field" name="slug" value="literature" required></div>
+      <div class="form-group full"><label>Description</label><textarea class="field" name="description">Novels, short stories and poetry from Africa and beyond.</textarea></div>
+    </div>
+    <div class="modal-actions"><a class="btn" href="#">Cancel</a><button class="btn primary" type="submit">Save changes</button></div>
+  </form>
+</div></div>
+<!-- Modal: edit category "Technology & Programming" (opens when URL ends with #edit-technology) -->
+<div class="modal-backdrop" id="edit-technology"><div class="modal">
+  <h2>Edit category</h2>
+  <form action="#" method="post">
+  {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input class="field" name="name" value="Technology & Programming" required></div>
+      <div class="form-group"><label>Slug</label><input class="field" name="slug" value="technology" required></div>
+      <div class="form-group full"><label>Description</label><textarea class="field" name="description">Coding, databases, web design and IT fundamentals.</textarea></div>
+    </div>
+    <div class="modal-actions"><a class="btn" href="#">Cancel</a><button class="btn primary" type="submit">Save changes</button></div>
+  </form>
+</div></div>
+<!-- Modal: edit category "Science & Nature" (opens when URL ends with #edit-science) -->
+<div class="modal-backdrop" id="edit-science"><div class="modal">
+  <h2>Edit category</h2>
+  <form action="#" method="post">
+  {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input class="field" name="name" value="Science & Nature" required></div>
+      <div class="form-group"><label>Slug</label><input class="field" name="slug" value="science" required></div>
+      <div class="form-group full"><label>Description</label><textarea class="field" name="description">Physics, biology, environment and everyday discovery.</textarea></div>
+    </div>
+    <div class="modal-actions"><a class="btn" href="#">Cancel</a><button class="btn primary" type="submit">Save changes</button></div>
+  </form>
+</div></div>
+<!-- Modal: edit category "History & Politics" (opens when URL ends with #edit-history) -->
+<div class="modal-backdrop" id="edit-history"><div class="modal">
+  <h2>Edit category</h2>
+  <form action="#" method="post">
+  {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input class="field" name="name" value="History & Politics" required></div>
+      <div class="form-group"><label>Slug</label><input class="field" name="slug" value="history" required></div>
+      <div class="form-group full"><label>Description</label><textarea class="field" name="description">Africa's past, world affairs and civic thinking.</textarea></div>
+    </div>
+    <div class="modal-actions"><a class="btn" href="#">Cancel</a><button class="btn primary" type="submit">Save changes</button></div>
+  </form>
+</div></div>
+<!-- Modal: edit category "Self-Development" (opens when URL ends with #edit-self) -->
+<div class="modal-backdrop" id="edit-self"><div class="modal">
+  <h2>Edit category</h2>
+  <form action="#" method="post">
+  {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input class="field" name="name" value="Self-Development" required></div>
+      <div class="form-group"><label>Slug</label><input class="field" name="slug" value="self" required></div>
+      <div class="form-group full"><label>Description</label><textarea class="field" name="description">Study skills, wellbeing, careers and personal growth.</textarea></div>
+    </div>
+    <div class="modal-actions"><a class="btn" href="#">Cancel</a><button class="btn primary" type="submit">Save changes</button></div>
+  </form>
+</div></div>
+<!-- Modal: edit category "Children & Young Adults" (opens when URL ends with #edit-children) -->
+<div class="modal-backdrop" id="edit-children"><div class="modal">
+  <h2>Edit category</h2>
+  <form action="#" method="post">
+  {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input class="field" name="name" value="Children & Young Adults" required></div>
+      <div class="form-group"><label>Slug</label><input class="field" name="slug" value="children" required></div>
+      <div class="form-group full"><label>Description</label><textarea class="field" name="description">Gentle, imaginative reads for younger readers.</textarea></div>
+    </div>
+    <div class="modal-actions"><a class="btn" href="#">Cancel</a><button class="btn primary" type="submit">Save changes</button></div>
+  </form>
+</div></div>
+{% endblock %}

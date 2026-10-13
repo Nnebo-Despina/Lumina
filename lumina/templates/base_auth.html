@@ -1,0 +1,45 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}
+  =====================================================================
+  FILE     : templates/base_auth.html       (OWNER: Pro 1 / lead)
+  PURPOSE  : Split-screen layout for the member SIGN-IN pages:
+             login, register, forgot password, reset password.
+             (No site header or footer - just the brand panel and the form.)
+  BLOCKS   : title         -> text before " | Lumina E-Library"
+             auth_content  -> the form side of the screen
+  NOTES    : Django messages (errors, "account created" ...) are shown as
+             fading alerts by partials/messages.html.
+  =====================================================================
+{% endcomment %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Account{% endblock %} | Lumina E-Library</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23241536'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23E4C877'%3EL%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+{% include "partials/messages.html" %}
+<main class="auth-wrap">
+
+  <!-- ===================== LEFT: BRAND PANEL ===================== -->
+  <aside class="auth-brand">
+    <a class="brand" href="{% url 'catalogue:home' %}"><span class="mark">L</span> Lumina</a>
+    <div>
+      <h2>Every story deserves a reader.</h2>
+      <p>Join thousands of students and teachers reading, watching and learning with Lumina E-Library.</p>
+    </div>
+    <p class="quote">"A room without books is like a body without a soul."</p>
+  </aside>
+
+  <!-- ===================== RIGHT: FORM ===================== -->
+  <section class="auth-form-side">
+    <div class="auth-card">
+      {% block auth_content %}{% endblock %}
+    </div>
+  </section>
+</main>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

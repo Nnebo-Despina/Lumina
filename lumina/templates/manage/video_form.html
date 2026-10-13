@@ -1,0 +1,44 @@
+{% extends "manage/base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : admin/video-form.html
+  PROJECT  : Lumina E-Library - ADMIN AREA (front-end only)
+  PURPOSE  : Form for adding or editing a tutorial video.
+  WHO SEES : Administrator (super user) only
+  NOTES    :
+     - Provide either an uploaded file OR an external link (e.g. YouTube).
+     - Needs enctype='multipart/form-data' for the file upload.
+  STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/manage/video_form.html   (extends manage/base.html)
+     - Owner      : Pro 2
+     - View       : catalogue.manage_video_add / manage_video_edit   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : form (catalogue.forms.VideoForm); needs enctype multipart for uploads
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Add / Edit Video{% endblock %}
+
+{% block content %}
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Add / Edit video</h1><p>Describe the video and tell us where it lives.</p></div><div class="actions"><a class="btn" href="{% url 'catalogue:manage_videos' %}"><span class="ico" aria-hidden="true">&#8592;</span> Back to videos</a></div></div>
+    <form class="panel" action="#" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+      <div class="form-grid">
+        <div class="form-group full"><label for="vtitle">Video title *</label><input class="field" id="vtitle" name="title" required></div>
+        <div class="form-group"><label for="vcat">Category *</label><select class="select" id="vcat" name="category"><option>Literature & Fiction</option><option>Technology & Programming</option><option>Science & Nature</option><option>History & Politics</option><option>Self-Development</option><option>Children & Young Adults</option></select></div>
+        <div class="form-group"><label for="vlevel">Level</label><select class="select" id="vlevel" name="level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>All levels</option></select></div>
+        <div class="form-group"><label for="vlen">Length (mm:ss)</label><input class="field" id="vlen" name="length" placeholder="12:40" pattern="[0-9]{1,3}:[0-5][0-9]"></div>
+        <div class="form-group"><label for="vstatus">Status</label><select class="select" id="vstatus" name="status"><option>Live</option><option>Draft</option></select></div>
+        <div class="form-group full"><label for="vurl">Video link (optional)</label><input class="field" id="vurl" name="url" type="url" placeholder="https://..."></div>
+        <div class="form-group"><label for="vfile">Or upload a file</label><input class="field" id="vfile" name="file" type="file" accept="video/*"></div>
+        <div class="form-group"><label for="vthumb">Thumbnail</label><input class="field" id="vthumb" name="thumb" type="file" accept="image/*"></div>
+        <div class="form-group full"><label for="vdesc">Description</label><textarea class="field" id="vdesc" name="description"></textarea></div>
+      </div>
+      <div class="modal-actions"><a class="btn" href="{% url 'catalogue:manage_videos' %}">Cancel</a><button class="btn primary" type="submit"><span class="ico" aria-hidden="true">&#10003;</span> Save video</button></div>
+    </form>
+{% endblock %}

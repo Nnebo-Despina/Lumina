@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : contact.html
+  PROJECT  : Lumina E-Library (Aptech eProject - Online Library Management System)
+  PURPOSE  : Inquiry form for guests and members, plus library contact details.
+  WHO SEES : Everyone (guest users can inquire here)
+  NOTES    :
+     - Matches the spec: 'Guest users can also inquiry through contact us page'.
+     - All fields use HTML5 validation (required, type=email) - no JS needed.
+     - action='#' is a placeholder for the backend endpoint.
+  STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/inquiries/contact.html   (extends base.html)
+     - Owner      : Newbie B
+     - View       : inquiries.contact   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : form (an Inquiry ModelForm)
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<main>
+  <section class="page-banner"><div class="container">
+    <p class="crumbs"><a href="{% url 'catalogue:home' %}">Home</a> / Contact</p>
+    <h1>Contact us</h1><p>Questions about membership, books or your account? Send us a message.</p>
+  </div></section>
+  <section class="section">
+    <div class="container grid grid-2">
+      <!-- Inquiry form -->
+      <form class="card" action="#" method="post">
+  {% csrf_token %}
+        <div class="form-grid">
+          <div class="form-row"><label for="name">Full name</label><input id="name" name="name" type="text" required placeholder="Your name"></div>
+          <div class="form-row"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@example.com"></div>
+        </div>
+        <div class="form-row"><label for="subject">Subject</label>
+          <select id="subject" name="subject"><option>General inquiry</option><option>Membership</option><option>Request a book</option><option>Report a problem</option></select></div>
+        <div class="form-row"><label for="message">Message</label><textarea id="message" name="message" required minlength="10" placeholder="How can we help?"></textarea></div>
+        <button class="btn btn-primary" type="submit">Send message</button>
+      </form>
+      <!-- Contact details -->
+      <div>
+        <h2>Visit or write</h2>
+        <p>The front desk is staffed during opening hours. Online enquiries are answered within two working days.</p>
+        <ul class="feature-list">
+          <li>Email: help@lumina-library.example</li>
+          <li>Phone: +234 000 000 0000</li>
+          <li>Address: Library Block, Campus Road, Enugu</li>
+          <li>Hours: Mon - Fri, 8 am - 8 pm</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

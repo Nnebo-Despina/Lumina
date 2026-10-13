@@ -1,0 +1,37 @@
+{% extends "manage/base_auth.html" %}
+{% comment %}
+  =====================================================================
+  FILE     : templates/manage/admin_login.html     (OWNER: Pro 1 / lead)
+  VIEW     : accounts.views.AdminLoginView  ->  url name  accounts:admin_login
+  PURPOSE  : Login page for the library administrator.
+  CONTEXT  : form = AdminAuthenticationForm (username[=email], password, remember)
+             next = address to return to after login (default: the dashboard)
+  NOTES    : Only accounts with is_staff=True get through; a normal member gets
+             "This account does not have administrator access."
+  =====================================================================
+{% endcomment %}
+{% block title %}Admin Login{% endblock %}
+
+{% block box %}
+    <h1>Administrator login</h1>
+    <p class="sub">Sign in to manage books, videos and members.</p>
+
+    {% if form.non_field_errors %}<div class="alert bad" role="alert">{{ form.non_field_errors.0 }}</div>{% endif %}
+
+    <form action="{% url 'accounts:admin_login' %}" method="post" novalidate>
+      {% csrf_token %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+      <!-- Email -->
+      <div class="form-group"><label for="{{ form.username.id_for_label }}">Email</label>
+        <input class="field" id="email" name="{{ form.username.html_name }}" type="email" required autocomplete="username" placeholder="admin@lumina-library.example" value="{{ form.username.value|default:'' }}">
+        {% include "partials/field_errors.html" with field=form.username %}</div>
+      <!-- Password -->
+      <div class="form-group"><label for="password">Password</label>
+        <input class="field" id="password" name="{{ form.password.html_name }}" type="password" required autocomplete="current-password" placeholder="Your password">
+        {% include "partials/field_errors.html" with field=form.password %}</div>
+      <div class="auth-links"><label><input type="checkbox" name="remember"> Remember me</label><a href="{% url 'accounts:admin_forgot_password' %}">Forgot password?</a></div>
+      <button class="btn primary" style="width:100%;justify-content:center;padding:12px" type="submit">Log in</button>
+    </form>
+    <p class="auth-links" style="margin:18px 0 0"><span></span><a href="{% url 'catalogue:home' %}">&larr; Public site</a></p>
+{% endblock %}

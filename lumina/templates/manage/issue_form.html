@@ -1,0 +1,48 @@
+{% extends "manage/base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : admin/issue-form.html
+  PROJECT  : Lumina E-Library - ADMIN AREA (front-end only)
+  PURPOSE  : Form for creating a new lending record (issue a physical copy to a member).
+  WHO SEES : Administrator (super user) only
+  NOTES    :
+     - Backend rules to enforce: member must be active AND not blocked; copy must be 'available'; due date must be after the issue date.
+     - Browser-side help only: required fields, <input type=date>, and a tiny date check in admin.js (form[data-dates]). The server must validate again.
+     - On save the backend marks the copy 'on loan' and creates the Loan row. Returning is done from issues.html.
+  STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/manage/issue_form.html   (extends manage/base.html)
+     - Owner      : Intermediate
+     - View       : loans.manage_issue_new   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : form for BookIssue (members: active + not blocked; copies: status available)
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Issue a Book{% endblock %}
+
+{% block content %}
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Issue a book</h1><p>Select a member and an available physical copy, then set the due date.</p></div><div class="actions"><a class="btn" href="{% url 'loans:manage_issues' %}"><span class="ico" aria-hidden="true">&#8592;</span> Back to loan register</a></div></div>
+
+    <!-- data-dates tells admin.js to pre-fill the dates and check due date > issue date -->
+    <form class="panel" action="#" method="post" data-dates>
+  {% csrf_token %}
+      <div class="panel-head"><div class="panel-title">New lending record</div></div>
+      <div class="form-grid">
+        <!-- Member: only active, unblocked members are listed -->
+        <div class="form-group"><label for="member">Member *</label><select class="select" id="member" name="member" required><option value="">Choose a member</option><option value="chidera@example.com">Chidera Nwosu &mdash; chidera@example.com</option><option value="emeka@example.com">Emeka Obi &mdash; emeka@example.com</option><option value="fatima@example.com">Fatima Bello &mdash; fatima@example.com</option><option value="ngozi@example.com">Ngozi Eze &mdash; ngozi@example.com</option><option value="samuel@example.com">Samuel Okoro &mdash; samuel@example.com</option></select><span class="form-hint">Blocked members are not listed.</span></div>
+        <!-- Copy: only copies with status 'available' -->
+        <div class="form-group"><label for="copy">Available book copy *</label><select class="select" id="copy" name="copy" required><option value="">Choose an available copy</option><option value="INV-0003">INV-0003 &mdash; Things Fall Apart</option><option value="INV-0011">INV-0011 &mdash; Purple Hibiscus</option><option value="INV-0024">INV-0024 &mdash; Half of a Yellow Sun</option><option value="INV-0040">INV-0040 &mdash; The Concubine</option></select><span class="form-hint">Each physical copy has a unique inventory code.</span></div>
+        <!-- Dates -->
+        <div class="form-group"><label for="issue_date">Issue date *</label><input class="field" id="issue_date" name="issue_date" type="date" required></div>
+        <div class="form-group"><label for="due_date">Due date *</label><input class="field" id="due_date" name="due_date" type="date" required><span class="form-hint">Pre-filled with a 14-day loan period.</span></div>
+        <div class="form-group full"><label for="notes">Notes (optional)</label><textarea class="field" id="notes" name="notes" placeholder="Condition of the copy or any extra notes..."></textarea></div>
+        <div class="form-group full"><div class="summary-box"><strong>Before issuing</strong><br>Confirm the copy is on the shelf, the member can borrow books, and the due date is after the issue date.</div></div>
+      </div>
+      <div class="modal-actions"><a class="btn" href="{% url 'loans:manage_issues' %}">Cancel</a><button class="btn primary" type="submit"><span class="ico" aria-hidden="true">&#10003;</span> Create loan record</button></div>
+    </form>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}
+  =====================================================================
+  FILE     : templates/manage/base.html          (OWNER: Pro 1 / lead)
+  PURPOSE  : The shared layout of the ADMINISTRATION area: sidebar, top bar,
+             Django messages and the page content. Every admin page does:
+                 {% extends "manage/base.html" %}
+  BLOCKS   : title    -> text before " | Lumina Admin" in <title>
+             content  -> the page itself (starts with the <div class="page-head">)
+             modals   -> CSS-only pop-ups placed after the main panel
+             extra_js -> extra <script> for ONE page
+  NOTES    : - WHY THIS FOLDER IS CALLED "manage" AND NOT "admin": Django's built-in
+             admin also loads a template named admin/base.html. Ours would replace
+             it and break /django-admin/.
+           - The sidebar link of the current page is highlighted automatically (gold).
+           - Every admin VIEW must still be protected with @admin_required /
+             AdminRequiredMixin (accounts/decorators.py). Hiding links is not security.
+           - Logout is a POST form: Django does not allow logging out with a plain link.
+  =====================================================================
+{% endcomment %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Dashboard{% endblock %} | Lumina Admin</title>
+  <!-- No icon font needed: icons are plain Unicode symbols (<span class="ico">), so nothing external is loaded. -->
+  <!-- Admin stylesheet (purple / gold / cream palette from the Bibliotherapy app) -->
+  <link rel="stylesheet" href="{% static 'manage/style.css' %}">
+</head>
+<body>
+{% with url_name=request.resolver_match.url_name %}
+
+<!-- ===================== APP SHELL: sidebar + main panel ===================== -->
+<div class="app">
+  <!-- ===================== SIDEBAR =====================
+       Slim icon rail that widens on hover (pure CSS, see .sidebar:hover).
+       The link matching the current page gets class="active" (gold highlight). -->
+  <aside class="sidebar">
+    <!-- Brand block -->
+    <div class="brand"><div class="brand-mark">L</div><div class="brand-name nav-text">Lumina Admin</div></div>
+    <nav>
+      <!-- Sidebar group: Overview -->
+      <div class="nav-group"><div class="nav-label nav-text">Overview</div>
+        <a class="nav-item{% if url_name == 'manage_dashboard' %} active{% endif %}" href="{% url 'catalogue:manage_dashboard' %}"><span class="ico" aria-hidden="true">&#8962;</span><span class="nav-text">Dashboard</span></a>
+      </div>
+      <!-- Sidebar group: Catalogue -->
+      <div class="nav-group"><div class="nav-label nav-text">Catalogue</div>
+        <a class="nav-item{% if url_name == 'manage_categories' %} active{% endif %}" href="{% url 'catalogue:manage_categories' %}"><span class="ico" aria-hidden="true">&#9636;</span><span class="nav-text">Categories</span></a>
+        <a class="nav-item{% if url_name == 'manage_book_types' %} active{% endif %}" href="{% url 'catalogue:manage_book_types' %}"><span class="ico" aria-hidden="true">#</span><span class="nav-text">Book Types</span></a>
+        <a class="nav-item{% if url_name == 'manage_books' or url_name == 'manage_book_add' or url_name == 'manage_book_edit' %} active{% endif %}" href="{% url 'catalogue:manage_books' %}"><span class="ico" aria-hidden="true">&#9635;</span><span class="nav-text">Books</span></a>
+        <a class="nav-item{% if url_name == 'manage_videos' or url_name == 'manage_video_add' or url_name == 'manage_video_edit' %} active{% endif %}" href="{% url 'catalogue:manage_videos' %}"><span class="ico" aria-hidden="true">&#9654;</span><span class="nav-text">Videos</span></a>
+        <a class="nav-item{% if url_name == 'manage_downloads' %} active{% endif %}" href="{% url 'catalogue:manage_downloads' %}"><span class="ico" aria-hidden="true">&#8595;</span><span class="nav-text">Download Permissions</span></a>
+      </div>
+      <!-- Sidebar group: Circulation -->
+      <div class="nav-group"><div class="nav-label nav-text">Circulation</div>
+        <a class="nav-item{% if url_name == 'manage_issues' or url_name == 'manage_issue_new' %} active{% endif %}" href="{% url 'loans:manage_issues' %}"><span class="ico" aria-hidden="true">&#8646;</span><span class="nav-text">Book Issues</span></a>
+      </div>
+      <!-- Sidebar group: Community -->
+      <div class="nav-group"><div class="nav-label nav-text">Community</div>
+        <a class="nav-item{% if url_name == 'manage_members' %} active{% endif %}" href="{% url 'accounts:manage_members' %}"><span class="ico" aria-hidden="true">&#9787;</span><span class="nav-text">Members</span></a>
+        <a class="nav-item{% if url_name == 'manage_inquiries' %} active{% endif %}" href="{% url 'inquiries:manage_inquiries' %}"><span class="ico" aria-hidden="true">&#9993;</span><span class="nav-text">Inquiries</span></a>
+      </div>
+      <!-- Sidebar group: Insights -->
+      <div class="nav-group"><div class="nav-label nav-text">Insights</div>
+        <a class="nav-item{% if url_name == 'manage_reports' %} active{% endif %}" href="{% url 'catalogue:manage_reports' %}"><span class="ico" aria-hidden="true">&#9637;</span><span class="nav-text">Reports</span></a>
+      </div>
+    </nav>
+    <!-- Footer links pinned to the bottom of the sidebar -->
+    <div class="sidebar-footer">
+      <a class="nav-item{% if url_name == 'admin_profile' %} active{% endif %}" href="{% url 'accounts:admin_profile' %}"><span class="ico" aria-hidden="true">&#9881;</span><span class="nav-text">My Profile</span></a>
+      <!-- Logout: POST form (Django requirement). "next" sends the admin back to the admin login page. -->
+      <form class="logout-form" method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'accounts:admin_login' %}">
+        <button class="nav-item" type="submit"><span class="ico" aria-hidden="true">&#8618;</span><span class="nav-text">Logout</span></button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN PANEL ===================== -->
+  <main class="main">
+    <!-- ===================== TOP BAR =====================
+         Search sends the admin to the books list (?q=...). The bell links to inquiries.
+         The admin menu is a <details> dropdown - opens/closes with no JS. -->
+    <header class="topbar">
+      <form class="search" action="{% url 'catalogue:manage_books' %}" method="get" role="search">
+        <span class="ico" aria-hidden="true">&#8981;</span>
+        <input name="q" placeholder="Search books, authors, members..." aria-label="Search">
+      </form>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="{% url 'inquiries:manage_inquiries' %}" aria-label="New inquiries"><span class="ico" aria-hidden="true">&#128276;</span><span class="dot"></span></a>
+        <details class="admin-menu">
+          <summary><div class="avatar">{{ request.user.first_name|slice:":1"|upper|default:"A" }}</div><span>{{ request.user.first_name|default:"Admin" }}</span><span class="ico" aria-hidden="true">&#9662;</span></summary>
+          <div class="drop">
+            <a href="{% url 'accounts:admin_profile' %}">My profile</a>
+            <a href="{% url 'accounts:admin_profile' %}#password">Change password</a>
+            <a href="{% url 'catalogue:home' %}">View public site</a>
+            <form class="logout-form" method="post" action="{% url 'accounts:logout' %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'accounts:admin_login' %}">
+              <button type="submit">Logout</button>
+            </form>
+          </div>
+        </details>
+      </div>
+    </header>
+
+    <!-- ===================== DJANGO MESSAGES (success / error notices) ===================== -->
+    {% for message in messages %}
+    <div class="alert {{ message.tags }}" role="status">{{ message }}</div>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% block modals %}{% endblock %}
+{% endwith %}
+
+<!-- Tiny optional helper: confirm-before-delete, live table filter, print -->
+<script src="{% static 'manage/admin.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

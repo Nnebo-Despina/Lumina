@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : read.html
+  PROJECT  : Lumina E-Library (Aptech eProject - Online Library Management System)
+  PURPOSE  : Online reader: lets a registered member read a book in the browser.
+  WHO SEES : Registered members only
+  NOTES    :
+     - Backend should block guests (redirect to login.html).
+     - Text-size button is the only JavaScript here (adds a CSS class).
+     - Real books could be loaded in an <iframe> (PDF) or as HTML chapters.
+  STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/library/read.html   (extends base.html)
+     - Owner      : Intermediate
+     - View       : library.read   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : book, progress (ReadingProgress.last_page)
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Reading: Purple Hibiscus{% endblock %}
+
+{% block content %}
+<main>
+  <!-- Sticky reader toolbar: back link, chapter info, text size -->
+  <div class="reader-bar"><div class="container">
+    <a href="{% url 'catalogue:book_detail' 3 %}">&larr; Back to book</a>
+    <span>Purple Hibiscus &middot; Chapter 1 of 18</span>
+    <button class="btn btn-gold btn-sm" id="text-size" type="button">Aa &nbsp;Text size</button>
+  </div></div>
+
+  <!-- The "page": sample text only (original placeholder prose, not the real novel) -->
+  <article class="reader-page">
+    <h2>Chapter One</h2>
+    <p>The morning the rains came early, the compound woke slowly. Water gathered in the hollows of the red earth and the hibiscus by the gate bent low under its own heavy blossoms.</p>
+    <p>Inside the house, everything had its place and its hour. Breakfast was taken in silence, prayers were counted, and nobody spoke unless spoken to. It was an orderly kind of quiet - the sort that waits.</p>
+    <p>Later, when the sun finally pushed through the clouds, a small laugh floated over the wall from the neighbouring yard. It was a sound she had almost forgotten existed.</p>
+    <p class="hint" style="text-align:center;font-family:var(--font-mono);font-size:.78rem">- Sample placeholder text for layout purposes -</p>
+  </article>
+
+  <!-- Previous / next chapter buttons -->
+  <div class="pager container">
+    <a class="btn btn-outline" href="#" aria-disabled="true">&larr; Previous</a>
+    <a class="btn btn-primary" href="#">Next chapter &rarr;</a>
+  </div>
+</main>
+{% endblock %}

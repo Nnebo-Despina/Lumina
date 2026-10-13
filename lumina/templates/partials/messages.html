@@ -1,0 +1,12 @@
+{% comment %}
+  Django messages (messages.success / error / info ...) shown as small alerts in
+  the top-right corner. Pure CSS: they fade out by themselves after a few seconds
+  (see ".toasts" in static/css/style.css). Tag -> colour mapping is MESSAGE_TAGS in settings.py.
+{% endcomment %}
+{% if messages %}
+<div class="toasts" role="status" aria-live="polite">
+  {% for message in messages %}
+  <div class="alert {{ message.tags }} toast">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% comment %}404 Not found: the address does not exist.{% endcomment %}
+{% block title %}Page not found{% endblock %}
+{% block content %}
+<main>
+  <section class="page-banner"><div class="container">
+    <p class="crumbs">Error 404</p>
+    <h1>Page not found</h1><p>We could not find the page you were looking for.</p>
+  </div></section>
+  <section class="section"><div class="container">
+    <a class="btn btn-primary" href="{% url 'catalogue:home' %}">Back to the home page</a>
+    <a class="btn btn-outline" href="{% url 'catalogue:books' %}">Browse books</a>
+  </div></section>
+</main>
+{% endblock %}

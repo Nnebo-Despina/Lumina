@@ -1,0 +1,53 @@
+{% extends "manage/base.html" %}
+{% load static %}
+{% comment %}
+  =====================================================================
+  FILE     : admin/book-types.html
+  PROJECT  : Lumina E-Library - ADMIN AREA (front-end only)
+  PURPOSE  : Add or delete the types of material (Book / Video).
+  WHO SEES : Administrator (super user) only
+  NOTES    :
+     - Spec: 'Book-Type: the admin can add, or delete the book type (Book/Video)'.
+     - Two default types are shown as sample data.
+  STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
+  =====================================================================
+
+  DJANGO INTEGRATION
+     - Template   : templates/manage/book_types.html   (extends manage/base.html)
+     - Owner      : Newbie A
+     - View       : catalogue.manage_book_types   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - Suggested context from your view : book_types, form (catalogue.forms.BookTypeForm)
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
+{% endcomment %}
+{% block title %}Book Types{% endblock %}
+
+{% block content %}
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Book Types</h1><p>Decide which kinds of material the library holds.</p></div><div class="actions"></div></div>
+    <div class="grid-eq">
+      <!-- Add form -->
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title">Add a type</div></div>
+        <form action="#" method="post">
+  {% csrf_token %}
+          <div class="form-group" style="margin-bottom:12px"><label for="tname">Type name</label><input class="field" id="tname" name="name" required placeholder="e.g. Audio book"></div>
+          <div class="form-group" style="margin-bottom:14px"><label for="tdesc">Description</label><input class="field" id="tdesc" name="description"></div>
+          <button class="btn primary" type="submit"><span class="ico" aria-hidden="true">+</span> Add type</button>
+        </form>
+      </div>
+      <!-- Existing types -->
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title">Existing types</div></div>
+        <div class="table-wrap"><table><thead><tr><th>Type</th><th>Description</th><th>Titles</th><th></th></tr></thead><tbody>
+          <tr><td><strong>Book</strong></td><td>Readable or downloadable text titles</td><td>12</td>
+            <td><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="type" value="Book"><button class="btn sm danger" data-confirm="Delete the book type 'Book'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form></td></tr>
+          <tr><td><strong>Video</strong></td><td>Video tutorials and recorded talks</td><td>3</td>
+            <td><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="type" value="Video"><button class="btn sm danger" data-confirm="Delete the book type 'Video'?"><span class="ico" aria-hidden="true">&#10005;</span> Delete</button></form></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+{% endblock %}

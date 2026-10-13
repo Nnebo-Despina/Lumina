@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% comment %}
+  =====================================================================
+  FILE     : templates/accounts/profile.html        (OWNER: Pro 1 / lead)
+  VIEW     : accounts.views.ProfileView  ->  url name  accounts:profile
+  PURPOSE  : Member profile page. A logged-in member views and edits their own
+             personal details (name, email, phone, role).
+  WHO SEES : Registered members only (MemberRequiredMixin)
+  CONTEXT  : form       = ProfileForm
+             books_read, downloads, on_loan = real counts for the summary card
+             user       = the logged-in member
+  NOTES    : - Changing the password is a separate page: accounts:change_password.
+           - The avatar shows the member's initials (pure CSS, no upload needed).
+  =====================================================================
+{% endcomment %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<main>
+  <!-- ===================== PAGE BANNER ===================== -->
+  <section class="page-banner"><div class="container">
+    <p class="crumbs"><a href="{% url 'catalogue:home' %}">Home</a> / <a href="{% url 'library:account' %}">My Account</a> / Profile</p>
+    <h1>My profile</h1><p>Keep your personal details up to date.</p>
+  </div></section>
+
+  <section class="section">
+    <div class="container profile-grid">
+
+      <!-- ===================== LEFT: SUMMARY CARD ===================== -->
+      <aside>
+        <div class="card avatar-card">
+          <div class="avatar-lg" aria-hidden="true">{{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}</div>
+          <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+          <p style="margin:0">{{ user.email }}</p>
+          <p style="margin:6px 0 0"><span class="badge purple">{{ user.get_role_display }}</span> <span class="badge ok">Active member</span></p>
+
+          <!-- Quick activity numbers -->
+          <div class="mini-stats">
+            <div><strong>{{ books_read }}</strong><span>Books read</span></div>
+            <div><strong>{{ downloads }}</strong><span>Downloads</span></div>
+            <div><strong>{{ on_loan }}</strong><span>On loan</span></div>
+          </div>
+          <p class="hint">Member since {{ user.date_joined|date:"d M Y" }}</p>
+        </div>
+
+        <!-- Shortcuts to related member pages -->
+        <nav class="side-links" style="margin-top:16px" aria-label="Account shortcuts">
+          <a href="{% url 'library:account' %}">&larr; Back to My Account</a>
+          <a href="{% url 'loans:my_loans' %}">My loans</a>
+          <a href="{% url 'accounts:change_password' %}">Change password</a>
+        </nav>
+      </aside>
+
+      <!-- ===================== RIGHT: EDIT FORM ===================== -->
+      <div class="card">
+        <h3>Personal details</h3>
+        <p>Changes are saved to your member account.</p>
+
+        <form action="{% url 'accounts:profile' %}" method="post" novalidate>
+          {% csrf_token %}
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="{{ form.first_name.id_for_label }}">First name *</label>
+              {{ form.first_name }}
+              {% include "partials/field_errors.html" with field=form.first_name %}
+            </div>
+            <div class="form-row">
+              <label for="{{ form.last_name.id_for_label }}">Last name *</label>
+              {{ form.last_name }}
+              {% include "partials/field_errors.html" with field=form.last_name %}
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.email.id_for_label }}">Email address *</label>
+            {{ form.email }}
+            <p class="hint">This is also the email you log in with.</p>
+            {% include "partials/field_errors.html" with field=form.email %}
+          </div>
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="{{ form.phone.id_for_label }}">Phone (optional)</label>
+              {{ form.phone }}
+              {% include "partials/field_errors.html" with field=form.phone %}
+            </div>
+            <div class="form-row">
+              <label for="{{ form.role.id_for_label }}">I am a</label>
+              {{ form.role }}
+              {% include "partials/field_errors.html" with field=form.role %}
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <a class="btn btn-outline" href="{% url 'library:account' %}">Cancel</a>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

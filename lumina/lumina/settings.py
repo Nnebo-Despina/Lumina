@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+from django.contrib.messages import constants as message_constants
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -117,20 +119,52 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.1/howto/static-files/
+# ---------------------------------------------------------------------
+# Templates
+# Project-level templates live in lumina/templates/ (base.html, partials,
+# accounts/, catalogue/, library/, inquiries/, loans/ and manage/).
+# NOTE: the admin-area folder is called "manage/" and NOT "admin/", because
+# Django's built-in admin also loads a template called admin/base.html and
+# ours would override it and break /django-admin/.
+# ---------------------------------------------------------------------
 TEMPLATES[0]["DIRS"] = [BASE_DIR / "templates"]
 
+# ---------------------------------------------------------------------
+# Authentication (owner: accounts app)
+# ---------------------------------------------------------------------
 AUTH_USER_MODEL = "accounts.User"
 
-LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "library:account"
-LOGOUT_REDIRECT_URL = "catalogue:home"
+# Log in with email (case-insensitive) instead of a username
+AUTHENTICATION_BACKENDS = ["accounts.backends.EmailBackend"]
 
+LOGIN_URL = "accounts:login"                 # where member_required sends guests
+LOGIN_REDIRECT_URL = "library:account"       # after a successful member login
+LOGOUT_REDIRECT_URL = "catalogue:home"       # after logout
+
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 24        # reset links work for 24 hours
+
+# ---------------------------------------------------------------------
+# Static + media files
+# Static files (CSS, JS, images) live in lumina/static/
+# https://docs.djangoproject.com/en/6.1/howto/static-files/
+# ---------------------------------------------------------------------
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# ---------------------------------------------------------------------
+# Messages: map Django message levels to the CSS classes used by our alerts
+# (success -> .alert.ok, error -> .alert.bad, info/warning -> .alert.info)
+# ---------------------------------------------------------------------
+MESSAGE_TAGS = {
+    message_constants.DEBUG: "info",
+    message_constants.INFO: "info",
+    message_constants.SUCCESS: "ok",
+    message_constants.WARNING: "info",
+    message_constants.ERROR: "bad",
+}
 
 
 # Email
