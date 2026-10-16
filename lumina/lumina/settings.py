@@ -181,6 +181,10 @@ MAILERS = {
     },
 }
 
+SILENCED_SYSTEM_CHECKS = [
+    "mail.E001",
+]
+
 DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
 
 SECRET_KEY = os.environ.get(
