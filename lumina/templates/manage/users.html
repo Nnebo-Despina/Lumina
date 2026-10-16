@@ -9,57 +9,41 @@
   NOTES    :
      - Shows who registered and lets the admin block, unblock or delete accounts.
      - 'On loan' = number of books the member currently has (blocked members must not be issued books).
-     - Sample data only.
+     - Administrators are never listed, so they cannot be blocked or deleted here.
   STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
   =====================================================================
 
   DJANGO INTEGRATION
      - Template   : templates/manage/users.html   (extends manage/base.html)
      - Owner      : Newbie B
-     - View       : accounts.manage_members   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : accounts.manage_members   (connected to the database)
      - Suggested context from your view : members (User list); block / unblock / delete
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Members{% endblock %}
 
 {% block content %}
-    <!-- Page heading: title, one-line description and main action buttons -->
-    <div class="page-head"><div><h1>Members</h1><p>Everyone who has registered for the library.</p></div><div class="actions"></div></div>
-    <div class="toolbar"><div class="filters"><input class="field" placeholder="Filter members..." data-filter="#userTable" aria-label="Filter members"></div><span class="panel-sub">6 members shown</span></div>
+<div class="page-head"><div><h1>Members</h1><p>Everyone who has registered for the library.</p></div><div class="actions"></div></div>
+    <form class="toolbar" action="{% url 'accounts:manage_members' %}" method="get">
+      <div class="filters">
+        <input class="field" name="q" value="{{ q }}" placeholder="Search name or email..." aria-label="Search members">
+        <select class="select" name="status" aria-label="Status"><option value="">All statuses</option><option value="active"{% if status == 'active' %} selected{% endif %}>Active</option><option value="blocked"{% if status == 'blocked' %} selected{% endif %}>Blocked</option></select>
+        <select class="select" name="role" aria-label="Role"><option value="">All roles</option>{% for value, label in roles %}<option value="{{ value }}"{% if role == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+        <button class="btn" type="submit">Filter</button>
+      </div>
+      <span class="panel-sub">{{ members|length }} of {{ total }} member{{ total|pluralize }} shown</span>
+    </form>
     <div class="panel table-wrap"><table id="userTable">
       <thead><tr><th>Member</th><th>Email</th><th>Role</th><th>Joined</th><th>On loan</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
-          <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">C</div><strong>Chidera Nwosu</strong></div></td><td>chidera@example.com</td><td>Student</td><td>12 Jan 2026</td><td>2</td>
-            <td><span class="badge active">Active</span></td>
-            <td><div class="row-actions"><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm">Block</button></form><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete member Chidera Nwosu?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">E</div><strong>Emeka Obi</strong></div></td><td>emeka@example.com</td><td>Student</td><td>03 Feb 2026</td><td>0</td>
-            <td><span class="badge active">Active</span></td>
-            <td><div class="row-actions"><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm">Block</button></form><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete member Emeka Obi?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">F</div><strong>Fatima Bello</strong></div></td><td>fatima@example.com</td><td>Teacher</td><td>19 Feb 2026</td><td>1</td>
-            <td><span class="badge active">Active</span></td>
-            <td><div class="row-actions"><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm">Block</button></form><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete member Fatima Bello?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">T</div><strong>Tunde Adeyemi</strong></div></td><td>tunde@example.com</td><td>Student</td><td>27 Mar 2026</td><td>0</td>
-            <td><span class="badge blocked">Blocked</span></td>
-            <td><div class="row-actions"><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm">Unblock</button></form><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete member Tunde Adeyemi?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">N</div><strong>Ngozi Eze</strong></div></td><td>ngozi@example.com</td><td>Student</td><td>08 Apr 2026</td><td>0</td>
-            <td><span class="badge active">Active</span></td>
-            <td><div class="row-actions"><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm">Block</button></form><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete member Ngozi Eze?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">S</div><strong>Samuel Okoro</strong></div></td><td>samuel@example.com</td><td>Staff</td><td>14 May 2026</td><td>0</td>
-            <td><span class="badge active">Active</span></td>
-            <td><div class="row-actions"><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm">Block</button></form><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete member Samuel Okoro?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+        {% for m in members %}
+        <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar">{{ m.first_name|slice:":1"|upper|default:"?" }}</div><strong>{{ m.get_full_name|default:"(no name)" }}</strong></div></td><td>{{ m.email }}</td><td>{{ m.get_role_display }}</td><td>{{ m.date_joined|date:"d M Y" }}</td><td>{{ m.on_loan }}</td>
+          <td><span class="badge {% if m.is_blocked %}blocked{% else %}active{% endif %}">{% if m.is_blocked %}Blocked{% else %}Active{% endif %}</span></td>
+          <td><div class="row-actions">
+            {% if m.is_blocked %}<form class="cell-form" action="{% url 'accounts:manage_member_unblock' m.pk %}" method="post">{% csrf_token %}<button class="btn sm">Unblock</button></form>
+            {% else %}<form class="cell-form" action="{% url 'accounts:manage_member_block' m.pk %}" method="post">{% csrf_token %}<button class="btn sm" data-confirm="Block {{ m.email }}? They will not be able to log in.">Block</button></form>{% endif %}
+            <form class="cell-form" action="{% url 'accounts:manage_member_delete' m.pk %}" method="post">{% csrf_token %}<button class="btn sm danger" data-confirm="Delete member {{ m.email }}? This cannot be undone."><span class="ico" aria-hidden="true">&#10005;</span></button></form>
+          </div></td></tr>
+        {% empty %}<tr><td colspan="7" class="empty-state">No members found.</td></tr>{% endfor %}
       </tbody></table></div>
 {% endblock %}

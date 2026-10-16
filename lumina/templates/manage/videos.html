@@ -15,38 +15,25 @@
   DJANGO INTEGRATION
      - Template   : templates/manage/videos.html   (extends manage/base.html)
      - Owner      : Pro 2
-     - View       : catalogue.manage_videos   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : catalogue.manage_videos   (connected to the database)
      - Suggested context from your view : videos
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Videos{% endblock %}
 
 {% block content %}
-    <!-- Page heading: title, one-line description and main action buttons -->
-    <div class="page-head"><div><h1>Videos</h1><p>Upload or link tutorials and group them by category.</p></div><div class="actions"><a class="btn primary" href="{% url 'catalogue:manage_video_add' %}"><span class="ico" aria-hidden="true">+</span> Add Video</a></div></div>
-    <div class="toolbar"><div class="filters"><input class="field" placeholder="Filter this list..." data-filter="#videoTable" aria-label="Filter videos"></div><span class="panel-sub">6 videos</span></div>
+<div class="page-head"><div><h1>Videos</h1><p>Upload or link tutorials and group them by category.</p></div><div class="actions"><a class="btn primary" href="{% url 'catalogue:manage_video_add' %}"><span class="ico" aria-hidden="true">+</span> Add Video</a></div></div>
+    <form class="toolbar" action="{% url 'catalogue:manage_videos' %}" method="get">
+      <div class="filters"><input class="field" name="q" value="{{ q }}" placeholder="Search videos..." aria-label="Search videos"><button class="btn" type="submit">Search</button></div>
+      <span class="panel-sub">{{ videos|length }} video{{ videos|length|pluralize }}</span>
+    </form>
     <div class="panel table-wrap"><table id="videoTable">
       <thead><tr><th>Title</th><th>Category</th><th>Length</th><th>Level</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
-          <tr><td><strong>Intro to Flutter: Lesson 1</strong></td><td>Technology & Programming</td><td>12:40</td><td>Beginner</td><td><span class="badge live">Live</span></td>
-            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' 1 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><strong>HTML & CSS: Page Structure</strong></td><td>Technology & Programming</td><td>18:05</td><td>Beginner</td><td><span class="badge live">Live</span></td>
-            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' 2 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><strong>SQL Joins Made Simple</strong></td><td>Technology & Programming</td><td>15:22</td><td>Intermediate</td><td><span class="badge live">Live</span></td>
-            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' 3 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><strong>Revision Planning in 20 Minutes</strong></td><td>Self-Development</td><td>20:00</td><td>All levels</td><td><span class="badge live">Live</span></td>
-            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' 4 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><strong>Reading African Poetry Aloud</strong></td><td>Literature & Fiction</td><td>09:48</td><td>All levels</td><td><span class="badge live">Live</span></td>
-            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' 5 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-          <tr><td><strong>How Ecosystems Work</strong></td><td>Science & Nature</td><td>14:10</td><td>All levels</td><td><span class="badge live">Live</span></td>
-            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' 6 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
-  {% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+        {% for v in videos %}
+        <tr><td><strong>{{ v.title }}</strong></td><td>{{ v.category.name }}</td><td>{{ v.duration|default:"&mdash;" }}</td><td>{{ v.get_level_display }}</td>
+          <td><span class="badge {% if v.status == 'live' %}live{% else %}draft{% endif %}">{{ v.get_status_display }}</span></td>
+          <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_video_edit' v.pk %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form class="cell-form" action="{% url 'catalogue:manage_video_delete' v.pk %}" method="post">{% csrf_token %}<button class="btn sm danger" data-confirm="Delete this video?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+        {% empty %}<tr><td colspan="6" class="empty-state">No videos found.</td></tr>{% endfor %}
       </tbody></table></div>
 {% endblock %}
