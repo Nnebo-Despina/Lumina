@@ -391,9 +391,9 @@ details.faq p{margin:10px 0 0;}
 
 /* ---- 2. Logout <form><button> that looks like the gold nav button ---- */
 .nav-form{margin:0; display:flex;}
-.nav-links button.nav-cta{background:var(--gold-500); color:var(--purple-900); border:0; cursor:pointer;
+.nav-links button.nav-cta, .nav-links form button.nav-cta{background:var(--gold-500); color:var(--purple-900); border:0; cursor:pointer;
   padding:8px 12px; border-radius:8px; font-size:.93rem; font-weight:600;}
-.nav-links button.nav-cta:hover{background:var(--gold-300);}
+.nav-links button.nav-cta:hover, .nav-links form button.nav-cta:hover{background:var(--gold-300);}
 @media (max-width:980px){ .nav-form{display:block;} .nav-links button.nav-cta{width:100%; text-align:left;} }
 
 /* ---- 3. Validation error shown under a field ---- */
@@ -415,24 +415,3 @@ details.faq p{margin:10px 0 0;}
 .side-links a:hover{background:var(--cream-200); border-color:var(--gold-500);}
 .form-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:8px; flex-wrap:wrap;}
 @media (max-width:980px){ .profile-grid{grid-template-columns:1fr;} }
-
-
-/* =====================================================================
-   DATABASE-CONNECTED PAGES  (appended when the pages were connected to Django)
-   - covers from uploaded images, video thumbnails, the reader frame, pagination gap
-   ===================================================================== */
-.cover-img{display:block; width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:6px 12px 12px 6px;
-  box-shadow:6px 8px 18px rgba(36,21,54,.28); border-left:6px solid rgba(255,255,255,.22);}
-.cover-img.big{max-width:280px; margin-inline:auto;}
-.video-thumb{text-decoration:none; overflow:hidden;}
-.video-thumb img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
-.video-thumb .play,.video-thumb .video-time{position:relative; z-index:1;}
-.video-thumb .video-time{position:absolute;}
-.page-gap{display:grid; place-items:center; min-width:30px; color:var(--ink-soft);}
-.empty-note{grid-column:1/-1; text-align:center; padding:36px 12px; color:var(--ink-soft);}
-
-/* online reader: the PDF fills the page under the toolbar */
-.reader-bar form{display:flex; gap:8px; align-items:center; margin:0;}
-.reader-bar input[type=number]{width:84px; padding:6px 10px;}
-.pdf-frame{display:block; width:100%; height:calc(100vh - 150px); min-height:520px; border:0; background:var(--cream-200);}
-.pdf-fallback{text-align:center; padding:14px; font-size:.9rem;}

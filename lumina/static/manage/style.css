@@ -263,13 +263,3 @@ button.nav-item{width:100%; background:none; border:0; font:inherit; text-align:
 .admin-menu .drop button:hover{background:var(--purple-pale);}
 
 .field-error{color:var(--danger); font-size:11.5px; margin-top:2px;}
-
-
-/* =====================================================================
-   DATABASE-CONNECTED PAGES  (appended when the pages were connected to Django)
-   ===================================================================== */
-.pager-row{display:flex; gap:8px; justify-content:flex-end; margin-top:14px; align-items:center;}
-.file-note{font-size:11.5px; color:var(--ink-soft);}
-.inline-radio{display:flex; gap:18px; flex-wrap:wrap;}
-.inline-radio label{font-size:13px; font-weight:500; color:var(--ink);}
-.cell-form{margin:0;}

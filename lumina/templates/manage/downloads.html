@@ -16,37 +16,73 @@
   DJANGO INTEGRATION
      - Template   : templates/manage/downloads.html   (extends manage/base.html)
      - Owner      : Pro 2
-     - View       : catalogue.manage_downloads   (connected to the database)
+     - View       : catalogue.manage_downloads   (currently a PLACEHOLDER from lumina/placeholders.py)
      - Suggested context from your view : categories (allow_download), books (download_permission)
-     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
 {% endcomment %}
 {% block title %}Download Permissions{% endblock %}
 
 {% block content %}
-<div class="page-head"><div><h1>Download permissions</h1><p>Control where the Download button appears for members.</p></div><div class="actions"></div></div>
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Download permissions</h1><p>Control where the Download button appears for members.</p></div><div class="actions"></div></div>
     <div class="alert info"><span class="ico" aria-hidden="true">&#9432;</span> A setting on an individual book overrides its category.</div>
-    <form action="{% url 'catalogue:manage_downloads' %}" method="post">
-      {% csrf_token %}
+    <form action="#" method="post">
+  {% csrf_token %}
       <div class="grid-eq">
         <!-- Panel 1: category-level switches -->
         <div class="panel">
           <div class="panel-head"><div class="panel-title">By category</div><div class="panel-sub">On = downloads allowed</div></div>
           <div class="table-wrap"><table><thead><tr><th>Category</th><th>Titles</th><th>Allow</th></tr></thead><tbody>
-            {% for c in categories %}
-            <tr><td><strong>{{ c.name }}</strong></td><td>{{ c.book_total }}</td>
-              <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
-                <label class="switch"><input type="checkbox" name="categories" value="{{ c.pk }}"{% if c.allow_download %} checked{% endif %} aria-label="Allow downloads for {{ c.name }}"><span class="slider"></span></label></td></tr>
-            {% empty %}<tr><td colspan="3" class="empty-state">No categories yet.</td></tr>{% endfor %}
+          <tr><td><strong>Literature & Fiction</strong></td><td>5</td>
+            <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
+              <label class="switch"><input type="checkbox" name="cat_literature"><span class="slider"></span></label></td></tr>
+          <tr><td><strong>Technology & Programming</strong></td><td>5</td>
+            <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
+              <label class="switch"><input type="checkbox" name="cat_technology" checked><span class="slider"></span></label></td></tr>
+          <tr><td><strong>Science & Nature</strong></td><td>1</td>
+            <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
+              <label class="switch"><input type="checkbox" name="cat_science"><span class="slider"></span></label></td></tr>
+          <tr><td><strong>History & Politics</strong></td><td>1</td>
+            <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
+              <label class="switch"><input type="checkbox" name="cat_history"><span class="slider"></span></label></td></tr>
+          <tr><td><strong>Self-Development</strong></td><td>2</td>
+            <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
+              <label class="switch"><input type="checkbox" name="cat_self" checked><span class="slider"></span></label></td></tr>
+          <tr><td><strong>Children & Young Adults</strong></td><td>1</td>
+            <td><!-- Toggle switch: checked = downloads allowed for the whole category -->
+              <label class="switch"><input type="checkbox" name="cat_children" checked><span class="slider"></span></label></td></tr>
           </tbody></table></div>
         </div>
         <!-- Panel 2: book-level overrides -->
         <div class="panel">
           <div class="panel-head"><div class="panel-title">By individual book</div><div class="panel-sub">Overrides category</div></div>
           <div class="table-wrap"><table><thead><tr><th>Book</th><th>Category</th><th>Permission</th></tr></thead><tbody>
-            {% for b in books %}
-            <tr><td>{{ b.title }}</td><td>{{ b.category.name }}</td>
-              <td><select class="select" name="book_{{ b.pk }}" aria-label="Download permission for {{ b.title }}">{% for value, label in choices %}<option value="{{ value }}"{% if b.download_permission == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></td></tr>
-            {% empty %}<tr><td colspan="3" class="empty-state">No books yet.</td></tr>{% endfor %}
+          <tr><td>Things Fall Apart</td><td>Literature & Fiction</td>
+            <td><select class="select" name="book_1"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>Half of a Yellow Sun</td><td>Literature & Fiction</td>
+            <td><select class="select" name="book_2"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>Purple Hibiscus</td><td>Literature & Fiction</td>
+            <td><select class="select" name="book_3"><option value="inherit">Follow category</option><option value="allow" selected>Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>So Long a Letter</td><td>Literature & Fiction</td>
+            <td><select class="select" name="book_4"><option value="inherit">Follow category</option><option value="allow" selected>Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>Python for Beginners</td><td>Technology & Programming</td>
+            <td><select class="select" name="book_5"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>Database Design Essentials</td><td>Technology & Programming</td>
+            <td><select class="select" name="book_6"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>Responsive Web Design</td><td>Technology & Programming</td>
+            <td><select class="select" name="book_7"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny" selected>Never allow</option></select></td></tr>
+          <tr><td>The Living Planet</td><td>Science & Nature</td>
+            <td><select class="select" name="book_8"><option value="inherit">Follow category</option><option value="allow" selected>Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>A Short History of West Africa</td><td>History & Politics</td>
+            <td><select class="select" name="book_9"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>Study Smarter</td><td>Self-Development</td>
+            <td><select class="select" name="book_10"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>The Tortoise and the Drum</td><td>Children & Young Adults</td>
+            <td><select class="select" name="book_11"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
+          <tr><td>The Concubine</td><td>Literature & Fiction</td>
+            <td><select class="select" name="book_15"><option value="inherit">Follow category</option><option value="allow">Always allow</option><option value="deny">Never allow</option></select></td></tr>
           </tbody></table></div>
         </div>
       </div>

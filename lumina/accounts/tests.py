@@ -5,29 +5,30 @@
 import re
 
 from django.core import mail
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from lumina.testutils import FIXTURE, PASSWORD, LuminaTestCase
-
 from .models import User
+
+PASSWORD = "Sunrise-Library-42"
 
 # --- every page of the site, grouped by who may open it -----------------------
 PUBLIC = [
     ("catalogue:home", []), ("catalogue:about", []), ("catalogue:books", []),
-    ("catalogue:book_detail", ["BOOK"]), ("inquiries:contact", []),
+    ("catalogue:book_detail", [1]), ("inquiries:contact", []),
     ("accounts:login", []), ("accounts:register", []), ("accounts:forgot_password", []),
     ("accounts:admin_login", []), ("accounts:admin_forgot_password", []),
 ]
 MEMBER = [
-    ("catalogue:videos", []), ("library:account", []), ("library:read", ["BOOK"]),
+    ("catalogue:videos", []), ("library:account", []), ("library:read", [1]),
     ("loans:my_loans", []), ("accounts:profile", []), ("accounts:change_password", []),
 ]
 ADMIN = [
     ("catalogue:manage_dashboard", []), ("catalogue:manage_categories", []),
     ("catalogue:manage_book_types", []), ("catalogue:manage_books", []),
-    ("catalogue:manage_book_add", []), ("catalogue:manage_book_edit", ["BOOK"]),
+    ("catalogue:manage_book_add", []), ("catalogue:manage_book_edit", [1]),
     ("catalogue:manage_videos", []), ("catalogue:manage_video_add", []),
-    ("catalogue:manage_video_edit", ["VIDEO"]), ("catalogue:manage_downloads", []),
+    ("catalogue:manage_video_edit", [1]), ("catalogue:manage_downloads", []),
     ("catalogue:manage_reports", []), ("loans:manage_issues", []),
     ("loans:manage_issue_new", []), ("accounts:manage_members", []),
     ("inquiries:manage_inquiries", []), ("accounts:admin_profile", []),
@@ -35,11 +36,18 @@ ADMIN = [
 
 
 def url(name, args):
-    return reverse(name, args=[FIXTURE.get(a, a) for a in args])
+    return reverse(name, args=args)
 
 
-class Base(LuminaTestCase):
-    """Shared fixture (see lumina/testutils.py): self.member, self.staff, self.book, self.video ..."""
+# A fast password hasher keeps the test run short (production still uses Django's strong default)
+@override_settings(PASSWORD_HASHERS=["django.contrib.auth.hashers.MD5PasswordHasher"])
+class Base(TestCase):
+    def setUp(self):
+        self.member = User.objects.create_user(
+            email="ada@example.com", password=PASSWORD, first_name="Ada", last_name="Obi")
+        self.staff = User.objects.create_user(
+            email="admin@example.com", password=PASSWORD, first_name="Lib", last_name="Admin",
+            is_staff=True)
 
 
 class PageWiringTests(Base):

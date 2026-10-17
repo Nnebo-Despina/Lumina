@@ -15,9 +15,11 @@
   DJANGO INTEGRATION
      - Template   : templates/catalogue/about.html   (extends base.html)
      - Owner      : Newbie A
-     - View       : catalogue.about   (connected to the database)
+     - View       : catalogue.about   (currently a PLACEHOLDER from lumina/placeholders.py)
      - Suggested context from your view : categories (opening hours are plain text)
-     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
 {% endcomment %}
 {% block title %}About{% endblock %}
 
@@ -61,11 +63,12 @@
     <div class="container grid grid-2">
       <div><p class="eyebrow">On the shelves</p><h2>Book categories</h2>
         <ul class="feature-list">
-          {% for category in categories %}
-          <li>{{ category.name }}{% if category.description %} &mdash; {{ category.description }}{% endif %}</li>
-          {% empty %}
-          <li>Categories will appear here soon.</li>
-          {% endfor %}
+          <li>Literature & Fiction &mdash; Novels, short stories and poetry from Africa and beyond.</li>
+          <li>Technology & Programming &mdash; Coding, databases, web design and IT fundamentals.</li>
+          <li>Science & Nature &mdash; Physics, biology, environment and everyday discovery.</li>
+          <li>History & Politics &mdash; Africa's past, world affairs and civic thinking.</li>
+          <li>Self-Development &mdash; Study skills, wellbeing, careers and personal growth.</li>
+          <li>Children & Young Adults &mdash; Gentle, imaginative reads for younger readers.</li>
         </ul>
       </div>
       <!-- FAQ accordion (pure HTML) -->

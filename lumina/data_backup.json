@@ -1,0 +1,2530 @@
+[
+{
+  "model": "sessions.session",
+  "pk": "3r5h8j88o0gi8b5mpt9tnpb1utgmr9fk",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAURP-la0OgpRVYmvAdzX01NCoYLiQa478LCQtdzObMnHmbCOsyxFVljplNZ6w5_TIEusq4F0A0reOixYG06O-Qb5dj8GcNoMOmuEpqhFQGZyExNFzhmUMQTmQbqr3DELxly4EdUt2kymMr7RZPTC3upyqqeRqjPB95fpmu_HwB2dY8Sg:1xHoF5:qqFkJtnr5c59m55Ib8oCk_lhd4VJLGGDliejABodQH0",
+    "expire_date": "2026-10-30T20:09:27.360Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "fziiqbs75oc3yrmq12hzviq9ie1tic38",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAURP-la0OgpRVYmvAdzX01NCoYLiQa478LCQtdzObMnHmbCOsyxFVljplNZ6w5_TIEusq4F0A0reOixYG06O-Qb5dj8GcNoMOmuEpqhFQGZyExNFzhmUMQTmQbqr3DELxly4EdUt2kymMr7RZPTC3upyqqeRqjPB95fpmu_HwB2dY8Sg:1xHVXj:GWjwtqQOkrxIRfBYWID34FgCSyAktB8GXUdnwxP3QR8",
+    "expire_date": "2026-10-30T00:11:27.789Z"
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$6aBH9ZfewjveT4sk1Z6IlX$yBvJ1fhFszQoamvV6dKuU1S4rEdlIgK85p/zMNiiPFE=",
+    "last_login": "2026-10-16T18:06:42.589Z",
+    "is_superuser": true,
+    "first_name": "Admin",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-09T13:22:42.586Z",
+    "email": "despinannebs22@gmail.com",
+    "phone": "",
+    "role": "student",
+    "is_blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$Ro3m7VVIgok2WjO5Ghj3bL$6y6Hrz2hb7b2Vmyppy9s0fO3rx+5QdljiR7T3kUpVAg=",
+    "last_login": "2026-10-16T20:09:27.357Z",
+    "is_superuser": false,
+    "first_name": "Despina",
+    "last_name": "Nnebo",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-13T05:26:32.772Z",
+    "email": "justi@gmail.com",
+    "phone": "+2348135744702",
+    "role": "teacher",
+    "is_blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 3,
+  "fields": {
+    "name": "Fantasy",
+    "slug": "fantasy",
+    "description": "Stories with magic, supernatural beings, or imaginary worlds",
+    "allow_download": true,
+    "created_at": "2026-10-15T18:53:55.195Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 5,
+  "fields": {
+    "name": "Romance",
+    "slug": "romance",
+    "description": "Stories centered on love and relationships, often with subgenres like historical, paranormal, or contemporary romanc",
+    "allow_download": true,
+    "created_at": "2026-10-15T18:56:17.165Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 8,
+  "fields": {
+    "name": "Dystopian",
+    "slug": "dystopian",
+    "description": "Societies in collapse or under oppressive control, exploring survival and resistance",
+    "allow_download": false,
+    "created_at": "2026-10-15T18:57:59.962Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 9,
+  "fields": {
+    "name": "Young Adult",
+    "slug": "young-adult",
+    "description": "Fiction for ages 12–18, focusing on identity, relationships, and growth",
+    "allow_download": true,
+    "created_at": "2026-10-15T18:58:38.860Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 11,
+  "fields": {
+    "name": "Crime & Detective",
+    "slug": "crime-detective",
+    "description": "Stories centered on criminal acts and investigations",
+    "allow_download": false,
+    "created_at": "2026-10-15T19:00:14.959Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 12,
+  "fields": {
+    "name": "Thriller/Suspense",
+    "slug": "thrillersuspense",
+    "description": "Fast-paced, tension-filled plots with danger and twists",
+    "allow_download": true,
+    "created_at": "2026-10-15T19:00:43.814Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 13,
+  "fields": {
+    "name": "Romantasy",
+    "slug": "romantasy",
+    "description": "A blend of romance and fantasy, where magical worlds frame the love story",
+    "allow_download": true,
+    "created_at": "2026-10-15T19:01:33.750Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 15,
+  "fields": {
+    "name": "Nonfiction",
+    "slug": "nonfiction",
+    "description": "Nonfiction is grounded in real events, people, and information",
+    "allow_download": true,
+    "created_at": "2026-10-15T19:04:52.922Z"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 17,
+  "fields": {
+    "name": "Educational Videos",
+    "slug": "educational-videos",
+    "description": "Video tutorials and lectures",
+    "allow_download": false,
+    "created_at": "2026-10-15T22:19:22.897Z"
+  }
+},
+{
+  "model": "catalogue.booktype",
+  "pk": 1,
+  "fields": {
+    "name": "Book",
+    "description": "A long written work on any topic, fiction or nonfiction, meant for deep reading or learning."
+  }
+},
+{
+  "model": "catalogue.booktype",
+  "pk": 2,
+  "fields": {
+    "name": "Magazine",
+    "description": "A periodic publication with short articles and images about current events or popular interests."
+  }
+},
+{
+  "model": "catalogue.booktype",
+  "pk": 3,
+  "fields": {
+    "name": "Journal",
+    "description": "A scholarly publication containing peer‑reviewed research written by experts."
+  }
+},
+{
+  "model": "catalogue.booktype",
+  "pk": 4,
+  "fields": {
+    "name": "Textbook",
+    "description": "A structured educational book used for teaching a specific course or subject."
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 21,
+  "fields": {
+    "title": "After I Do",
+    "author": "Taylor Jenkins Reid",
+    "publisher": "Simon and Schuster",
+    "category": 5,
+    "book_type": 1,
+    "year": 2023,
+    "pages": 335,
+    "isbn": "9781398516724",
+    "description": "From the New York Times bestselling author of The Seven Husbands of Evelyn Hugo, comes a breath taking novel about modern marriage, the depth of family ties, and the year that one remarkable heroine spends exploring both. When Lauren and Ryan's marriage reaches the breaking point, they come up with an unconventional plan. They decide to take a year off in the hopes of finding a way to fall in love again. One year apart, and only one rule: they cannot contact each other. Aside from that, anything goes. Lauren embarks on a journey of self-discovery, quickly finding that her friends and family have their own ideas about the meaning of marriage. These influences, as well as her own healing process and the challenges of living apart from Ryan, begin to change Lauren's ideas about monogamy and marriage. She starts to question: When you can have romance without loyalty and commitment without marriage, when love and lust are no longer tied together, what do you value? What are you willing to fight for? This is a love story about what happens when the love fades. It's about staying in love, seizing love, forsaking love, and committing to love with everything you've got. And above all, After I Do is the story of a couple caught up in an old game-and searching for a new road to happily ever after.",
+    "cover": "covers/google-eJNoEAAAQBAJ.jpg",
+    "file": "books/After_I_Do_by_Taylor_Jenkins_Reid.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-15T22:43:04.890Z",
+    "updated_at": "2026-10-15T22:45:14.806Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 22,
+  "fields": {
+    "title": "Air Awakens",
+    "author": "Elise Kova",
+    "publisher": "Random House",
+    "category": 3,
+    "book_type": 1,
+    "year": 2020,
+    "pages": 1188,
+    "isbn": "9781949694246",
+    "description": "All Vhalla wanted for her seventeenth birthday was a book... What she got was the attention of a dark and fiery prince and a rare elemental magic. After unknowingly saving the life of the crown prince with powers she's not supposed to have, Vhalla must make a choice Embrace her sorcery and leave the quiet life she's known, or eradicate her magic entirely. But the choice isn't hers alone. Powerful forces who want to use her magic for their own gain lurk in the shadows, and the only ally Vhalla may have is the cut-throat Crown Prince Aldrik. He's everything she's been taught to fear - a sorcerer and royalty - but beneath his harsh exterior is the heart of a tortured man she finds herself dangerously drawn to. He may be the last person she ever wanted. But he's the one person she needs. And, with his training, she'll show the Empire what a quiet library girl is truly capable of. This omnibus edition contains all five books in the Air Awakens series by USA Today bestselling author Elise Kova.",
+    "cover": "covers/google-oXTAzQEACAAJ.jpg",
+    "file": "books/Air_Awakens_Book_1_-_Air_Awakens_by_Elise_Kova.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-15T22:47:03.536Z",
+    "updated_at": "2026-10-15T22:49:33.148Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 24,
+  "fields": {
+    "title": "A Duel with the Vampire Lord",
+    "author": "Elise Kova",
+    "publisher": "Random House",
+    "category": 13,
+    "book_type": 1,
+    "year": 2018,
+    "pages": 545,
+    "isbn": "9798217093342",
+    "description": "Kidnapped and bound to the Vampire Lord, a woman who once served vampire hunters discovers he’s not really the villain she’s been taught to fear. Enemies become lovers in this action-packed installment of the Married to Magic novels—swoonworthy, escapist standalone reads that combine wondrous fantasy worlds with slow-burn romance from the New York Times bestselling author of Arcana Academy On the night of the blood moon, the Vampire Lord must die. As the forge maiden of Hunter’s Hamlet, Floriane knows three things for certain: One, she must craft the weapons and armor that the vampire hunters use. Two, she must keep the fact that her beloved brother, one such hunter, trains her in secret. And, three, that the Master Hunter will be the one to decide her future. But, when her brother is attacked on the night of the Blood Moon by the Vampire Lord himself, Floriane is forced to join the fray. Wanting to defend her home at all costs, Floriane fights the vampire lord, ready to give her life if it means taking his. But Ruvan doesn’t want to take her life . . . he wants her. Kidnapped and brought to the vampire castle, Floriane is now blood sworn to the vampire lord—bound in mind and body to her worst enemy. As the Vampire Lord’s captive, Floriane expected to fight. She didn't expect the battle to be with herself as she questions everything she thought she knew about her world, her purpose, and her desires. Because when Floriane’s dagger is at Ruvan’s chest, will she be able to take the heart of the man who has claimed hers? Includes a bonus scene, “Tower of Stars,” from Ruvan’s point of view Don’t miss any of the enchanting Married to Magic novels. Linked standalones to be read in any order! A DANCE WITH THE FAE PRINCE • A DUEL WITH THE VAMPIRE LORD • A DUET WITH THE SIREN KING • A DAWN WITH THE WOLF KNIGHT",
+    "cover": "covers/google-DbbUEQAAQBAJ.jpg",
+    "file": "books/A_Duel_With_The_Vampire_Lord_by_Elise_Kova.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-15T22:47:04.157Z",
+    "updated_at": "2026-10-15T23:00:27.672Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 28,
+  "fields": {
+    "title": "The Perfect Child",
+    "author": "Lucinda Berry",
+    "publisher": "Thomas & Mercer",
+    "category": 12,
+    "book_type": 1,
+    "year": 2019,
+    "pages": 306,
+    "isbn": "9781542040549",
+    "description": "A mesmerizing, unbearably tense thriller that will have you looking over your shoulder and sleeping with one eye open. This creepy, serpentine tale explores the darkest corners of parenthood and the profoundly unsettling lengths one will go to to keep a family together—no matter the consequences.",
+    "cover": "covers/Screenshot_2026-10-16_190917_GNRs6KD.jpg",
+    "file": "books/The_Perfect_Child_by_Lucinda_Berry_gnvkTYZ.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": [
+      "despinannebs22@gmail.com"
+    ],
+    "created_at": "2026-10-16T00:00:21.210Z",
+    "updated_at": "2026-10-16T18:17:13.476Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 29,
+  "fields": {
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "publisher": "Scholastic Audio",
+    "category": 9,
+    "book_type": 1,
+    "year": 2008,
+    "pages": 397,
+    "isbn": "9780702342387",
+    "description": "The Hunger Games is a dystopian young‑adult series by Suzanne Collins about a future nation where children are forced to fight to the death as punishment for rebellion.",
+    "cover": "covers/openlibrary-12646537.jpg",
+    "file": "books/The_Hunger_Games_Book_1_-_The_Hunger_Games_by_Suzanne_Collins.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:31:34.736Z",
+    "updated_at": "2026-10-16T18:52:21.702Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 31,
+  "fields": {
+    "title": "Shatter Me",
+    "author": "Tahereh Mafi",
+    "publisher": "Cengage Gale",
+    "category": 8,
+    "book_type": 1,
+    "year": 2011,
+    "pages": 357,
+    "isbn": "1405291753",
+    "description": "Shatter Me follows Juliette Ferrars, a 17‑year‑old girl whose touch can kill, leaving her isolated and feared in a crumbling, authoritarian society ruled by the Reestablishment; after being locked away for her dangerous ability, she is suddenly pulled into a world of power struggles, moral ambiguity, and unexpected connections, forcing her to confront her own identity, trauma, and strength as she decides whether she will remain a pawn in someone else’s regime or rise to reclaim control of her life.",
+    "cover": "covers/openlibrary-6974992.jpg",
+    "file": "books/Shatter_Me_Book_1_-_Shatter_Me_by_Tahereh_Mafi.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:32:33.752Z",
+    "updated_at": "2026-10-16T19:02:39.484Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 32,
+  "fields": {
+    "title": "Unravel me",
+    "author": "Tahereh Mafi",
+    "publisher": "Dex Yayinevi",
+    "category": 8,
+    "book_type": 1,
+    "year": 2013,
+    "pages": 443,
+    "isbn": "9788817091169",
+    "description": "Unravel me is the second book in the series Shatter Me, which follows Juliette Ferrars, a 17‑year‑old girl whose touch can kill, leaving her isolated and feared in a crumbling, authoritarian society ruled by the Reestablishment; after being locked away for her dangerous ability, she is suddenly pulled into a world of power struggles, moral ambiguity, and unexpected connections, forcing her to confront her own identity, trauma, and strength as she decides whether she will remain a pawn in someone else’s regime or rise to reclaim control of her life.",
+    "cover": "covers/openlibrary-12727567.jpg",
+    "file": "books/Shatter_Me_Book_2_-_Unravel_Me_by_Tahereh_Mafi_qiHNUME.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:32:35.207Z",
+    "updated_at": "2026-10-16T20:06:46.490Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 36,
+  "fields": {
+    "title": "Red Queen",
+    "author": "Victoria Aveyard",
+    "publisher": "HarperCollins",
+    "category": 13,
+    "book_type": 1,
+    "year": 2018,
+    "pages": 1070,
+    "isbn": "0063283832",
+    "description": "Red Queen is a young adult dystopian fantasy romance novel published in 2015 and written by Victoria Aveyard. It is set in the kingdom of Norta, a world divided by blood color—Reds, ordinary people living in poverty, and Silvers, an elite ruling class with superhuman abilities\r\nGoodreads\r\n \r\nThe story follows Mare Barrow, a 17‑year‑old Red girl who survives by pickpocketing until she unexpectedly discovers she possesses electrokinetic powers, something no Red should have. To hide this impossibility, the Silver monarchy forces her to pose as a lost Silver noble and betroths her to a prince, pulling her into a world of political manipulation, rebellion, and betrayal",
+    "cover": "covers/openlibrary-8541077.jpg",
+    "file": "books/Red_Queen_Series_1_-_Red_Queen_by_Aveyard_Victoria.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:33:22.876Z",
+    "updated_at": "2026-10-16T19:21:35.868Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 39,
+  "fields": {
+    "title": "A Good Girl's Guide to Murder",
+    "author": "Holly Jackson",
+    "publisher": "Epsilon Yayinevi",
+    "category": 11,
+    "book_type": 1,
+    "year": 2019,
+    "pages": 431,
+    "isbn": "9786070791321",
+    "description": "A Good Girl’s Guide to Murder” is a YA mystery by Holly Jackson following a teen investigator who reopens a supposedly solved murder case and uncovers dangerous secrets in her small town.",
+    "cover": "covers/openlibrary-13156188.jpg",
+    "file": "books/A_Good_Girls_Guide_to_Murder_by_Holly_Jackson.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:35:34.703Z",
+    "updated_at": "2026-10-16T19:25:27.952Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 40,
+  "fields": {
+    "title": "Good Girl, Bad Blood",
+    "author": "Holly Jackson",
+    "publisher": "Leda Edge",
+    "category": 11,
+    "book_type": 1,
+    "year": 2021,
+    "pages": 416,
+    "isbn": "1984896431",
+    "description": "Good Girl, Bad Blood is the second book in Holly Jackson’s bestselling A Good Girl’s Guide to Murder series. It follows Pippa (Pip) Fitz‑Amobi, who has sworn off detective work after nearly dying during her previous investigation, but is forced back into the role when Jamie Reynolds, the older brother of her friend Connor, suddenly disappears and the police dismiss the case because he is an adult. Pip launches Season 2 of her true‑crime podcast to crowdsource clues, uncovering a trail involving a catfishing scheme, hidden identities, and a decades‑old serial‑killer case",
+    "cover": "covers/openlibrary-11466695.jpg",
+    "file": "books/Good_Girl_Bad_Blood_by_Holly_Jackson.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:35:42.577Z",
+    "updated_at": "2026-10-16T19:30:39.698Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 41,
+  "fields": {
+    "title": "Renegades",
+    "author": "Marissa Meyer",
+    "publisher": "Mixfly",
+    "category": 8,
+    "book_type": 1,
+    "year": 2017,
+    "pages": 584,
+    "isbn": "1427290083",
+    "description": "Renegades is a superhero-themed dystopian novel about prodigies with extraordinary powers, centering on a girl seeking vengeance and a boy devoted to justice.",
+    "cover": "covers/openlibrary-9399502.jpg",
+    "file": "books/Renegades_Book_1_-_Renegades_by_Marissa_Meyer.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:39:47.926Z",
+    "updated_at": "2026-10-16T19:33:52.806Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 44,
+  "fields": {
+    "title": "A Not So Meet Cute",
+    "author": "Meghan Quinn",
+    "publisher": "Penguin Books, Limited",
+    "category": 5,
+    "book_type": 1,
+    "year": 2021,
+    "pages": 438,
+    "isbn": "9781405955799",
+    "description": "A Not So Meet Cute begins when out-of-work Lottie Gardner’s hunt for a wealthy rebound in Beverly Hills collides with billionaire Huxley Cane’s scheme to impress a business contact. Their deal to fake an engagement brings mansions, staged dates, and a slow, banter-filled slide into real attraction.",
+    "cover": "covers/openlibrary-13240821.jpg",
+    "file": "books/A_Not_So_Meet_Cute_by_Meghan_Quinn.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:42:37.650Z",
+    "updated_at": "2026-10-16T19:42:28.202Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 45,
+  "fields": {
+    "title": "The Housemaid",
+    "author": "Freida McFadden",
+    "publisher": "Generic",
+    "category": 12,
+    "book_type": 1,
+    "year": 2022,
+    "pages": 340,
+    "isbn": "9798897225972",
+    "description": "The Housemaid is a psychological thriller about Millie Calloway, a desperate young woman who becomes a live‑in maid for a wealthy Long Island family whose dark secrets pull her into a dangerous web of manipulation and deceit.",
+    "cover": "covers/openlibrary-15125117.jpg",
+    "file": "books/The_Housemaid_by_Freida_McFadden.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T18:45:31.996Z",
+    "updated_at": "2026-10-16T19:44:35.116Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 47,
+  "fields": {
+    "title": "The Housemaid’s Secret",
+    "author": "Freida McFadden",
+    "publisher": "Generic",
+    "category": 12,
+    "book_type": 1,
+    "year": 2024,
+    "pages": 275,
+    "isbn": "9780349132617",
+    "description": "Freida McFadden’s The Housemaid’s Secret follows Millie Calloway, a former felon trying to rebuild her life while working as a housemaid for wealthy clients in New York. When she accepts a job with Douglas and Wendy Garrick, she quickly senses that something is wrong. Wendy is kept locked in a bedroom, often crying, and Millie begins to suspect domestic abuse based on bruises, bloodstains, and disturbing noises",
+    "cover": "covers/Screenshot_2026-10-16_205003.jpg",
+    "file": "books/The_Housemaids_Secret_by_Freida_McFadden.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": [
+      "despinannebs22@gmail.com"
+    ],
+    "created_at": "2026-10-16T19:50:53.598Z",
+    "updated_at": "2026-10-16T19:50:53.598Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 49,
+  "fields": {
+    "title": "Inheritance Games Series",
+    "author": "Jennifer Lynn Barnes",
+    "publisher": "Generic",
+    "category": 9,
+    "book_type": 1,
+    "year": 2023,
+    "pages": 1443,
+    "isbn": "1637993471",
+    "description": "The Inheritance Games is a young adult novel series by author Jennifer Lynn Barnes, published by Little, Brown Books for Young Readers. The series focuses on a teenaged girl, Avery Kylie Grambs, and the Hawthorne family. It has garnered widespread acclaim for its intricate plot, twists, and engaging characters, making it a favorite among young adult readers.",
+    "cover": "covers/Screenshot_2026-10-16_210153.jpg",
+    "file": "books/The_Inheritance_Games_Series_by_Jennifer_Lynn_Barnes.pdf",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T19:55:54.514Z",
+    "updated_at": "2026-10-16T20:04:05.892Z"
+  }
+},
+{
+  "model": "catalogue.book",
+  "pk": 54,
+  "fields": {
+    "title": "In Cold Blood",
+    "author": "Truman Capote",
+    "publisher": "Random  House N.Y.",
+    "category": 15,
+    "book_type": 1,
+    "year": 1965,
+    "pages": 352,
+    "isbn": "0451154460",
+    "description": "In Cold Blood (1966) is widely regarded as one of the earliest and most influential works of true crime, a genre Capote helped define. The book recounts the real-life murder of four members of the Clutter family in Holcomb, Kansas, by two ex-convicts, Richard “Dick” Hickock and Perry Smith. Capote spent years interviewing townspeople, investigators, and the killers themselves, crafting a narrative that reads with the tension and depth of a novel while remaining grounded in factual reporting.A legally obtained book file must be added before publication.",
+    "cover": "covers/openlibrary-228066_HjpDXmF.jpg",
+    "file": "",
+    "download_permission": "inherit",
+    "status": "live",
+    "created_by": null,
+    "created_at": "2026-10-16T19:58:18.967Z",
+    "updated_at": "2026-10-16T19:58:20.575Z"
+  }
+},
+{
+  "model": "catalogue.video",
+  "pk": 1,
+  "fields": {
+    "title": "Python Full Course for free 🐍",
+    "category": 17,
+    "level": "BEGINNER",
+    "duration": "720:00",
+    "video_url": "https://www.youtube.com/watch?v=XKHEtdqhLK8",
+    "video_file": "",
+    "thumbnail": "https://i.ytimg.com/vi/XKHEtdqhLK8/hqdefault.jpg",
+    "description": "Python tutorial for beginners full course Python 12 Hour Full Course for free (2024)",
+    "status": "live",
+    "created_at": "2026-10-15T22:19:22.914Z"
+  }
+},
+{
+  "model": "catalogue.video",
+  "pk": 2,
+  "fields": {
+    "title": "Python Full Course for Beginners",
+    "category": 17,
+    "level": "BEGINNER",
+    "duration": "122:00",
+    "video_url": "https://www.youtube.com/watch?v=K5KVEU3aaeQ",
+    "video_file": "",
+    "thumbnail": "https://i.ytimg.com/vi/K5KVEU3aaeQ/hqdefault.jpg",
+    "description": "Master Python from scratch No fluff—just clear, practical coding skills to kickstart your journey! Want to dive deeper?",
+    "status": "live",
+    "created_at": "2026-10-15T22:19:22.929Z"
+  }
+},
+{
+  "model": "catalogue.video",
+  "pk": 3,
+  "fields": {
+    "title": "Data Science; Machine Learning Fundamentals | Part 1",
+    "category": 17,
+    "level": "INTERMEDIATE",
+    "duration": "15:51",
+    "video_url": "https://www.youtube.com/watch?v=Grkyhe2MQPA",
+    "video_file": "",
+    "thumbnail": "https://i.ytimg.com/vi/Grkyhe2MQPA/hqdefault.jpg",
+    "description": "Data science is about using statistics to draw insights from data to drive action and improve business performance.",
+    "status": "live",
+    "created_at": "2026-10-15T23:26:58.707Z"
+  }
+},
+{
+  "model": "catalogue.video",
+  "pk": 4,
+  "fields": {
+    "title": "Basics of Data Science for Beginners",
+    "category": 17,
+    "level": "BEGINNER",
+    "duration": "372:31",
+    "video_url": "https://www.youtube.com/watch?v=bQZk18rke2o",
+    "video_file": "",
+    "thumbnail": "https://i.ytimg.com/vi/bQZk18rke2o/hqdefault.jpg",
+    "description": "Micrososft Azure - Data Analyst Course",
+    "status": "live",
+    "created_at": "2026-10-15T23:26:58.723Z"
+  }
+},
+{
+  "model": "catalogue.video",
+  "pk": 5,
+  "fields": {
+    "title": "Shatter Me (Shatter Me #1) by Tahereh Mafi Audiobook",
+    "category": 8,
+    "level": "ALL",
+    "duration": "540:31",
+    "video_url": "https://www.youtube.com/watch?v=BHsB8AfpLWk",
+    "video_file": "",
+    "thumbnail": "https://i.ytimg.com/vi/BHsB8AfpLWk/hqdefault.jpg",
+    "description": "Shatter Me AudioBook",
+    "status": "live",
+    "created_at": "2026-10-15T23:27:59.199Z"
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 1,
+  "fields": {
+    "book": 21,
+    "inventory_code": "LMA-10001",
+    "status": "available",
+    "acquired_at": "2026-10-14",
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 2,
+  "fields": {
+    "book": 21,
+    "inventory_code": "LMA-10002",
+    "status": "on_loan",
+    "acquired_at": "2026-10-14",
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 3,
+  "fields": {
+    "book": 22,
+    "inventory_code": "LMA-10003",
+    "status": "available",
+    "acquired_at": "2026-10-14",
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 4,
+  "fields": {
+    "book": 22,
+    "inventory_code": "LMA-10004",
+    "status": "available",
+    "acquired_at": "2026-10-14",
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 5,
+  "fields": {
+    "book": 24,
+    "inventory_code": "LMA-10005",
+    "status": "available",
+    "acquired_at": "2026-10-14",
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 6,
+  "fields": {
+    "book": 24,
+    "inventory_code": "LMA-10006",
+    "status": "maintenance",
+    "acquired_at": "2026-10-14",
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 7,
+  "fields": {
+    "book": 28,
+    "inventory_code": "LMA-10007",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 8,
+  "fields": {
+    "book": 28,
+    "inventory_code": "LMA-10008",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 9,
+  "fields": {
+    "book": 29,
+    "inventory_code": "LMA-10009",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 10,
+  "fields": {
+    "book": 29,
+    "inventory_code": "LMA-10010",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 11,
+  "fields": {
+    "book": 29,
+    "inventory_code": "LMA-10011",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 12,
+  "fields": {
+    "book": 31,
+    "inventory_code": "LMA-10012",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 13,
+  "fields": {
+    "book": 36,
+    "inventory_code": "LMA-10013",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 14,
+  "fields": {
+    "book": 36,
+    "inventory_code": "LMA-10014",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 15,
+  "fields": {
+    "book": 39,
+    "inventory_code": "LMA-10015",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "catalogue.bookcopy",
+  "pk": 16,
+  "fields": {
+    "book": 39,
+    "inventory_code": "LMA-10016",
+    "status": "available",
+    "acquired_at": null,
+    "notes": ""
+  }
+},
+{
+  "model": "library.downloadlog",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "book": 24,
+    "downloaded_at": "2026-10-16T00:07:41.968Z"
+  }
+},
+{
+  "model": "library.readingprogress",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "book": 24,
+    "last_page": 7,
+    "updated_at": "2026-10-16T00:06:08.928Z"
+  }
+},
+{
+  "model": "library.readingprogress",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "justi@gmail.com"
+    ],
+    "book": 44,
+    "last_page": 9,
+    "updated_at": "2026-10-16T20:09:55.384Z"
+  }
+},
+{
+  "model": "library.videoview",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "video": 1,
+    "viewed_at": "2026-10-15T22:19:41.162Z"
+  }
+},
+{
+  "model": "library.videoview",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "justi@gmail.com"
+    ],
+    "video": 3,
+    "viewed_at": "2026-10-16T20:10:31.103Z"
+  }
+},
+{
+  "model": "loans.bookissue",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "justi@gmail.com"
+    ],
+    "copy": 2,
+    "issued_by": [
+      "despinannebs22@gmail.com"
+    ],
+    "issued_at": "2026-10-16T18:07:53.935Z",
+    "due_date": "2026-10-17",
+    "returned_at": null,
+    "status": "issued",
+    "notes": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-10-15T18:52:23.196Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "1",
+    "object_repr": "Action and Adventure",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-10-15T18:53:28.449Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "2",
+    "object_repr": "Contemporary Fiction",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-10-15T18:53:55.201Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "3",
+    "object_repr": "Fantasy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-10-15T18:55:56.915Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "4",
+    "object_repr": "Science Fiction",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-10-15T18:56:17.165Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "5",
+    "object_repr": "Romance",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-10-15T18:56:45.395Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "6",
+    "object_repr": "Mystery",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-10-15T18:57:24.524Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "7",
+    "object_repr": "Horror",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-10-15T18:57:59.962Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "8",
+    "object_repr": "Dystopian",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-10-15T18:58:38.860Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "9",
+    "object_repr": "Young Adult",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-10-15T18:59:36.460Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "10",
+    "object_repr": "Comedy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-10-15T19:00:14.975Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "11",
+    "object_repr": "Crime & Detective",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-10-15T19:00:43.814Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "12",
+    "object_repr": "Thriller/Suspense",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-10-15T19:01:33.750Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "13",
+    "object_repr": "Romantasy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-10-15T19:04:03.353Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "14",
+    "object_repr": "Biography / Autobiography",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-10-15T19:04:52.932Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "category"
+    ],
+    "object_id": "15",
+    "object_repr": "Nonfiction",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-10-15T20:27:17.326Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "booktype"
+    ],
+    "object_id": "1",
+    "object_repr": "Book",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2026-10-15T20:28:38.367Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "booktype"
+    ],
+    "object_id": "2",
+    "object_repr": "Magazine",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2026-10-15T20:29:07.659Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "booktype"
+    ],
+    "object_id": "3",
+    "object_repr": "Journal",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2026-10-15T20:29:49.545Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "booktype"
+    ],
+    "object_id": "4",
+    "object_repr": "Textbook",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "20",
+    "object_repr": "In the Best Interest of Students - Kelly Gallagher",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "19",
+    "object_repr": "Outing; Sport, Adventure, Travel, Fiction - Unknown",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "18",
+    "object_repr": "A book for all readers, designed as an aid to the collection, use and preservation of books - Ainsworth Rand Spofford",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "15",
+    "object_repr": "Law Books - Unknown",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "14",
+    "object_repr": "“The” English Catalogue of Books - Unknown",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "13",
+    "object_repr": "1981-1985 Supplement to Crime Fiction, 1749-1980 - Allen J. Hubin",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "12",
+    "object_repr": "The Routledge Introduction to Canadian Crime Fiction - Pamela Bedore",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "11",
+    "object_repr": "Crime Fiction in the Caribbean - Lucy Evans",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "10",
+    "object_repr": "Science Fiction Book Review Index, 1923-1973 - Halbert W. Hall",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "4",
+    "object_repr": "Language and Theme - Emmanuel N. Obiechina",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "2",
+    "object_repr": "African Literature - Nogwaja S. Zulu, Thulani Mkhize",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2026-10-15T22:38:29.979Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "1",
+    "object_repr": "African Literature - Jonathan P. Smithe",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "17",
+    "object_repr": "Singapore PSLE Mathematics Teacher's Reference 2013 (Yellowreef) - Thomas Bond, Chris Hughes",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "16",
+    "object_repr": "Young Adults Books - Ivan King, young adults books",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "9",
+    "object_repr": "Secrets to Becoming a Successful Author Boxset - Maggie McVay Lynch",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "8",
+    "object_repr": "FOXES UNDER A GOLDEN SKY - Vijay R Karia",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "7",
+    "object_repr": "A Star Born from Static Noise - GLORIA DELGADO ZIKLAG SERVICES",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "6",
+    "object_repr": "Kingdom of Whispering Wings - Kristine Aleman",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "5",
+    "object_repr": "New Directions in African Literature - Ernest Emenyo̲nu, Patricia Thornton Emenyonu, F. D. Imbuga",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2026-10-15T22:43:43.409Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "3",
+    "object_repr": "African Literature in the Twentieth Century - O. R. Dathorne",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2026-10-15T22:45:14.818Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "21",
+    "object_repr": "After I Do - Taylor Jenkins Reid",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"File\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"After I Do \\u2014 LMA-10001\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"After I Do \\u2014 LMA-10002\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2026-10-15T22:49:33.148Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "22",
+    "object_repr": "Air Awakens - Elise Kova",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Publisher\", \"Category\", \"Book type\", \"File\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"Air Awakens \\u2014 LMA-10003\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"Air Awakens \\u2014 LMA-10004\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2026-10-15T23:00:27.693Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "24",
+    "object_repr": "A Duel with the Vampire Lord - Elise Kova",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Year\", \"File\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"A Duel with the Vampire Lord \\u2014 LMA-10005\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"A Duel with the Vampire Lord \\u2014 LMA-10006\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2026-10-15T23:00:50.197Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "27",
+    "object_repr": "Arcana Academy - Elise Kova",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2026-10-15T23:00:50.197Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "26",
+    "object_repr": "Prince of Swords - Elise Kova",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2026-10-15T23:00:50.197Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "25",
+    "object_repr": "The Air Awakens Coloring Book - Elise Kova",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2026-10-15T23:00:50.197Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "23",
+    "object_repr": "Crystal Crowned - Elise Kova",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2026-10-15T23:06:40.876Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "1",
+    "object_repr": "Python Full Course for free 🐍 - BEGINNER",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Level\", \"Duration\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2026-10-15T23:10:12.847Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "2",
+    "object_repr": "Python Full Course for Beginners - ALL",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Duration\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2026-10-15T23:10:38.518Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "2",
+    "object_repr": "Python Full Course for Beginners - BEGINNER",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Level\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2026-10-15T23:11:43.190Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "10",
+    "object_repr": "WAY OF THE WOLF (Free unabridged urban fantasy audiobook -- full book!) - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2026-10-15T23:11:43.190Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "9",
+    "object_repr": "Filthy Rich Vampire [ Filthy Rich Vampire #1] By Geneva Lee | Fantasy Audiobook Full - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2026-10-15T23:11:43.190Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "8",
+    "object_repr": "Book 1 | Empire of the Vampire #1 | The Last Holy Warrior Against Eternal Night – Fantasy Audiobook - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2026-10-15T23:11:43.190Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "5",
+    "object_repr": "Python Programming for Beginners Explained (Complete Introduction Guide) 2026 - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2026-10-15T23:11:43.190Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "4",
+    "object_repr": "Python Tutorial for Absolute Beginners #1 - What Are Variables? - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2026-10-15T23:11:43.190Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "3",
+    "object_repr": "Python Tutorial for Beginners - Full Course (with Notes &amp; Practice Questions) - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2026-10-15T23:12:57.495Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "7",
+    "object_repr": "Accidentally Learning Magic Chapter 1 - 140 | Full LitRPG Progression Fantasy Audiobook - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 57,
+  "fields": {
+    "action_time": "2026-10-15T23:12:57.495Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "6",
+    "object_repr": "Leveling The Unchosen - Chapter 1 - 200 | Full LitRPG Progression Fantasy Audiobook - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 58,
+  "fields": {
+    "action_time": "2026-10-15T23:30:44.435Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "3",
+    "object_repr": "Data Science; Machine Learning Fundamentals | Part 1 - INTERMEDIATE",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Level\", \"Duration\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 59,
+  "fields": {
+    "action_time": "2026-10-15T23:31:30.303Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "4",
+    "object_repr": "Basics of Data Science for Beginners - BEGINNER",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Level\", \"Duration\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 60,
+  "fields": {
+    "action_time": "2026-10-15T23:31:49.999Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "6",
+    "object_repr": "POV : You are listening Shatter Me Audiobook🥲🙏🏻 #ytshorts #explore #fyp - ALL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 61,
+  "fields": {
+    "action_time": "2026-10-15T23:33:21.933Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "5",
+    "object_repr": "Shatter Me (Shatter Me #1) by Tahereh Mafi Audiobook - ALL",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Duration\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 62,
+  "fields": {
+    "action_time": "2026-10-15T23:34:18.389Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "video"
+    ],
+    "object_id": "5",
+    "object_repr": "Shatter Me (Shatter Me #1) by Tahereh Mafi Audiobook - ALL",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 63,
+  "fields": {
+    "action_time": "2026-10-15T23:37:46.743Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "booktype"
+    ],
+    "object_id": "5",
+    "object_repr": "E-book",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 64,
+  "fields": {
+    "action_time": "2026-10-16T18:17:13.493Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "28",
+    "object_repr": "The Perfect Child - Lucinda Berry",
+    "action_flag": 2,
+    "change_message": "[{\"added\": {\"name\": \"book copy\", \"object\": \"The Perfect Child \\u2014 LMA-10008\"}}, {\"changed\": {\"name\": \"book copy\", \"object\": \"The Perfect Child \\u2014 LMA-10007\", \"fields\": [\"Inventory code\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 65,
+  "fields": {
+    "action_time": "2026-10-16T18:52:21.721Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "29",
+    "object_repr": "The Hunger Games - Suzanne Collins",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Description\", \"File\", \"Status\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"The Hunger Games \\u2014 LMA-10009\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"The Hunger Games \\u2014 LMA-10010\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"The Hunger Games \\u2014 LMA-10011\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2026-10-16T18:53:49.544Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "30",
+    "object_repr": "The Hunger Games Trilogy (Hunger Games / Catching Fire / Mockingjay) - Suzanne Collins",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 67,
+  "fields": {
+    "action_time": "2026-10-16T19:02:39.484Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "31",
+    "object_repr": "Shatter Me - Tahereh Mafi",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Description\", \"File\", \"Status\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"Shatter Me \\u2014 LMA-10012\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 68,
+  "fields": {
+    "action_time": "2026-10-16T19:12:04.953Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "32",
+    "object_repr": "Unravel me - Tahereh Mafi",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Description\", \"File\", \"Status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 69,
+  "fields": {
+    "action_time": "2026-10-16T19:14:21.794Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "35",
+    "object_repr": "Red Queen / Glass Sword / King'S Cage / War Storm / Broken Throne - Victoria Aveyard",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 70,
+  "fields": {
+    "action_time": "2026-10-16T19:14:21.794Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "34",
+    "object_repr": "Realm Breaker - Victoria Aveyard",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 71,
+  "fields": {
+    "action_time": "2026-10-16T19:14:21.794Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "33",
+    "object_repr": "Defy Me (Shatter Me) - Tahereh Mafi",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 72,
+  "fields": {
+    "action_time": "2026-10-16T19:15:12.087Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "38",
+    "object_repr": "Broken Throne - Victoria Aveyard",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 73,
+  "fields": {
+    "action_time": "2026-10-16T19:15:12.087Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "37",
+    "object_repr": "Red Queen Series, Book 1 - Dan Donoghue",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 74,
+  "fields": {
+    "action_time": "2026-10-16T19:21:35.876Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "36",
+    "object_repr": "Red Queen - Victoria Aveyard",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Category\", \"Book type\", \"Pages\", \"Description\", \"File\", \"Status\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"Red Queen \\u2014 LMA-10013\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"Red Queen \\u2014 LMA-10014\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 75,
+  "fields": {
+    "action_time": "2026-10-16T19:25:27.955Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "39",
+    "object_repr": "A Good Girl's Guide to Murder - Holly Jackson",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Description\", \"File\", \"Status\"]}}, {\"added\": {\"name\": \"book copy\", \"object\": \"A Good Girl's Guide to Murder \\u2014 LMA-10015\"}}, {\"added\": {\"name\": \"book copy\", \"object\": \"A Good Girl's Guide to Murder \\u2014 LMA-10016\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 76,
+  "fields": {
+    "action_time": "2026-10-16T19:30:39.698Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "40",
+    "object_repr": "Good Girl, Bad Blood - Holly Jackson",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Year\", \"Description\", \"File\", \"Status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 77,
+  "fields": {
+    "action_time": "2026-10-16T19:33:52.806Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "41",
+    "object_repr": "Renegades - Marissa Meyer",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Description\", \"File\", \"Status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 78,
+  "fields": {
+    "action_time": "2026-10-16T19:34:27.707Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "46",
+    "object_repr": "Study Guide The Personal Librarian by Marie Benedict and Victoria Christopher Murray - SuperSummary",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 79,
+  "fields": {
+    "action_time": "2026-10-16T19:34:27.707Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "42",
+    "object_repr": "The Renegades of Pern - Anne McCaffrey",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 80,
+  "fields": {
+    "action_time": "2026-10-16T19:38:26.996Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "43",
+    "object_repr": "In Cold Blood - Truman Capote",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 81,
+  "fields": {
+    "action_time": "2026-10-16T19:42:28.205Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "44",
+    "object_repr": "A Not So Meet Cute - Meghan Quinn",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Category\", \"Book type\", \"Description\", \"File\", \"Status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 82,
+  "fields": {
+    "action_time": "2026-10-16T19:44:18.666Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "45",
+    "object_repr": "The Housemaid - Freida McFadden",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Category\", \"Year\", \"Description\", \"File\", \"Status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 83,
+  "fields": {
+    "action_time": "2026-10-16T19:44:35.116Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "45",
+    "object_repr": "The Housemaid - Freida McFadden",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Book type\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 84,
+  "fields": {
+    "action_time": "2026-10-16T19:50:53.609Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "47",
+    "object_repr": "The Housemaid’s Secret - Freida McFadden",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 85,
+  "fields": {
+    "action_time": "2026-10-16T19:56:30.465Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "53",
+    "object_repr": "The Monster In The Hollows - Andrew Peterson",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 86,
+  "fields": {
+    "action_time": "2026-10-16T19:56:30.467Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "52",
+    "object_repr": "Naturals : Bad Blood - Jennifer Lynn Barnes",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 87,
+  "fields": {
+    "action_time": "2026-10-16T19:56:30.467Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "51",
+    "object_repr": "Naturals : All In - Jennifer Lynn Barnes",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 88,
+  "fields": {
+    "action_time": "2026-10-16T19:56:30.467Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "50",
+    "object_repr": "The Tempest - William Shakespeare",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 89,
+  "fields": {
+    "action_time": "2026-10-16T19:57:05.758Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "48",
+    "object_repr": "In Cold Blood - Truman Capote",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 90,
+  "fields": {
+    "action_time": "2026-10-16T20:04:05.910Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "49",
+    "object_repr": "Inheritance Games Series - Jennifer Lynn Barnes",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Category\", \"Book type\", \"Pages\", \"Description\", \"Cover\", \"File\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 91,
+  "fields": {
+    "action_time": "2026-10-16T20:04:23.643Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "booktype"
+    ],
+    "object_id": "6",
+    "object_repr": "E-book",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 92,
+  "fields": {
+    "action_time": "2026-10-16T20:06:46.493Z",
+    "user": [
+      "despinannebs22@gmail.com"
+    ],
+    "content_type": [
+      "catalogue",
+      "book"
+    ],
+    "object_id": "32",
+    "object_repr": "Unravel me - Tahereh Mafi",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"File\"]}}]"
+  }
+}
+]

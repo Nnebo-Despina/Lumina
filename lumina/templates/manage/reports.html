@@ -9,38 +9,45 @@
   NOTES    :
      - Spec: 'Report: Admin can generate report of various books available under each category'.
      - Print button uses admin.js (window.print); print CSS hides the menus.
-     - Export CSV downloads the same table (?export=csv keeps the filters).
+     - Export CSV is a placeholder for the backend.
   STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
   =====================================================================
 
   DJANGO INTEGRATION
      - Template   : templates/manage/reports.html   (extends manage/base.html)
      - Owner      : Pro 2
-     - View       : catalogue.manage_reports   (connected to the database)
+     - View       : catalogue.manage_reports   (currently a PLACEHOLDER from lumina/placeholders.py)
      - Suggested context from your view : rows per category; CSV export
-     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
 {% endcomment %}
 {% block title %}Reports{% endblock %}
 
 {% block content %}
-<div class="page-head"><div><h1>Reports</h1><p>Books available under each category.</p></div><div class="actions"><button class="btn" type="button" data-print><span class="ico" aria-hidden="true">&#9113;</span> Print</button><a class="btn primary" href="?{% if csv_query %}{{ csv_query }}&amp;{% endif %}export=csv"><span class="ico" aria-hidden="true">&#8659;</span> Export CSV</a></div></div>
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Reports</h1><p>Books available under each category.</p></div><div class="actions"><button class="btn" type="button" data-print><span class="ico" aria-hidden="true">&#9113;</span> Print</button><a class="btn primary" href="#"><span class="ico" aria-hidden="true">&#8659;</span> Export CSV</a></div></div>
     <!-- ===================== REPORT FILTERS (GET form) ===================== -->
     <form class="toolbar no-print" action="{% url 'catalogue:manage_reports' %}" method="get">
       <div class="filters">
-        <select class="select" name="category" aria-label="Category"><option value="">All categories</option>{% for c in categories %}<option value="{{ c.pk }}"{% if c.pk|stringformat:"s" == current_category %} selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
-        <input class="field" type="date" name="from" value="{{ date_from }}" aria-label="From date"><input class="field" type="date" name="to" value="{{ date_to }}" aria-label="To date">
+        <select class="select" name="category" aria-label="Category"><option value="">All categories</option><option value="literature">Literature & Fiction</option><option value="technology">Technology & Programming</option><option value="science">Science & Nature</option><option value="history">History & Politics</option><option value="self">Self-Development</option><option value="children">Children & Young Adults</option></select>
+        <input class="field" type="date" name="from" aria-label="From date"><input class="field" type="date" name="to" aria-label="To date">
       </div>
       <button class="btn primary" type="submit">Generate</button>
     </form>
     <!-- ===================== REPORT TABLE ===================== -->
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">Lumina E-Library - Titles by category</div><div class="panel-sub">Generated {{ today|date:"d M Y" }}</div></div>
+      <div class="panel-head"><div class="panel-title">Lumina E-Library - Titles by category</div><div class="panel-sub">Generated 1 Oct 2026</div></div>
       <div class="table-wrap"><table>
         <thead><tr><th>Category</th><th>Books</th><th>Videos</th><th>Downloadable</th><th>Total</th></tr></thead>
         <tbody>
-          {% for r in rows %}<tr><td><strong>{{ r.category }}</strong></td><td>{{ r.books }}</td><td>{{ r.videos }}</td><td>{{ r.downloadable }}</td><td>{{ r.total }}</td></tr>
-          {% empty %}<tr><td colspan="5" class="empty-state">No categories match.</td></tr>{% endfor %}
-          <tr><td><strong>Total</strong></td><td><strong>{{ totals.books }}</strong></td><td><strong>{{ totals.videos }}</strong></td><td><strong>{{ totals.downloadable }}</strong></td><td><strong>{{ totals.total }}</strong></td></tr>
+          <tr><td><strong>Literature & Fiction</strong></td><td>5</td><td>0</td><td>2</td><td>5</td></tr>
+          <tr><td><strong>Technology & Programming</strong></td><td>3</td><td>2</td><td>2</td><td>5</td></tr>
+          <tr><td><strong>Science & Nature</strong></td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td><strong>History & Politics</strong></td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td><strong>Self-Development</strong></td><td>1</td><td>1</td><td>1</td><td>2</td></tr>
+          <tr><td><strong>Children & Young Adults</strong></td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>12</strong></td><td><strong>3</strong></td><td><strong>7</strong></td><td><strong>15</strong></td></tr>
         </tbody></table></div>
     </div>
 {% endblock %}

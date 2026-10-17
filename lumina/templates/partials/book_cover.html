@@ -1,5 +1,0 @@
-{% load catalogue_extras %}{% comment %}
-  A book cover. Needs:  book   (optional: big=True for the large detail-page cover)
-  Uses the uploaded cover image when there is one, otherwise draws a CSS cover
-  with colours picked from the book id (see catalogue_extras.cover_style).
-{% endcomment %}{% if book.cover %}<img class="cover-img{% if big %} big{% endif %}" src="{{ book.cover.url }}" alt="Cover of {{ book.title }}">{% else %}<div class="cover{% if big %} big{% endif %}" style="{{ book|cover_style }}" aria-hidden="true"><span class="cover-type">{{ book.book_type.name }}</span><span class="cover-title">{{ book.title }}</span><span class="cover-author">{{ book.author }}</span></div>{% endif %}
