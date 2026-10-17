@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
+import dj_database_url
 from pathlib import Path
 
 from django.contrib.messages import constants as message_constants
-import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lh_2rb%p!!x1pyf^v&#72)lz&m$7sc2jtu-j_ov!14$6)9aajh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -85,15 +84,22 @@ WSGI_APPLICATION = 'lumina.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=bool(os.environ.get("DATABASE_URL")),
-    )
-}
-
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -155,12 +161,53 @@ PASSWORD_RESET_TIMEOUT = 60 * 60 * 24        # reset links work for 24 hours
 # Static files (CSS, JS, images) live in lumina/static/
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 # ---------------------------------------------------------------------
-STATIC_URL = "static/"
+# Static files: CSS, JavaScript, icons, and other site assets
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
-MEDIA_URL = "media/"
+STATICFILES_DIRS = (
+    [BASE_DIR / "static"]
+    if (BASE_DIR / "static").is_dir()
+    else []
+)
+
+# Media files: book covers and uploaded images
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Cloudinary credentials from environment variables
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    "SECURE": True,
+}
+
+CLOUDINARY_CONFIGURED = all(
+    os.environ.get(key)
+    for key in (
+        "CLOUDINARY_CLOUD_NAME",
+        "CLOUDINARY_API_KEY",
+        "CLOUDINARY_API_SECRET",
+    )
+)
+
+# Store uploaded media in Cloudinary on the host.
+# Use the local filesystem when running locally without Cloudinary keys.
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+            if CLOUDINARY_CONFIGURED
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 # ---------------------------------------------------------------------
 # Messages: map Django message levels to the CSS classes used by our alerts
@@ -188,19 +235,14 @@ SILENCED_SYSTEM_CHECKS = [
     "mail.E001",
 ]
 
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
-
-SECURE_SSL_REDIRECT = True
-
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
-    "00_gHEJrVjcRONT87BA5WDmhGaMdHEPkvqK0yEDpBpJ24npj5JbZqbMmftbq1fy1dPQ",
+    "django-insecure-local-development-only",
 )
 
-
+DEBUG = os.environ.get("DEBUG", "True").lower() in {
+    "true", "1", "yes",
+}
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -220,26 +262,15 @@ CSRF_TRUSTED_ORIGINS = [
     if origin.strip()
 ]
 
-SECURE_HSTS_SECONDS = 3600
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
 
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = (
+    os.environ.get("SECURE_SSL_REDIRECT", "False").lower()
+    in {"true", "1", "yes"}
+)
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
-}
-
-STORAGES = {
-    "default": {
-        "BACKEND": (
-            "cloudinary_storage.storage.MediaCloudinaryStorage"
-        ),
-    },
-    "staticfiles": {
-        "BACKEND": (
-            "whitenoise.storage.CompressedManifestStaticFilesStorage"
-        ),
-    },
-}
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG

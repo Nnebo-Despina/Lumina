@@ -3,7 +3,9 @@
 
 from django.urls import path
 
-from . import manage_views, views
+from lumina.placeholders import page
+
+from . import views
 
 app_name = "accounts"
 
@@ -22,9 +24,7 @@ urlpatterns = [
     path("manage/forgot-password/", views.AdminForgotPasswordView.as_view(), name="admin_forgot_password"),
     path("manage/profile/", views.admin_profile, name="admin_profile"),
 
-    # member management (Newbie B)
-    path("manage/members/", manage_views.manage_members, name="manage_members"),
-    path("manage/members/<int:pk>/block/", manage_views.manage_member_block, name="manage_member_block"),
-    path("manage/members/<int:pk>/unblock/", manage_views.manage_member_unblock, name="manage_member_unblock"),
-    path("manage/members/<int:pk>/delete/", manage_views.manage_member_delete, name="manage_member_delete"),
+    # TODO (Newbie B): member list, block / unblock / delete.
+    # Replace the placeholder with a real view (use AdminRequiredMixin / @admin_required).
+    path("manage/members/", page("manage/users.html", access="admin"), name="manage_members"),
 ]
