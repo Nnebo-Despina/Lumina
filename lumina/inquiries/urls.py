@@ -1,14 +1,14 @@
 # inquiries/urls.py
-# OWNER: Newbie B (contact form + inquiry inbox)
-# Placeholders from lumina/placeholders.py: replace each page(...) with your real view.
+# OWNER: Newbie B (contact form + inquiry inbox). Connected to the database.
 
 from django.urls import path
 
-from lumina.placeholders import page
+from . import views
 
 app_name = "inquiries"
 
 urlpatterns = [
-    path("contact/", page("inquiries/contact.html"), name="contact"),
-    path("manage/inquiries/", page("manage/inquiries.html", access="admin"), name="manage_inquiries"),
+    path("contact/", views.ContactView.as_view(), name="contact"),
+    path("manage/inquiries/", views.manage_inquiries, name="manage_inquiries"),
+    path("manage/inquiries/<int:pk>/answered/", views.manage_inquiry_answered, name="manage_inquiry_answered"),
 ]

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static catalogue_extras %}
 {% comment %}
   =====================================================================
   FILE     : index.html
@@ -9,18 +9,16 @@
   NOTES    :
      - Guests can view book titles, categories and library information here.
      - The big search box sends the visitor to books.html (method=get, so the backend can read ?q=).
-     - Featured titles below are sample data - replace with database rows later.
+     - Popular titles = most read + downloaded; the featured card shows the top one.
   STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
   =====================================================================
 
   DJANGO INTEGRATION
      - Template   : templates/catalogue/index.html   (extends base.html)
      - Owner      : Newbie A
-     - View       : catalogue.home   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : catalogue.home   (connected to the database)
      - Suggested context from your view : featured_books, categories
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Home{% endblock %}
 
@@ -43,11 +41,11 @@
           <a class="btn btn-outline" style="color:var(--cream-100);border-color:var(--cream-300)" href="{% url 'accounts:register' %}">Join free</a>
         </form>
 
-        <!-- Quick statistics (sample numbers) -->
+        <!-- Quick statistics (real numbers from the database) -->
         <div class="hero-stats">
-          <div><strong>2,400+</strong><span>Books &amp; videos</span></div>
-          <div><strong>6</strong><span>Categories</span></div>
-          <div><strong>1,100+</strong><span>Registered readers</span></div>
+          <div><strong>{{ item_count }}</strong><span>Books &amp; videos</span></div>
+          <div><strong>{{ category_count }}</strong><span>Categories</span></div>
+          <div><strong>{{ member_count }}</strong><span>Registered readers</span></div>
         </div>
       </div>
 
@@ -65,42 +63,16 @@
         <a class="text-link" href="{% url 'catalogue:books' %}">See all titles &rarr;</a>
       </div>
       <div class="grid grid-3">
-        <!-- Category tile: Literature & Fiction -->
-        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=literature">
-          <div class="cat-icon" aria-hidden="true">&#9998;</div>
-          <h3>Literature & Fiction</h3>
-          <p>Novels, short stories and poetry from Africa and beyond.</p>
+        {% for category in categories %}
+        <!-- Category tile: {{ category.name }} -->
+        <a class="cat-tile" href="{% url 'catalogue:books' %}?category={{ category.slug }}">
+          <div class="cat-icon" aria-hidden="true">{{ forloop.counter0|category_icon }}</div>
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.description|default:"Browse this shelf." }} <span class="hint">({{ category.live_books }} title{{ category.live_books|pluralize }})</span></p>
         </a>
-        <!-- Category tile: Technology & Programming -->
-        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=technology">
-          <div class="cat-icon" aria-hidden="true">&#9881;</div>
-          <h3>Technology & Programming</h3>
-          <p>Coding, databases, web design and IT fundamentals.</p>
-        </a>
-        <!-- Category tile: Science & Nature -->
-        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=science">
-          <div class="cat-icon" aria-hidden="true">&#9884;</div>
-          <h3>Science & Nature</h3>
-          <p>Physics, biology, environment and everyday discovery.</p>
-        </a>
-        <!-- Category tile: History & Politics -->
-        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=history">
-          <div class="cat-icon" aria-hidden="true">&#9876;</div>
-          <h3>History & Politics</h3>
-          <p>Africa's past, world affairs and civic thinking.</p>
-        </a>
-        <!-- Category tile: Self-Development -->
-        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=self">
-          <div class="cat-icon" aria-hidden="true">&#10047;</div>
-          <h3>Self-Development</h3>
-          <p>Study skills, wellbeing, careers and personal growth.</p>
-        </a>
-        <!-- Category tile: Children & Young Adults -->
-        <a class="cat-tile" href="{% url 'catalogue:books' %}?category=children">
-          <div class="cat-icon" aria-hidden="true">&#9733;</div>
-          <h3>Children & Young Adults</h3>
-          <p>Gentle, imaginative reads for younger readers.</p>
-        </a>
+        {% empty %}
+        <p class="empty-note">No categories have been added yet.</p>
+        {% endfor %}
       </div>
     </div>
   </section>
@@ -122,39 +94,29 @@
             <a href="{% url 'catalogue:books' %}" class="text-link">See the library →</a>
           </div>
           <div class="grid grid-3">
-            <!-- Card: Things Fall Apart -->
-              <article class="book-card" data-title="Things Fall Apart" data-author="Chinua Achebe" data-publisher="Heinemann" data-category="literature" data-type="Book">
-                <div class="cover" style="--c1:#5C3487;--c2:#241536" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Things Fall Apart</span><span class="cover-author">Chinua Achebe</span></div>
-                <h3>Things Fall Apart</h3>
-                <p class="meta">Chinua Achebe &middot; Heinemann</p>
-                <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 1 %}">View</a></div>
-              </article>
-              <!-- Card: Half of a Yellow Sun -->
-              <article class="book-card" data-title="Half of a Yellow Sun" data-author="Chimamanda Ngozi Adichie" data-publisher="Fourth Estate" data-category="literature" data-type="Book">
-                <div class="cover" style="--c1:#A9792F;--c2:#2E1A47" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Half of a Yellow Sun</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div>
-                <h3>Half of a Yellow Sun</h3>
-                <p class="meta">Chimamanda Ngozi Adichie &middot; Fourth Estate</p>
-                <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 2 %}">View</a></div>
-              </article>
-              <!-- Card: Purple Hibiscus -->
-              <article class="book-card" data-title="Purple Hibiscus" data-author="Chimamanda Ngozi Adichie" data-publisher="Algonquin Books" data-category="literature" data-type="Book">
-                <div class="cover" style="--c1:#9575B8;--c2:#3B2159" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Purple Hibiscus</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div>
-                <h3>Purple Hibiscus</h3>
-                <p class="meta">Chimamanda Ngozi Adichie &middot; Algonquin Books</p>
-                <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 3 %}">View</a></div>
-              </article>
+            {% for book in popular_books %}
+              {% include "partials/book_card.html" %}
+            {% empty %}
+              <p class="empty-note">No books have been published yet.</p>
+            {% endfor %}
           </div>
         </section>
 
+        {% if spotlight %}
         <aside class="hero-novel-card">
-          <div class="novel-card-label">Nigerian classic</div>
-          <img src="{% static 'images/hero-nigerian-novel.jpg' %}" alt="Things Fall Apart by Chinua Achebe" class="floating-nigerian-cover">
+          <div class="novel-card-label">Featured title</div>
+          {% if spotlight.cover %}
+          <img src="{{ spotlight.cover.url }}" alt="{{ spotlight.title }} by {{ spotlight.author }}" class="floating-nigerian-cover">
+          {% else %}
+          <div style="max-width:200px;margin:0 auto">{% include "partials/book_cover.html" with book=spotlight %}</div>
+          {% endif %}
           <div class="novel-card-copy">
-            <span>Chinua Achebe</span>
-            <strong>Things Fall Apart</strong>
-            <a href="{% url 'catalogue:books' %}?search=Things%20Fall%20Apart">Explore this title →</a>
+            <span>{{ spotlight.author }}</span>
+            <strong>{{ spotlight.title }}</strong>
+            <a href="{% url 'catalogue:book_detail' spotlight.pk %}">Explore this title →</a>
           </div>
         </aside>
+        {% endif %}
       </div>
     </section>
   </section>

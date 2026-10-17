@@ -15,25 +15,26 @@
   DJANGO INTEGRATION
      - Template   : templates/manage/inquiries.html   (extends manage/base.html)
      - Owner      : Newbie B
-     - View       : inquiries.manage_inquiries   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : inquiries.manage_inquiries   (connected to the database)
      - Suggested context from your view : inquiries; mark answered
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Inquiries{% endblock %}
 
 {% block content %}
-    <!-- Page heading: title, one-line description and main action buttons -->
-    <div class="page-head"><div><h1>Inquiries</h1><p>Messages from guests and members.</p></div><div class="actions"></div></div>
+<div class="page-head"><div><h1>Inquiries</h1><p>Messages from guests and members.</p></div><div class="actions"></div></div>
+    <form class="toolbar" action="{% url 'inquiries:manage_inquiries' %}" method="get">
+      <div class="filters"><select class="select" name="status" aria-label="Status"><option value="">All messages</option><option value="pending"{% if current_status == 'pending' %} selected{% endif %}>Pending</option><option value="answered"{% if current_status == 'answered' %} selected{% endif %}>Answered</option></select><button class="btn" type="submit">Filter</button></div>
+      <span class="panel-sub">{{ pending_total }} waiting for a reply</span>
+    </form>
     <div class="panel table-wrap"><table>
       <thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Received</th><th>Status</th><th>Action</th></tr></thead>
       <tbody>
-          <tr><td><strong>Ada N.</strong><br><span class="panel-sub">ada@example.com</span></td><td>Membership</td><td>How long does approval take?</td><td>Today</td><td><span class="badge pending">Pending</span></td>
-            <td><a class="btn sm" href="mailto:ada@example.com"><span class="ico" aria-hidden="true">&#8617;</span> Reply</a></td></tr>
-          <tr><td><strong>Peter K.</strong><br><span class="panel-sub">peter@example.com</span></td><td>Request a book</td><td>Do you have 'Things Fall Apart' in audio?</td><td>Yesterday</td><td><span class="badge pending">Pending</span></td>
-            <td><a class="btn sm" href="mailto:peter@example.com"><span class="ico" aria-hidden="true">&#8617;</span> Reply</a></td></tr>
-          <tr><td><strong>Zainab M.</strong><br><span class="panel-sub">zainab@example.com</span></td><td>Report a problem</td><td>Reader page will not load on my phone.</td><td>2 days ago</td><td><span class="badge active">Answered</span></td>
-            <td><a class="btn sm" href="mailto:zainab@example.com"><span class="ico" aria-hidden="true">&#8617;</span> Reply</a></td></tr>
+        {% for i in inquiries %}
+        <tr><td><strong>{{ i.name }}</strong>{% if i.user %} <span class="tag">member</span>{% endif %}<br><span class="panel-sub">{{ i.email }}</span></td><td>{{ i.get_subject_display }}</td><td>{{ i.message|truncatechars:90 }}</td><td>{{ i.created_at|timesince }} ago</td>
+          <td><span class="badge {% if i.status == 'pending' %}pending{% else %}active{% endif %}">{{ i.get_status_display }}</span></td>
+          <td><div class="row-actions"><a class="btn sm" href="mailto:{{ i.email }}?subject=Re: {{ i.get_subject_display|urlencode }}"><span class="ico" aria-hidden="true">&#8617;</span> Reply</a>
+            {% if i.status == 'pending' %}<form class="cell-form" action="{% url 'inquiries:manage_inquiry_answered' i.pk %}" method="post">{% csrf_token %}<button class="btn sm"><span class="ico" aria-hidden="true">&#10003;</span> Mark answered</button></form>{% endif %}</div></td></tr>
+        {% empty %}<tr><td colspan="6" class="empty-state">No messages.</td></tr>{% endfor %}
       </tbody></table></div>
 {% endblock %}

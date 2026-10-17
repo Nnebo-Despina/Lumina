@@ -17,29 +17,26 @@
   DJANGO INTEGRATION
      - Template   : templates/manage/issues.html   (extends manage/base.html)
      - Owner      : Intermediate
-     - View       : loans.manage_issues   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : loans.manage_issues   (connected to the database)
      - Suggested context from your view : issues (BookIssue list); mark returned
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Book Issues{% endblock %}
 
 {% block content %}
-    <!-- Page heading: title, one-line description and main action buttons -->
-    <div class="page-head"><div><h1>Book issues</h1><p>Track which physical copies are with members and when they are due back.</p></div><div class="actions"><a class="btn primary" href="{% url 'loans:manage_issue_new' %}"><span class="ico" aria-hidden="true">+</span> Issue a book</a></div></div>
+<div class="page-head"><div><h1>Book issues</h1><p>Track which physical copies are with members and when they are due back.</p></div><div class="actions"><a class="btn primary" href="{% url 'loans:manage_issue_new' %}"><span class="ico" aria-hidden="true">+</span> Issue a book</a></div></div>
 
     <!-- ===================== CIRCULATION STATS ===================== -->
     <div class="stat-grid three">
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#8646;</span></div><div class="stat-label">Currently on loan</div></div><div class="stat-value">24</div><div class="stat-sub">Physical copies with members</div></div>
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:var(--danger-bg);color:var(--danger)"><span class="ico" aria-hidden="true">&#128276;</span></div><div class="stat-label">Overdue</div></div><div class="stat-value" style="color:var(--danger)">5</div><div class="stat-sub">Please follow up with borrowers</div></div>
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#10003;</span></div><div class="stat-label">Returned this month</div></div><div class="stat-value">38</div><div class="stat-sub">Completed loan records</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#8646;</span></div><div class="stat-label">Currently on loan</div></div><div class="stat-value">{{ stats.on_loan }}</div><div class="stat-sub">Physical copies with members</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:var(--danger-bg);color:var(--danger)"><span class="ico" aria-hidden="true">&#128276;</span></div><div class="stat-label">Overdue</div></div><div class="stat-value"{% if stats.overdue %} style="color:var(--danger)"{% endif %}>{{ stats.overdue }}</div><div class="stat-sub">Please follow up with borrowers</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#10003;</span></div><div class="stat-label">Returned this month</div></div><div class="stat-value">{{ stats.returned_month }}</div><div class="stat-sub">Completed loan records</div></div>
     </div>
 
     <!-- ===================== LOAN REGISTER ===================== -->
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">Loan register</div><div class="panel-sub">Sample data</div></div>
-      <!-- Filters: free text + status -->
+      <div class="panel-head"><div class="panel-title">Loan register</div></div>
+      <!-- Filters: free text + status (instant, by admin.js) -->
       <div class="toolbar">
         <div class="filters">
           <input class="field" style="min-width:300px" placeholder="Search member, book or inventory code..." data-filter="#loanTable" aria-label="Search loans">
@@ -49,22 +46,15 @@
       <div class="table-wrap"><table id="loanTable">
         <thead><tr><th>Book / Copy</th><th>Borrower</th><th>Issue date</th><th>Due date</th><th>Status</th><th>Action</th></tr></thead>
         <tbody>
-          <!-- Loan row: Things Fall Apart (INV-0001) borrowed by Chidera Nwosu -->
-          <tr data-status="issued"><td><strong>Things Fall Apart</strong><br><span class="panel-sub">INV-0001</span></td><td>Chidera Nwosu<br><span class="panel-sub">chidera@example.com</span></td><td>02 Oct 2026</td><td>16 Oct 2026</td><td><span class="badge onloan">On loan</span></td><td><form action="#" method="post">
-  {% csrf_token %}<input type="hidden" name="loan_code" value="INV-0001"><button class="btn sm" data-confirm="Mark 'Things Fall Apart' (INV-0001) as returned?"><span class="ico" aria-hidden="true">&#10003;</span> Mark returned</button></form></td></tr>
-          <!-- Loan row: Purple Hibiscus (INV-0017) borrowed by Chidera Nwosu -->
-          <tr data-status="overdue"><td><strong>Purple Hibiscus</strong><br><span class="panel-sub">INV-0017</span></td><td>Chidera Nwosu<br><span class="panel-sub">chidera@example.com</span></td><td>10 Sep 2026</td><td>24 Sep 2026</td><td><span class="badge overdue">Overdue</span></td><td><form action="#" method="post">
-  {% csrf_token %}<input type="hidden" name="loan_code" value="INV-0017"><button class="btn sm" data-confirm="Mark 'Purple Hibiscus' (INV-0017) as returned?"><span class="ico" aria-hidden="true">&#10003;</span> Mark returned</button></form></td></tr>
-          <!-- Loan row: Half of a Yellow Sun (INV-0022) borrowed by Fatima Bello -->
-          <tr data-status="issued"><td><strong>Half of a Yellow Sun</strong><br><span class="panel-sub">INV-0022</span></td><td>Fatima Bello<br><span class="panel-sub">fatima@example.com</span></td><td>05 Oct 2026</td><td>19 Oct 2026</td><td><span class="badge onloan">On loan</span></td><td><form action="#" method="post">
-  {% csrf_token %}<input type="hidden" name="loan_code" value="INV-0022"><button class="btn sm" data-confirm="Mark 'Half of a Yellow Sun' (INV-0022) as returned?"><span class="ico" aria-hidden="true">&#10003;</span> Mark returned</button></form></td></tr>
-          <!-- Loan row: The Concubine (INV-0008) borrowed by Chidera Nwosu -->
-          <tr data-status="returned"><td><strong>The Concubine</strong><br><span class="panel-sub">INV-0008</span></td><td>Chidera Nwosu<br><span class="panel-sub">chidera@example.com</span></td><td>12 Sep 2026</td><td>26 Sep 2026</td><td><span class="badge returned">Returned</span></td><td><span class="panel-sub">Completed</span></td></tr>
-          <!-- Loan row: Python for Beginners (INV-0031) borrowed by Emeka Obi -->
-          <tr data-status="returned"><td><strong>Python for Beginners</strong><br><span class="panel-sub">INV-0031</span></td><td>Emeka Obi<br><span class="panel-sub">emeka@example.com</span></td><td>20 Sep 2026</td><td>04 Oct 2026</td><td><span class="badge returned">Returned</span></td><td><span class="panel-sub">Completed</span></td></tr>
+          {% for issue in issues %}
+          <!-- Loan row: {{ issue.copy.book.title }} ({{ issue.copy.inventory_code }}) borrowed by {{ issue.user.email }} -->
+          <tr data-status="{% if issue.is_overdue %}overdue{% else %}{{ issue.status }}{% endif %}"><td><strong>{{ issue.copy.book.title }}</strong><br><span class="panel-sub">{{ issue.copy.inventory_code }}</span></td><td>{{ issue.user.get_full_name|default:issue.user.email }}<br><span class="panel-sub">{{ issue.user.email }}</span></td><td>{{ issue.issued_at|date:"d M Y" }}</td><td>{{ issue.due_date|date:"d M Y" }}</td>
+            <td><span class="badge {% if issue.is_overdue %}overdue{% elif issue.status == 'returned' %}returned{% else %}onloan{% endif %}">{% if issue.is_overdue %}Overdue{% elif issue.status == 'returned' %}Returned{% else %}On loan{% endif %}</span></td>
+            <td>{% if issue.status == 'issued' %}<form class="cell-form" action="{% url 'loans:manage_issue_return' issue.pk %}" method="post">{% csrf_token %}<button class="btn sm" data-confirm="Mark '{{ issue.copy.book.title }}' ({{ issue.copy.inventory_code }}) as returned?"><span class="ico" aria-hidden="true">&#10003;</span> Mark returned</button></form>{% else %}<span class="panel-sub">Completed</span>{% endif %}</td></tr>
+          {% endfor %}
         </tbody></table>
-        <!-- Shown by admin.js when the filters match nothing -->
-        <div class="empty-state" id="loanTable-empty" hidden>No loan records match your search.</div>
+        <!-- Shown when there are no loans, or by admin.js when the filters match nothing -->
+        <div class="empty-state" id="loanTable-empty"{% if issues %} hidden{% endif %}>{% if issues %}No loan records match your search.{% else %}No books have been issued yet.{% endif %}</div>
       </div>
     </div>
 {% endblock %}
