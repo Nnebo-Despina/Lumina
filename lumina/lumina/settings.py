@@ -85,6 +85,7 @@ WSGI_APPLICATION = 'lumina.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+
 DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -198,6 +199,8 @@ SECRET_KEY = os.environ.get(
     "SECRET_KEY",
     "00_gHEJrVjcRONT87BA5WDmhGaMdHEPkvqK0yEDpBpJ24npj5JbZqbMmftbq1fy1dPQ",
 )
+
+
 
 ALLOWED_HOSTS = [
     host.strip()
