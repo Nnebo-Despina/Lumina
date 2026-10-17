@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
+import dj_database_url
 from pathlib import Path
 
 from django.contrib.messages import constants as message_constants
@@ -93,7 +95,22 @@ DATABASES = {
         ssl_require=bool(os.environ.get("DATABASE_URL")),
     )
 }
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -159,8 +176,49 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-MEDIA_URL = "media/"
+STATICFILES_DIRS = (
+    [BASE_DIR / "static"]
+    if (BASE_DIR / "static").is_dir()
+    else []
+)
+
+# Media files: book covers and uploaded images
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Cloudinary credentials from environment variables
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    "SECURE": True,
+}
+
+CLOUDINARY_CONFIGURED = all(
+    os.environ.get(key)
+    for key in (
+        "CLOUDINARY_CLOUD_NAME",
+        "CLOUDINARY_API_KEY",
+        "CLOUDINARY_API_SECRET",
+    )
+)
+
+# Store uploaded media in Cloudinary on the host.
+# Use the local filesystem when running locally without Cloudinary keys.
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+            if CLOUDINARY_CONFIGURED
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 # ---------------------------------------------------------------------
 # Messages: map Django message levels to the CSS classes used by our alerts
@@ -201,6 +259,14 @@ SECRET_KEY = os.environ.get(
 )
 
 
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-local-development-only",
+)
+
+DEBUG = os.environ.get("DEBUG", "True").lower() in {
+    "true", "1", "yes",
+}
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -243,3 +309,15 @@ STORAGES = {
         ),
     },
 }
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
+
+SECURE_SSL_REDIRECT = (
+    os.environ.get("SECURE_SSL_REDIRECT", "False").lower()
+    in {"true", "1", "yes"}
+)
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG

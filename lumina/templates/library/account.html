@@ -8,7 +8,7 @@
   WHO SEES : Registered members only
   NOTES    :
      - Backend should redirect guests to login.html.
-     - All figures come from the database (reading progress, downloads, videos, loans).
+     - All figures are sample data.
      - The 'Currently borrowed' card summarises my-loans.html (physical books issued by a librarian).
   STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
   =====================================================================
@@ -16,9 +16,11 @@
   DJANGO INTEGRATION
      - Template   : templates/library/account.html   (extends base.html)
      - Owner      : Intermediate
-     - View       : library.account   (connected to the database)
+     - View       : library.account   (currently a PLACEHOLDER from lumina/placeholders.py)
      - Suggested context from your view : reading_progress, download count, video count
-     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
 {% endcomment %}
 {% block title %}My Account{% endblock %}
 
@@ -26,33 +28,28 @@
 <main>
   <section class="page-banner"><div class="container">
     <p class="crumbs"><a href="{% url 'catalogue:home' %}">Home</a> / My Account</p>
-    <h1>Hello, {{ user.first_name|default:"reader" }}</h1><p>Pick up where you left off.</p>
+    <h1>Hello, Chidera</h1><p>Pick up where you left off.</p>
   </div></section>
   <section class="section">
     <div class="container">
-      <!-- Four small stat boxes (real numbers) -->
+      <!-- Four small stat boxes (last one = physical books on loan) -->
       <div class="grid grid-4" style="margin-bottom:28px">
-        <div class="stat"><strong>{{ books_read }}</strong><span>Books read</span></div>
-        <div class="stat"><strong>{{ videos_watched }}</strong><span>Videos watched</span></div>
-        <div class="stat"><strong>{{ downloads }}</strong><span>Downloads</span></div>
-        <div class="stat"><strong>{{ borrowed_now }}</strong><span>Books borrowed now</span></div>
+        <div class="stat"><strong>12</strong><span>Books read</span></div>
+        <div class="stat"><strong>5</strong><span>Videos watched</span></div>
+        <div class="stat"><strong>3</strong><span>Downloads</span></div>
+        <div class="stat"><strong>2</strong><span>Books borrowed now</span></div>
       </div>
       <div class="grid grid-2">
-        <!-- Continue reading list: the books this member opened most recently -->
+        <!-- Continue reading list -->
         <div class="card"><h3>Continue reading</h3>
-          {% for item in continue_reading %}
-          <div class="list-row"><div><strong style="color:var(--purple-800)">{{ item.book.title }}</strong><br><span class="hint">{{ item.book.author }} &middot; page {{ item.last_page }}</span></div><a class="btn btn-outline btn-sm" href="{% url 'library:read' item.book.pk %}">Continue</a></div>
-          {% empty %}
-          <p>You have not opened a book yet. <a class="text-link" href="{% url 'catalogue:books' %}">Browse the catalogue</a>.</p>
-          {% endfor %}
+          <div class="list-row"><div><strong style="color:var(--purple-800)">Things Fall Apart</strong><br><span class="hint">Chinua Achebe</span></div><a class="btn btn-outline btn-sm" href="{% url 'library:read' 1 %}">Continue</a></div>
+          <div class="list-row"><div><strong style="color:var(--purple-800)">Half of a Yellow Sun</strong><br><span class="hint">Chimamanda Ngozi Adichie</span></div><a class="btn btn-outline btn-sm" href="{% url 'library:read' 2 %}">Continue</a></div>
+          <div class="list-row"><div><strong style="color:var(--purple-800)">Purple Hibiscus</strong><br><span class="hint">Chimamanda Ngozi Adichie</span></div><a class="btn btn-outline btn-sm" href="{% url 'library:read' 3 %}">Continue</a></div>
         </div>
         <!-- Currently borrowed physical books, with a link to the full history -->
         <div class="card"><h3>Currently borrowed</h3>
-          {% for loan in current_loans %}
-          <div class="list-row"><div><strong style="color:var(--purple-800)">{{ loan.copy.book.title }}</strong><br><span class="hint">Due {{ loan.due_date|date:"d M Y" }}</span></div><span class="badge {% if loan.is_overdue %}late{% else %}blue{% endif %}">{% if loan.is_overdue %}Overdue{% else %}Borrowed{% endif %}</span></div>
-          {% empty %}
-          <p>You have no borrowed books right now.</p>
-          {% endfor %}
+          <div class="list-row"><div><strong style="color:var(--purple-800)">Things Fall Apart</strong><br><span class="hint">Due 16 Oct 2026</span></div><span class="badge blue">Borrowed</span></div>
+          <div class="list-row"><div><strong style="color:var(--purple-800)">Purple Hibiscus</strong><br><span class="hint">Due 24 Sep 2026</span></div><span class="badge late">Overdue</span></div>
           <p style="margin:16px 0 0"><a class="text-link" href="{% url 'loans:my_loans' %}">View full loan history &rarr;</a></p>
         </div>
       </div>

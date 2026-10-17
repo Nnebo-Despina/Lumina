@@ -91,7 +91,7 @@ class Video(models.Model):
     video_url = models.URLField(blank=True, null=True)
     video_file = models.FileField(blank=True, null=True, upload_to="videos/",
     validators=[FileExtensionValidator(allowed_extensions=["mp4", "webm", "mov"])],)
-    thumbnail = models.URLField(blank=True, null=True)
+    thumbnail = models.ImageField(upload_to="thumbnails/", blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=Statuses.choices, default=Statuses.LIVE)
 

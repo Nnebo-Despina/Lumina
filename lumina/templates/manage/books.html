@@ -1,5 +1,5 @@
 {% extends "manage/base.html" %}
-{% load static catalogue_extras %}
+{% load static %}
 {% comment %}
   =====================================================================
   FILE     : admin/books.html
@@ -15,46 +15,89 @@
   DJANGO INTEGRATION
      - Template   : templates/manage/books.html   (extends manage/base.html)
      - Owner      : Pro 2
-     - View       : catalogue.manage_books   (connected to the database)
+     - View       : catalogue.manage_books   (currently a PLACEHOLDER from lumina/placeholders.py)
      - Suggested context from your view : books (filter with ?q=)
-     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
 {% endcomment %}
 {% block title %}Books{% endblock %}
 
 {% block content %}
-<div class="page-head"><div><h1>Books</h1><p>Add, edit or remove titles from the catalogue.</p></div><div class="actions"><a class="btn primary" href="{% url 'catalogue:manage_book_add' %}"><span class="ico" aria-hidden="true">+</span> Add Book</a></div></div>
-    <!-- ===================== TOOLBAR: search + category + type (a GET form) ===================== -->
-    <form class="toolbar" action="{% url 'catalogue:manage_books' %}" method="get">
+    <!-- Page heading: title, one-line description and main action buttons -->
+    <div class="page-head"><div><h1>Books</h1><p>Add, edit or remove titles from the catalogue.</p></div><div class="actions"><a class="btn primary" href="{% url 'catalogue:manage_book_add' %}"><span class="ico" aria-hidden="true">+</span> Add Book</a></div></div>
+    <!-- ===================== TOOLBAR: filter + category ===================== -->
+    <div class="toolbar">
       <div class="filters">
-        <input class="field" name="q" value="{{ q }}" placeholder="Search title, author, publisher or ISBN..." aria-label="Search books" style="min-width:260px">
-        <select class="select" name="category" aria-label="Category"><option value="">All categories</option>
-          {% for c in categories %}<option value="{{ c.pk }}"{% if c.pk|stringformat:"s" == current_category %} selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
-        <select class="select" name="type" aria-label="Type"><option value="">All types</option>
-          {% for t in book_types %}<option value="{{ t.pk }}"{% if t.pk|stringformat:"s" == current_type %} selected{% endif %}>{{ t.name }}</option>{% endfor %}</select>
-        <button class="btn" type="submit">Filter</button>
+        <input class="field" placeholder="Filter this list..." data-filter="#booksTable" aria-label="Filter books">
+        <select class="select" aria-label="Category"><option>All categories</option><option>Literature & Fiction</option><option>Technology & Programming</option><option>Science & Nature</option><option>History & Politics</option><option>Self-Development</option><option>Children & Young Adults</option></select>
+        <select class="select" aria-label="Type"><option>All types</option><option>Book</option><option>Video</option></select>
       </div>
-      <span class="panel-sub">{{ page_obj.paginator.count }} title{{ page_obj.paginator.count|pluralize }}</span>
-    </form>
+      <span class="panel-sub">15 titles</span>
+    </div>
     <!-- ===================== BOOKS TABLE ===================== -->
     <div class="panel table-wrap"><table id="booksTable">
       <thead><tr><th>Title</th><th>Author</th><th>Publisher</th><th>Category</th><th>Type</th><th>Download</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
-        {% for book in books %}
-        <!-- Row: {{ book.title }} -->
-        <tr><td><span class="mini-cover" style="{{ book|cover_style }}"></span><strong>{{ book.title }}</strong></td><td>{{ book.author }}</td><td>{{ book.publisher|default:"&mdash;" }}</td><td>{{ book.category.name }}</td><td><span class="tag">{{ book.book_type.name }}</span></td>
-          <td>{% if book|download_allowed %}<span class="badge allowed">Allowed</span>{% else %}<span class="badge denied">Not allowed</span>{% endif %}</td>
-          <td><span class="badge {% if book.status == 'live' %}live{% else %}draft{% endif %}">{{ book.get_status_display }}</span></td>
-          <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' book.pk %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form class="cell-form" action="{% url 'catalogue:manage_book_delete' book.pk %}" method="post">{% csrf_token %}<button class="btn sm danger" data-confirm="Delete '{{ book.title }}'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
-        {% empty %}
-        <tr><td colspan="8" class="empty-state">No books found.</td></tr>
-        {% endfor %}
-      </tbody></table>
-      {% if page_obj.has_other_pages %}
-      <div class="pager-row">
-        <span class="panel-sub">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-        {% if page_obj.has_previous %}<a class="btn sm" href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">&larr; Previous</a>{% endif %}
-        {% if page_obj.has_next %}<a class="btn sm" href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Next &rarr;</a>{% endif %}
-      </div>
-      {% endif %}
-    </div>
+          <!-- Row: Things Fall Apart -->
+          <tr><td><span class="mini-cover" style="--c1:#5C3487;--c2:#241536"></span><strong>Things Fall Apart</strong></td><td>Chinua Achebe</td><td>Heinemann</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 1 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="1"><button class="btn sm danger" data-confirm="Delete 'Things Fall Apart'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Half of a Yellow Sun -->
+          <tr><td><span class="mini-cover" style="--c1:#A9792F;--c2:#2E1A47"></span><strong>Half of a Yellow Sun</strong></td><td>Chimamanda Ngozi Adichie</td><td>Fourth Estate</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 2 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="2"><button class="btn sm danger" data-confirm="Delete 'Half of a Yellow Sun'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Purple Hibiscus -->
+          <tr><td><span class="mini-cover" style="--c1:#9575B8;--c2:#3B2159"></span><strong>Purple Hibiscus</strong></td><td>Chimamanda Ngozi Adichie</td><td>Algonquin Books</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 3 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="3"><button class="btn sm danger" data-confirm="Delete 'Purple Hibiscus'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: So Long a Letter -->
+          <tr><td><span class="mini-cover" style="--c1:#8A5A34;--c2:#241536"></span><strong>So Long a Letter</strong></td><td>Mariama Bâ</td><td>Heinemann</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 4 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="4"><button class="btn sm danger" data-confirm="Delete 'So Long a Letter'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Python for Beginners -->
+          <tr><td><span class="mini-cover" style="--c1:#3B2159;--c2:#C89B3D"></span><strong>Python for Beginners</strong></td><td>A. Okafor</td><td>Lumina Press</td><td>Technology & Programming</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 5 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="5"><button class="btn sm danger" data-confirm="Delete 'Python for Beginners'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Database Design Essentials -->
+          <tr><td><span class="mini-cover" style="--c1:#2E1A47;--c2:#9575B8"></span><strong>Database Design Essentials</strong></td><td>N. Eze</td><td>Lumina Press</td><td>Technology & Programming</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 6 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="6"><button class="btn sm danger" data-confirm="Delete 'Database Design Essentials'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Responsive Web Design -->
+          <tr><td><span class="mini-cover" style="--c1:#5C3487;--c2:#E4C877"></span><strong>Responsive Web Design</strong></td><td>D. Okonkwo</td><td>Aptech Books</td><td>Technology & Programming</td><td><span class="tag">Book</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 7 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="7"><button class="btn sm danger" data-confirm="Delete 'Responsive Web Design'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: The Living Planet -->
+          <tr><td><span class="mini-cover" style="--c1:#B98452;--c2:#241536"></span><strong>The Living Planet</strong></td><td>T. Balogun</td><td>Savanna House</td><td>Science & Nature</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 8 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="8"><button class="btn sm danger" data-confirm="Delete 'The Living Planet'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: A Short History of West Africa -->
+          <tr><td><span class="mini-cover" style="--c1:#8A5A34;--c2:#3B2159"></span><strong>A Short History of West Africa</strong></td><td>K. Mensah</td><td>Baobab Press</td><td>History & Politics</td><td><span class="tag">Book</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 9 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="9"><button class="btn sm danger" data-confirm="Delete 'A Short History of West Africa'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Study Smarter -->
+          <tr><td><span class="mini-cover" style="--c1:#C89B3D;--c2:#5C3487"></span><strong>Study Smarter</strong></td><td>F. Adeyemi</td><td>Lumina Press</td><td>Self-Development</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 10 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="10"><button class="btn sm danger" data-confirm="Delete 'Study Smarter'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: The Tortoise and the Drum -->
+          <tr><td><span class="mini-cover" style="--c1:#E4C877;--c2:#5C3487"></span><strong>The Tortoise and the Drum</strong></td><td>N. Obi</td><td>Savanna House</td><td>Children & Young Adults</td><td><span class="tag">Book</span></td><td><span class="badge allowed">Allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 11 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="11"><button class="btn sm danger" data-confirm="Delete 'The Tortoise and the Drum'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Intro to Flutter (Video Series) -->
+          <tr><td><span class="mini-cover" style="--c1:#241536;--c2:#C89B3D"></span><strong>Intro to Flutter (Video Series)</strong></td><td>Lumina Academy</td><td>Lumina Academy</td><td>Technology & Programming</td><td><span class="tag">Video</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 12 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="12"><button class="btn sm danger" data-confirm="Delete 'Intro to Flutter (Video Series)'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: HTML & CSS Crash Course (Video) -->
+          <tr><td><span class="mini-cover" style="--c1:#3B2159;--c2:#E4C877"></span><strong>HTML & CSS Crash Course (Video)</strong></td><td>Lumina Academy</td><td>Lumina Academy</td><td>Technology & Programming</td><td><span class="tag">Video</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 13 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="13"><button class="btn sm danger" data-confirm="Delete 'HTML & CSS Crash Course (Video)'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: Exam Revision Techniques (Video) -->
+          <tr><td><span class="mini-cover" style="--c1:#9575B8;--c2:#241536"></span><strong>Exam Revision Techniques (Video)</strong></td><td>Lumina Academy</td><td>Lumina Academy</td><td>Self-Development</td><td><span class="tag">Video</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 14 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="14"><button class="btn sm danger" data-confirm="Delete 'Exam Revision Techniques (Video)'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+          <!-- Row: The Concubine -->
+          <tr><td><span class="mini-cover" style="--c1:#8A5A34;--c2:#5C3487"></span><strong>The Concubine</strong></td><td>Elechi Amadi</td><td>African Writers Series</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge denied">Not allowed</span></td><td><span class="badge live">Live</span></td>
+            <td><div class="row-actions"><a class="btn sm" href="{% url 'catalogue:manage_book_edit' 15 %}"><span class="ico" aria-hidden="true">&#9998;</span> Edit</a><form action="#" method="post">
+  {% csrf_token %}<input type="hidden" name="id" value="15"><button class="btn sm danger" data-confirm="Delete 'The Concubine'?"><span class="ico" aria-hidden="true">&#10005;</span></button></form></div></td></tr>
+      </tbody></table></div>
 {% endblock %}
