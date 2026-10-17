@@ -14,9 +14,9 @@ The library's own administration area lives under /manage/.
 Django's built-in admin site was moved to /django-admin/ so the two are never confused.
 """
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
-from django.views.static import serve
+from django.urls import include, path
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),   # Django's built-in admin (developers only)
@@ -28,13 +28,9 @@ urlpatterns = [
     path("", include("loans.urls")),
 ]
 
-# Serve uploaded IMAGES while developing (book covers and video thumbnails only).
-# Book PDFs and video files are deliberately NOT public: members reach them through
-# the protected views library:file / library:download / library:watch.
-# (In production the web server must do the same: never expose /media/books/.)
+# Serve uploaded files (covers, PDFs, videos) while developing.
 # (Friendly 403 / 404 pages are the templates templates/403.html and templates/404.html;
 #  Django's default error views pick them up automatically.)
 if settings.DEBUG:
-    urlpatterns += [
-        re_path(r"^media/(?P<path>(?:covers|thumbnails)/.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
-    ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

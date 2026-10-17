@@ -16,30 +16,36 @@
   DJANGO INTEGRATION
      - Template   : templates/library/read.html   (extends base.html)
      - Owner      : Intermediate
-     - View       : library.read   (connected to the database)
+     - View       : library.read   (currently a PLACEHOLDER from lumina/placeholders.py)
      - Suggested context from your view : book, progress (ReadingProgress.last_page)
-     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
+     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
+       {% for %} loops over real records from your view. Keep the {% url %} names.
+       Every POST form already has {% csrf_token %}; point action="#" at your view.
 {% endcomment %}
-{% block title %}Reading: {{ book.title }}{% endblock %}
+{% block title %}Reading: Purple Hibiscus{% endblock %}
 
 {% block content %}
 <main>
-  <!-- Sticky reader toolbar: back link, title, "save my place", download -->
+  <!-- Sticky reader toolbar: back link, chapter info, text size -->
   <div class="reader-bar"><div class="container">
-    <a href="{% url 'catalogue:book_detail' book.pk %}">&larr; Back to book</a>
-    <span>{{ book.title }} &middot; {{ book.author }}</span>
-    <!-- Remembers the page you are on (no JavaScript: type the page and press Save) -->
-    <form action="{% url 'library:save_progress' book.pk %}" method="post">
-      {% csrf_token %}
-      <label for="page" style="margin:0;color:var(--cream-200)">Page</label>
-      <input id="page" name="page" type="number" min="1" value="{{ progress.last_page }}" aria-label="Page number">
-      <button class="btn btn-gold btn-sm" type="submit">Save my place</button>
-      {% if can_download %}<a class="btn btn-outline btn-sm" style="color:var(--cream-100);border-color:var(--cream-300)" href="{% url 'library:download' book.pk %}">Download</a>{% endif %}
-    </form>
+    <a href="{% url 'catalogue:book_detail' 3 %}">&larr; Back to book</a>
+    <span>Purple Hibiscus &middot; Chapter 1 of 18</span>
+    <button class="btn btn-gold btn-sm" id="text-size" type="button">Aa &nbsp;Text size</button>
   </div></div>
 
-  <!-- The book itself. It opens at your saved page. The file is only served to logged-in members. -->
-  <iframe class="pdf-frame" title="{{ book.title }}" src="{% url 'library:file' book.pk %}#page={{ progress.last_page }}"></iframe>
-  <p class="pdf-fallback hint">The book does not show? <a class="text-link" href="{% url 'library:file' book.pk %}" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
+  <!-- The "page": sample text only (original placeholder prose, not the real novel) -->
+  <article class="reader-page">
+    <h2>Chapter One</h2>
+    <p>The morning the rains came early, the compound woke slowly. Water gathered in the hollows of the red earth and the hibiscus by the gate bent low under its own heavy blossoms.</p>
+    <p>Inside the house, everything had its place and its hour. Breakfast was taken in silence, prayers were counted, and nobody spoke unless spoken to. It was an orderly kind of quiet - the sort that waits.</p>
+    <p>Later, when the sun finally pushed through the clouds, a small laugh floated over the wall from the neighbouring yard. It was a sound she had almost forgotten existed.</p>
+    <p class="hint" style="text-align:center;font-family:var(--font-mono);font-size:.78rem">- Sample placeholder text for layout purposes -</p>
+  </article>
+
+  <!-- Previous / next chapter buttons -->
+  <div class="pager container">
+    <a class="btn btn-outline" href="#" aria-disabled="true">&larr; Previous</a>
+    <a class="btn btn-primary" href="#">Next chapter &rarr;</a>
+  </div>
 </main>
 {% endblock %}

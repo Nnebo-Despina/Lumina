@@ -33,7 +33,7 @@ class Inquiry(models.Model):
 
     status = models.CharField(
         max_length=20,
-        choices=Status.choices,      # was Subject.choices (a bug): pending / answered
+        choices=Subject.choices,
         default=Status.PENDING
     )
 
