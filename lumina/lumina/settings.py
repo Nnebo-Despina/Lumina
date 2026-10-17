@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lh_2rb%p!!x1pyf^v&#72)lz&m$7sc2jtu-j_ov!14$6)9aajh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "cloudinary_storage",
+    "cloudinary",
     "accounts",
     "catalogue",
     "library",
@@ -181,11 +183,20 @@ MAILERS = {
     },
 }
 
-DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
+SILENCED_SYSTEM_CHECKS = [
+    "mail.E001",
+]
+
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
-    "django-insecure-local-development-only",
+    "00_gHEJrVjcRONT87BA5WDmhGaMdHEPkvqK0yEDpBpJ24npj5JbZqbMmftbq1fy1dPQ",
 )
 
 ALLOWED_HOSTS = [
@@ -205,3 +216,27 @@ CSRF_TRUSTED_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+
+SECURE_HSTS_SECONDS = 3600
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+}
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
