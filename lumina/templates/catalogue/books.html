@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static catalogue_extras %}
 {% comment %}
   =====================================================================
   FILE     : books.html
@@ -9,18 +9,16 @@
   NOTES    :
      - Search form uses method=get so URLs look like books.html?q=achebe&category=literature (easy for a backend).
      - js/main.js adds an instant filter on top - remove it and the form still works on submit.
-     - Pagination links are static placeholders.
+     - 12 titles per page; the pagination links keep the search words and filters.
   STYLES   : css/style.css      SCRIPT : js/main.js (tiny, optional)
   =====================================================================
 
   DJANGO INTEGRATION
      - Template   : templates/catalogue/books.html   (extends base.html)
      - Owner      : Intermediate
-     - View       : catalogue.books   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : catalogue.books   (connected to the database)
      - Suggested context from your view : page_obj (paginated books), categories; GET params q, by, category, type
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Browse Books{% endblock %}
 
@@ -33,15 +31,25 @@
 
   <div class="container">
     <!-- ===================== SEARCH PANEL =====================
-         Fields: free text, "search in" selector, category, and type (Book / Video). -->
+         A plain GET form: the address becomes /books/?q=achebe&category=literature, which the
+         view reads. static/js/main.js only adds an instant preview on the current page. -->
     <form class="search-panel" id="book-filter" action="{% url 'catalogue:books' %}" method="get" role="search">
-      <div><label for="q">Search</label><input type="search" id="q" name="q" placeholder="e.g. Achebe, Python, Heinemann"></div>
+      <div><label for="q">Search</label><input type="search" id="q" name="q" value="{{ q }}" placeholder="e.g. Achebe, Python, Heinemann"></div>
       <div><label for="by">Search in</label>
-        <select id="by" name="by"><option value="all">Everything</option><option value="title">Title</option><option value="author">Author</option><option value="publisher">Publisher</option></select></div>
+        <select id="by" name="by">
+          <option value="all"{% if by == 'all' %} selected{% endif %}>Everything</option>
+          <option value="title"{% if by == 'title' %} selected{% endif %}>Title</option>
+          <option value="author"{% if by == 'author' %} selected{% endif %}>Author</option>
+          <option value="publisher"{% if by == 'publisher' %} selected{% endif %}>Publisher</option>
+        </select></div>
       <div><label for="category">Category</label>
-        <select id="category" name="category"><option value="">All categories</option><option value="literature">Literature & Fiction</option><option value="technology">Technology & Programming</option><option value="science">Science & Nature</option><option value="history">History & Politics</option><option value="self">Self-Development</option><option value="children">Children & Young Adults</option></select></div>
+        <select id="category" name="category"><option value="">All categories</option>
+          {% for c in categories %}<option value="{{ c.slug }}"{% if c.slug == current_category %} selected{% endif %}>{{ c.name }}</option>{% endfor %}
+        </select></div>
       <div><label for="type">Type</label>
-        <select id="type" name="type"><option value="">Books &amp; videos</option><option value="Book">Books</option><option value="Video">Videos</option></select></div>
+        <select id="type" name="type"><option value="">All types</option>
+          {% for t in book_types %}<option value="{{ t.name }}"{% if t.name == current_type %} selected{% endif %}>{{ t.name }}</option>{% endfor %}
+        </select></div>
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
   </div>
@@ -49,117 +57,17 @@
   <!-- ===================== RESULTS GRID ===================== -->
   <section class="section" style="padding-top:40px">
     <div class="container">
-      <p class="hint">Showing 15 sample titles.</p>
+      <p class="hint">{% if paginator.count %}Showing {{ page_obj.start_index }}&ndash;{{ page_obj.end_index }} of {{ paginator.count }} title{{ paginator.count|pluralize }}.{% else %}No titles found.{% endif %}</p>
       <div class="grid grid-4">
-        <!-- Card: Things Fall Apart -->
-        <article class="book-card" data-title="Things Fall Apart" data-author="Chinua Achebe" data-publisher="Heinemann" data-category="literature" data-type="Book">
-          <div class="cover" style="--c1:#5C3487;--c2:#241536" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Things Fall Apart</span><span class="cover-author">Chinua Achebe</span></div>
-          <h3>Things Fall Apart</h3>
-          <p class="meta">Chinua Achebe &middot; Heinemann</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 1 %}">View</a></div>
-        </article>
-        <!-- Card: Half of a Yellow Sun -->
-        <article class="book-card" data-title="Half of a Yellow Sun" data-author="Chimamanda Ngozi Adichie" data-publisher="Fourth Estate" data-category="literature" data-type="Book">
-          <div class="cover" style="--c1:#A9792F;--c2:#2E1A47" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Half of a Yellow Sun</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div>
-          <h3>Half of a Yellow Sun</h3>
-          <p class="meta">Chimamanda Ngozi Adichie &middot; Fourth Estate</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 2 %}">View</a></div>
-        </article>
-        <!-- Card: Purple Hibiscus -->
-        <article class="book-card" data-title="Purple Hibiscus" data-author="Chimamanda Ngozi Adichie" data-publisher="Algonquin Books" data-category="literature" data-type="Book">
-          <div class="cover" style="--c1:#9575B8;--c2:#3B2159" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Purple Hibiscus</span><span class="cover-author">Chimamanda Ngozi Adichie</span></div>
-          <h3>Purple Hibiscus</h3>
-          <p class="meta">Chimamanda Ngozi Adichie &middot; Algonquin Books</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 3 %}">View</a></div>
-        </article>
-        <!-- Card: So Long a Letter -->
-        <article class="book-card" data-title="So Long a Letter" data-author="Mariama Bâ" data-publisher="Heinemann" data-category="literature" data-type="Book">
-          <div class="cover" style="--c1:#8A5A34;--c2:#241536" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">So Long a Letter</span><span class="cover-author">Mariama Bâ</span></div>
-          <h3>So Long a Letter</h3>
-          <p class="meta">Mariama Bâ &middot; Heinemann</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 4 %}">View</a></div>
-        </article>
-        <!-- Card: Python for Beginners -->
-        <article class="book-card" data-title="Python for Beginners" data-author="A. Okafor" data-publisher="Lumina Press" data-category="technology" data-type="Book">
-          <div class="cover" style="--c1:#3B2159;--c2:#C89B3D" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Python for Beginners</span><span class="cover-author">A. Okafor</span></div>
-          <h3>Python for Beginners</h3>
-          <p class="meta">A. Okafor &middot; Lumina Press</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 5 %}">View</a></div>
-        </article>
-        <!-- Card: Database Design Essentials -->
-        <article class="book-card" data-title="Database Design Essentials" data-author="N. Eze" data-publisher="Lumina Press" data-category="technology" data-type="Book">
-          <div class="cover" style="--c1:#2E1A47;--c2:#9575B8" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Database Design Essentials</span><span class="cover-author">N. Eze</span></div>
-          <h3>Database Design Essentials</h3>
-          <p class="meta">N. Eze &middot; Lumina Press</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 6 %}">View</a></div>
-        </article>
-        <!-- Card: Responsive Web Design -->
-        <article class="book-card" data-title="Responsive Web Design" data-author="D. Okonkwo" data-publisher="Aptech Books" data-category="technology" data-type="Book">
-          <div class="cover" style="--c1:#5C3487;--c2:#E4C877" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Responsive Web Design</span><span class="cover-author">D. Okonkwo</span></div>
-          <h3>Responsive Web Design</h3>
-          <p class="meta">D. Okonkwo &middot; Aptech Books</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 7 %}">View</a></div>
-        </article>
-        <!-- Card: The Living Planet -->
-        <article class="book-card" data-title="The Living Planet" data-author="T. Balogun" data-publisher="Savanna House" data-category="science" data-type="Book">
-          <div class="cover" style="--c1:#B98452;--c2:#241536" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">The Living Planet</span><span class="cover-author">T. Balogun</span></div>
-          <h3>The Living Planet</h3>
-          <p class="meta">T. Balogun &middot; Savanna House</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 8 %}">View</a></div>
-        </article>
-        <!-- Card: A Short History of West Africa -->
-        <article class="book-card" data-title="A Short History of West Africa" data-author="K. Mensah" data-publisher="Baobab Press" data-category="history" data-type="Book">
-          <div class="cover" style="--c1:#8A5A34;--c2:#3B2159" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">A Short History of West Africa</span><span class="cover-author">K. Mensah</span></div>
-          <h3>A Short History of West Africa</h3>
-          <p class="meta">K. Mensah &middot; Baobab Press</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 9 %}">View</a></div>
-        </article>
-        <!-- Card: Study Smarter -->
-        <article class="book-card" data-title="Study Smarter" data-author="F. Adeyemi" data-publisher="Lumina Press" data-category="self" data-type="Book">
-          <div class="cover" style="--c1:#C89B3D;--c2:#5C3487" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">Study Smarter</span><span class="cover-author">F. Adeyemi</span></div>
-          <h3>Study Smarter</h3>
-          <p class="meta">F. Adeyemi &middot; Lumina Press</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 10 %}">View</a></div>
-        </article>
-        <!-- Card: The Tortoise and the Drum -->
-        <article class="book-card" data-title="The Tortoise and the Drum" data-author="N. Obi" data-publisher="Savanna House" data-category="children" data-type="Book">
-          <div class="cover" style="--c1:#E4C877;--c2:#5C3487" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">The Tortoise and the Drum</span><span class="cover-author">N. Obi</span></div>
-          <h3>The Tortoise and the Drum</h3>
-          <p class="meta">N. Obi &middot; Savanna House</p>
-          <div class="row"><span class="badge ok">Download allowed</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 11 %}">View</a></div>
-        </article>
-        <!-- Card: Intro to Flutter (Video Series) -->
-        <article class="book-card" data-title="Intro to Flutter (Video Series)" data-author="Lumina Academy" data-publisher="Lumina Academy" data-category="technology" data-type="Video">
-          <div class="cover" style="--c1:#241536;--c2:#C89B3D" aria-hidden="true"><span class="cover-type">Video</span><span class="cover-title">Intro to Flutter (Video Series)</span><span class="cover-author">Lumina Academy</span></div>
-          <h3>Intro to Flutter (Video Series)</h3>
-          <p class="meta">Lumina Academy &middot; Lumina Academy</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 12 %}">View</a></div>
-        </article>
-        <!-- Card: HTML & CSS Crash Course (Video) -->
-        <article class="book-card" data-title="HTML & CSS Crash Course (Video)" data-author="Lumina Academy" data-publisher="Lumina Academy" data-category="technology" data-type="Video">
-          <div class="cover" style="--c1:#3B2159;--c2:#E4C877" aria-hidden="true"><span class="cover-type">Video</span><span class="cover-title">HTML & CSS Crash Course (Video)</span><span class="cover-author">Lumina Academy</span></div>
-          <h3>HTML & CSS Crash Course (Video)</h3>
-          <p class="meta">Lumina Academy &middot; Lumina Academy</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 13 %}">View</a></div>
-        </article>
-        <!-- Card: Exam Revision Techniques (Video) -->
-        <article class="book-card" data-title="Exam Revision Techniques (Video)" data-author="Lumina Academy" data-publisher="Lumina Academy" data-category="self" data-type="Video">
-          <div class="cover" style="--c1:#9575B8;--c2:#241536" aria-hidden="true"><span class="cover-type">Video</span><span class="cover-title">Exam Revision Techniques (Video)</span><span class="cover-author">Lumina Academy</span></div>
-          <h3>Exam Revision Techniques (Video)</h3>
-          <p class="meta">Lumina Academy &middot; Lumina Academy</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 14 %}">View</a></div>
-        </article>
-        <!-- Card: The Concubine -->
-        <article class="book-card" data-title="The Concubine" data-author="Elechi Amadi" data-publisher="African Writers Series" data-category="literature" data-type="Book">
-          <div class="cover" style="--c1:#8A5A34;--c2:#5C3487" aria-hidden="true"><span class="cover-type">Book</span><span class="cover-title">The Concubine</span><span class="cover-author">Elechi Amadi</span></div>
-          <h3>The Concubine</h3>
-          <p class="meta">Elechi Amadi &middot; African Writers Series</p>
-          <div class="row"><span class="badge">Read only</span><a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' 15 %}">View</a></div>
-        </article>
+        {% for book in books %}
+          {% include "partials/book_card.html" %}
+        {% empty %}
+          <p class="empty-note">No books matched your search. Try different words or clear the filters.</p>
+        {% endfor %}
       </div>
 
-      <!-- Pagination (static placeholders) -->
-      <nav class="pagination" aria-label="Pages"><a class="current" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">&rsaquo;</a></nav>
+      <!-- Pagination keeps the search words and filters -->
+      {% include "partials/pagination.html" %}
     </div>
   </section>
 </main>

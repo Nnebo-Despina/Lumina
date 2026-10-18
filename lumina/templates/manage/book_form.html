@@ -16,45 +16,51 @@
   DJANGO INTEGRATION
      - Template   : templates/manage/book_form.html   (extends manage/base.html)
      - Owner      : Pro 2
-     - View       : catalogue.manage_book_add / manage_book_edit   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : catalogue.manage_book_add / manage_book_edit   (connected to the database)
      - Suggested context from your view : form (catalogue.forms.BookForm); needs enctype multipart for uploads
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Add / Edit Book{% endblock %}
 
 {% block content %}
-    <!-- Page heading: title, one-line description and main action buttons -->
-    <div class="page-head"><div><h1>Add / Edit book</h1><p>Fill in the details below. Fields marked * are required.</p></div><div class="actions"><a class="btn" href="{% url 'catalogue:manage_books' %}"><span class="ico" aria-hidden="true">&#8592;</span> Back to books</a></div></div>
-    <form class="panel" action="#" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
+<div class="page-head"><div><h1>{% if book %}Edit book{% else %}Add book{% endif %}</h1><p>Fill in the details below. Fields marked * are required.</p></div><div class="actions"><a class="btn" href="{% url 'catalogue:manage_books' %}"><span class="ico" aria-hidden="true">&#8592;</span> Back to books</a></div></div>
+    <form class="panel" action="" method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="alert bad" role="alert">{{ form.non_field_errors.0 }}</div>{% endif %}
       <div class="form-grid">
-        <!-- Basic details -->
-        <div class="form-group full"><label for="title">Title *</label><input class="field" id="title" name="title" required placeholder="Book title"></div>
-        <div class="form-group"><label for="author">Author *</label><input class="field" id="author" name="author" required></div>
-        <div class="form-group"><label for="publisher">Publisher</label><input class="field" id="publisher" name="publisher"></div>
-        <div class="form-group"><label for="category">Category *</label><select class="select" id="category" name="category" required><option>Literature & Fiction</option><option>Technology & Programming</option><option>Science & Nature</option><option>History & Politics</option><option>Self-Development</option><option>Children & Young Adults</option></select></div>
-        <div class="form-group"><label for="type">Type *</label><select class="select" id="type" name="type" required><option>Book</option><option>Video</option></select></div>
-        <div class="form-group"><label for="year">Year published</label><input class="field" id="year" name="year" type="number" min="1000" max="2100" placeholder="2024"></div>
-        <div class="form-group"><label for="pages">Pages</label><input class="field" id="pages" name="pages" type="number" min="1"></div>
-        <div class="form-group"><label for="isbn">ISBN</label><input class="field" id="isbn" name="isbn" placeholder="978-..."></div>
-        <!-- Physical stock for lending: backend creates one BookCopy row (unique inventory code) per copy -->
-        <div class="form-group"><label for="copies">Physical copies in stock</label><input class="field" id="copies" name="copies" type="number" min="0" value="0"><span class="form-hint">0 = digital title only. Each copy gets its own inventory code (INV-0001...).</span></div>
-        <div class="form-group"><label for="status">Status</label><select class="select" id="status" name="status"><option>Live</option><option>Draft</option></select></div>
-        <div class="form-group full"><label for="desc">Description</label><textarea class="field" id="desc" name="description" placeholder="A short summary shown on the book page"></textarea></div>
+        <div class="form-group full"><label for="{{ form.title.id_for_label }}">Title *</label>{{ form.title }}
+          {% include "partials/field_errors.html" with field=form.title %}</div>
+        <div class="form-group"><label for="{{ form.author.id_for_label }}">Author *</label>{{ form.author }}
+          {% include "partials/field_errors.html" with field=form.author %}</div>
+        <div class="form-group"><label for="{{ form.publisher.id_for_label }}">Publisher</label>{{ form.publisher }}
+          {% include "partials/field_errors.html" with field=form.publisher %}</div>
+        <div class="form-group"><label for="{{ form.category.id_for_label }}">Category *</label>{{ form.category }}
+          {% include "partials/field_errors.html" with field=form.category %}</div>
+        <div class="form-group"><label for="{{ form.book_type.id_for_label }}">Type *</label>{{ form.book_type }}
+          {% include "partials/field_errors.html" with field=form.book_type %}</div>
+        <div class="form-group"><label for="{{ form.year.id_for_label }}">Year published</label>{{ form.year }}
+          {% include "partials/field_errors.html" with field=form.year %}</div>
+        <div class="form-group"><label for="{{ form.pages.id_for_label }}">Pages</label>{{ form.pages }}
+          {% include "partials/field_errors.html" with field=form.pages %}</div>
+        <div class="form-group"><label for="{{ form.isbn.id_for_label }}">ISBN</label>{{ form.isbn }}
+          {% include "partials/field_errors.html" with field=form.isbn %}</div>
+        <div class="form-group"><label for="{{ form.copies.id_for_label }}">Physical copies in stock</label>{{ form.copies }}<span class="form-hint">{{ form.copies.help_text }}</span>
+          {% include "partials/field_errors.html" with field=form.copies %}</div>
+        <div class="form-group"><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}
+          {% include "partials/field_errors.html" with field=form.status %}</div>
+        <div class="form-group full"><label for="{{ form.description.id_for_label }}">Description</label>{{ form.description }}
+          {% include "partials/field_errors.html" with field=form.description %}</div>
+        <div class="form-group"><label for="{{ form.cover.id_for_label }}">Cover image</label>{{ form.cover }}<span class="form-hint">JPG or PNG, portrait works best.{% if book.cover %} <span class="file-note">Current: {{ book.cover.name }}</span>{% endif %}</span>
+          {% include "partials/field_errors.html" with field=form.cover %}</div>
+        <div class="form-group"><label for="{{ form.file.id_for_label }}">Book file (PDF) *</label>{{ form.file }}<span class="form-hint">Used for online reading and downloads.{% if book.file %} <span class="file-note">Current: {{ book.file.name }}</span>{% endif %}</span>
+          {% include "partials/field_errors.html" with field=form.file %}</div>
 
-        <!-- Uploads -->
-        <div class="form-group"><label for="cover">Cover image</label><input class="field" id="cover" name="cover" type="file" accept="image/*"><span class="form-hint">JPG or PNG, portrait works best.</span></div>
-        <div class="form-group"><label for="file">Book file (PDF)</label><input class="field" id="file" name="file" type="file" accept=".pdf"><span class="form-hint">Used for online reading and downloads.</span></div>
-
-        <!-- Download permission (per-book override) -->
+        <!-- Download permission (per-book override of the category setting) -->
         <div class="form-group full"><label>Download permission</label>
-          <div style="display:flex;gap:18px;flex-wrap:wrap">
-            <label><input type="radio" name="download" value="inherit" checked> Follow category setting</label>
-            <label><input type="radio" name="download" value="allow"> Always allow</label>
-            <label><input type="radio" name="download" value="deny"> Never allow</label>
-          </div></div>
+          <div class="inline-radio">
+            {% for radio in form.download_permission %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}
+          </div>
+          {% include "partials/field_errors.html" with field=form.download_permission %}</div>
       </div>
       <div class="modal-actions"><a class="btn" href="{% url 'catalogue:manage_books' %}">Cancel</a><button class="btn primary" type="submit"><span class="ico" aria-hidden="true">&#10003;</span> Save book</button></div>
     </form>
