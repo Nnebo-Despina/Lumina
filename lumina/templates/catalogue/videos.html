@@ -42,7 +42,7 @@
         <!-- Video card: {{ video.title }} (opens in a new tab and records that you watched it) -->
         <article class="video-card">
           <a class="video-thumb" href="{% url 'library:watch' video.pk %}" target="_blank" rel="noopener" style="--c1:#3B2159;--c2:#C89B3D" aria-label="Watch {{ video.title }}">
-            {% if video.thumbnail %}<img src="{{ video.thumbnail.url }}" alt="">{% endif %}
+            {% if video.thumbnail %}<img src="{{ video.thumbnail }}" alt="{{ video.title }}">{% endif %}
             <span class="play" aria-hidden="true">&#9654;</span>{% if video.duration %}<span class="video-time">{{ video.duration }}</span>{% endif %}
           </a>
           <div class="video-body"><h3>{{ video.title }}</h3><p style="margin:0;font-size:.85rem">{{ video.category.name }} &middot; {{ video.get_level_display }}</p></div>
