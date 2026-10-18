@@ -1,5 +1,5 @@
 {% extends "manage/base.html" %}
-{% load static %}
+{% load static catalogue_extras %}
 {% comment %}
   =====================================================================
   FILE     : admin/admin-index.html
@@ -9,61 +9,54 @@
   NOTES    :
      - This is the renamed index page (was index.html in the template) - the admin landing page after login.
      - Spec: 'Dashboard: overview of books available, users registered, and categories'. A Circulation row (loans) was added for the lending feature.
-     - Bars are plain divs sized with inline height % (no chart library). Numbers are sample data.
+     - Bars are plain divs sized with inline height % (no chart library). Numbers come from the database.
   STYLES   : style.css (admin)     SCRIPT : admin.js (tiny, optional)
   =====================================================================
 
   DJANGO INTEGRATION
      - Template   : templates/manage/dashboard.html   (extends manage/base.html)
      - Owner      : Pro 2
-     - View       : catalogue.manage_dashboard   (currently a PLACEHOLDER from lumina/placeholders.py)
+     - View       : catalogue.manage_dashboard   (connected to the database)
      - Suggested context from your view : counts of books, videos, categories, members, loans
-     - TODO(owner): the lists, cards and numbers below are SAMPLE data. Replace them with
-       {% for %} loops over real records from your view. Keep the {% url %} names.
-       Every POST form already has {% csrf_token %}; point action="#" at your view.
+     - DATA: loaded from the database by the view. Every POST form has {% csrf_token %}.
 {% endcomment %}
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <!-- Page heading: title, one-line description and main action buttons -->
-    <div class="page-head"><div><h1>Dashboard</h1><p>Welcome back, Admin - here is today's library overview.</p></div><div class="actions"><a class="btn gold" href="{% url 'catalogue:manage_book_add' %}"><span class="ico" aria-hidden="true">+</span> Add Book</a></div></div>
+    <div class="page-head"><div><h1>Dashboard</h1><p>Welcome back, {{ user.first_name|default:"Admin" }} - here is today's library overview.</p></div><div class="actions"><a class="btn gold" href="{% url 'catalogue:manage_book_add' %}"><span class="ico" aria-hidden="true">+</span> Add Book</a></div></div>
 
-    <!-- ===================== STAT CARDS: totals at a glance ===================== -->
+    <!-- ===================== STAT CARDS: totals at a glance (real numbers) ===================== -->
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9635;</span></div><div class="stat-label">Books</div></div><div class="stat-value">2,184</div><div class="stat-trend">+ 38 this month</div></div>
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9654;</span></div><div class="stat-label">Videos</div></div><div class="stat-value">216</div><div class="stat-trend">+ 6 this month</div></div>
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9636;</span></div><div class="stat-label">Categories</div></div><div class="stat-value">6</div><div class="stat-trend">Unchanged</div></div>
-      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9787;</span></div><div class="stat-label">Registered users</div></div><div class="stat-value">1,128</div><div class="stat-trend">+ 54 this month</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9635;</span></div><div class="stat-label">Books</div></div><div class="stat-value">{{ book_total }}</div><div class="stat-trend">{% if books_month %}+ {{ books_month }} this month{% else %}None added this month{% endif %}</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9654;</span></div><div class="stat-label">Videos</div></div><div class="stat-value">{{ video_total }}</div><div class="stat-trend">{% if videos_month %}+ {{ videos_month }} this month{% else %}None added this month{% endif %}</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9636;</span></div><div class="stat-label">Categories</div></div><div class="stat-value">{{ category_total }}</div><div class="stat-trend">Shelves in the library</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#9787;</span></div><div class="stat-label">Registered users</div></div><div class="stat-value">{{ member_total }}</div><div class="stat-trend">{% if members_month %}+ {{ members_month }} this month{% else %}None joined this month{% endif %}</div></div>
     </div>
 
     <!-- ===================== CIRCULATION: physical-book lending at a glance ===================== -->
     <div class="stat-grid three">
-      <a class="stat-card" href="{% url 'loans:manage_issues' %}"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#8646;</span></div><div class="stat-label">On loan now</div></div><div class="stat-value">24</div><div class="stat-sub">Physical copies with members</div></a>
-      <a class="stat-card" href="{% url 'loans:manage_issues' %}"><div class="stat-top"><div class="stat-icon" style="background:var(--danger-bg);color:var(--danger)"><span class="ico" aria-hidden="true">&#128276;</span></div><div class="stat-label">Overdue</div></div><div class="stat-value" style="color:var(--danger)">5</div><div class="stat-sub">Follow up with borrowers</div></a>
-      <a class="stat-card" href="{% url 'loans:manage_issues' %}"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#10003;</span></div><div class="stat-label">Returned this month</div></div><div class="stat-value">38</div><div class="stat-sub">Completed loan records</div></a>
+      <a class="stat-card" href="{% url 'loans:manage_issues' %}"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#8646;</span></div><div class="stat-label">On loan now</div></div><div class="stat-value">{{ on_loan }}</div><div class="stat-sub">Physical copies with members</div></a>
+      <a class="stat-card" href="{% url 'loans:manage_issues' %}"><div class="stat-top"><div class="stat-icon" style="background:var(--danger-bg);color:var(--danger)"><span class="ico" aria-hidden="true">&#128276;</span></div><div class="stat-label">Overdue</div></div><div class="stat-value"{% if overdue %} style="color:var(--danger)"{% endif %}>{{ overdue }}</div><div class="stat-sub">Follow up with borrowers</div></a>
+      <a class="stat-card" href="{% url 'loans:manage_issues' %}"><div class="stat-top"><div class="stat-icon"><span class="ico" aria-hidden="true">&#10003;</span></div><div class="stat-label">Returned this month</div></div><div class="stat-value">{{ returned_month }}</div><div class="stat-sub">Completed loan records</div></a>
     </div>
 
     <!-- ===================== CHART + NEW MEMBERS ===================== -->
     <div class="grid-2">
       <!-- Left: titles per category as CSS bars -->
       <div class="panel">
-        <div class="panel-head"><div class="panel-title">Titles per category</div><div class="panel-sub">Sample data</div></div>
+        <div class="panel-head"><div class="panel-title">Titles per category</div><div class="panel-sub">All books</div></div>
         <div class="chart-area">
-        <div class="bar peak" style="height:100%" title="5 titles in Literature & Fiction"></div>
-        <div class="bar peak" style="height:100%" title="5 titles in Technology & Programming"></div>
-        <div class="bar" style="height:20%" title="1 titles in Science & Nature"></div>
-        <div class="bar" style="height:20%" title="1 titles in History & Politics"></div>
-        <div class="bar" style="height:40%" title="2 titles in Self-Development"></div>
-        <div class="bar" style="height:20%" title="1 titles in Children & Young Adults"></div>
+          {% for b in bars %}<div class="bar{% if b.peak %} peak{% endif %}" style="height:{{ b.height }}%" title="{{ b.total }} title{{ b.total|pluralize }} in {{ b.name }}"></div>
+          {% empty %}<p class="empty-state">No categories yet.</p>{% endfor %}
         </div>
-        <div class="chart-labels"><span>Literature</span><span>Technology</span><span>Science</span><span>History</span><span>Self-Development</span><span>Children</span></div>
+        <div class="chart-labels">{% for b in bars %}<span>{{ b.short }}</span>{% endfor %}</div>
       </div>
       <!-- Right: newest registrations -->
       <div class="panel">
         <div class="panel-head"><div class="panel-title">Newest members</div><a class="panel-sub" href="{% url 'accounts:manage_members' %}">View all</a></div>
-        <div class="meter-row"><div class="avatar" style="flex-shrink:0">T</div><div style="flex:1"><strong>Tunde Adeyemi</strong><br><span class="panel-sub">27 Mar 2026</span></div><span class="badge blocked">Blocked</span></div>
-        <div class="meter-row"><div class="avatar" style="flex-shrink:0">N</div><div style="flex:1"><strong>Ngozi Eze</strong><br><span class="panel-sub">08 Apr 2026</span></div><span class="badge active">Active</span></div>
-        <div class="meter-row"><div class="avatar" style="flex-shrink:0">S</div><div style="flex:1"><strong>Samuel Okoro</strong><br><span class="panel-sub">14 May 2026</span></div><span class="badge active">Active</span></div>
+        {% for m in newest_members %}
+        <div class="meter-row"><div class="avatar" style="flex-shrink:0">{{ m.first_name|slice:":1"|upper|default:"?" }}</div><div style="flex:1"><strong>{{ m.get_full_name|default:m.email }}</strong><br><span class="panel-sub">{{ m.date_joined|date:"d M Y" }}</span></div><span class="badge {% if m.is_blocked %}blocked{% else %}active{% endif %}">{% if m.is_blocked %}Blocked{% else %}Active{% endif %}</span></div>
+        {% empty %}<p class="empty-state">No members have registered yet.</p>{% endfor %}
       </div>
     </div>
 
@@ -74,11 +67,9 @@
         <div class="table-wrap"><table>
           <thead><tr><th>Title</th><th>Category</th><th>Type</th><th>Status</th></tr></thead>
           <tbody>
-          <tr><td><span class="mini-cover" style="--c1:#5C3487;--c2:#241536"></span>Things Fall Apart</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge live">Live</span></td></tr>
-          <tr><td><span class="mini-cover" style="--c1:#A9792F;--c2:#2E1A47"></span>Half of a Yellow Sun</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge live">Live</span></td></tr>
-          <tr><td><span class="mini-cover" style="--c1:#9575B8;--c2:#3B2159"></span>Purple Hibiscus</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge live">Live</span></td></tr>
-          <tr><td><span class="mini-cover" style="--c1:#8A5A34;--c2:#241536"></span>So Long a Letter</td><td>Literature & Fiction</td><td><span class="tag">Book</span></td><td><span class="badge live">Live</span></td></tr>
-          <tr><td><span class="mini-cover" style="--c1:#3B2159;--c2:#C89B3D"></span>Python for Beginners</td><td>Technology & Programming</td><td><span class="tag">Book</span></td><td><span class="badge live">Live</span></td></tr>
+            {% for book in recent_books %}
+            <tr><td><span class="mini-cover" style="{{ book|cover_style }}"></span>{{ book.title }}</td><td>{{ book.category.name }}</td><td><span class="tag">{{ book.book_type.name }}</span></td><td><span class="badge {% if book.status == 'live' %}live{% else %}draft{% endif %}">{{ book.get_status_display }}</span></td></tr>
+            {% empty %}<tr><td colspan="4" class="empty-state">No books yet. <a href="{% url 'catalogue:manage_book_add' %}">Add the first one</a>.</td></tr>{% endfor %}
           </tbody></table></div>
       </div>
       <div class="panel">
@@ -87,7 +78,7 @@
           <a href="{% url 'catalogue:manage_book_add' %}"><span class="ico" aria-hidden="true">+</span>Add a book</a>
           <a href="{% url 'catalogue:manage_video_add' %}"><span class="ico" aria-hidden="true">&#9654;</span>Add a video</a>
           <a href="{% url 'catalogue:manage_categories' %}"><span class="ico" aria-hidden="true">&#9636;</span>Manage categories</a>
-          <a href="{% url 'loans:manage_issues' %}"><span class="ico" aria-hidden="true">&#8646;</span>Issue a book</a>
+          <a href="{% url 'loans:manage_issue_new' %}"><span class="ico" aria-hidden="true">&#8646;</span>Issue a book</a>
           <a href="{% url 'accounts:manage_members' %}"><span class="ico" aria-hidden="true">&#9787;</span>Manage members</a>
           <a href="{% url 'catalogue:manage_reports' %}"><span class="ico" aria-hidden="true">&#9637;</span>Generate report</a>
         </div>

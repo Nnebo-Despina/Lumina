@@ -1,0 +1,10 @@
+{% load catalogue_extras %}{% comment %}
+  One book card (used on the home page and the browse page). Needs:  book
+  The data-* attributes feed the tiny live filter in static/js/main.js.
+{% endcomment %}
+<article class="book-card" data-title="{{ book.title }}" data-author="{{ book.author }}" data-publisher="{{ book.publisher|default:'' }}" data-category="{{ book.category.slug }}" data-type="{{ book.book_type.name }}">
+  {% include "partials/book_cover.html" %}
+  <h3>{{ book.title }}</h3>
+  <p class="meta">{{ book.author }}{% if book.publisher %} &middot; {{ book.publisher }}{% endif %}</p>
+  <div class="row">{% if book|download_allowed %}<span class="badge ok">Download allowed</span>{% else %}<span class="badge">Read only</span>{% endif %}<a class="btn btn-outline btn-sm" href="{% url 'catalogue:book_detail' book.pk %}">View</a></div>
+</article>
