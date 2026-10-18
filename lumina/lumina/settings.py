@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 from django.contrib.messages import constants as message_constants
 
@@ -28,7 +29,9 @@ SECRET_KEY = 'django-insecure-lh_2rb%p!!x1pyf^v&#72)lz&m$7sc2jtu-j_ov!14$6)9aajh
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'https://lumina-library.up.railway.app/'
+    host.strip()
+    for host in os.environ.get("ALLOWED_HOSTS", "").split(",")
+    if host.strip()
 ]
 
 
