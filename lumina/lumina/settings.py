@@ -149,6 +149,8 @@ PASSWORD_RESET_TIMEOUT = 60 * 60 * 24        # reset links work for 24 hours
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 # ---------------------------------------------------------------------
 STATIC_URL = "static/"
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
