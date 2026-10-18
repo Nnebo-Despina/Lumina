@@ -86,10 +86,15 @@ WSGI_APPLICATION = 'lumina.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+if os.environ.get("RAILWAY_ENVIRONMENT"):
+    DATABASE_NAME = "/app/data/db.sqlite3"
+else:
+    DATABASE_NAME = BASE_DIR / "db.sqlite3"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        "NAME": "/app/data/db.sqlite3",
+        "NAME": DATABASE_NAME,
         "OPTIONS": {
             "timeout": 20,
         },
@@ -203,3 +208,7 @@ LOGGING = {
         },
     },
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://lumina-library.up.railway.app",
+]
