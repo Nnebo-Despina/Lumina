@@ -25,9 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lh_2rb%p!!x1pyf^v&#72)lz&m$7sc2jtu-j_ov!14$6)9aajh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://lumina-library.up.railway.app/'
+]
 
 
 # Application definition
@@ -172,8 +174,20 @@ MESSAGE_TAGS = {
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+import os
+
 MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": os.environ["EMAIL_HOST"],
+            "port": 587,
+            "use_tls": True,
+            "username": os.environ["EMAIL_HOST_USER"],
+            "password": os.environ["EMAIL_HOST_PASSWORD"],
+        },
     },
 }
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
