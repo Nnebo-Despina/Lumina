@@ -93,7 +93,7 @@
             </div>
             <a href="{% url 'catalogue:books' %}" class="text-link">See the library →</a>
           </div>
-          <div class="grid grid-3">
+          <div class="home-book-grid">
             {% for book in popular_books %}
               {% include "partials/book_card.html" %}
             {% empty %}
